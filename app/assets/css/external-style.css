@@ -1,0 +1,686 @@
+/*
+Template Name    : Dice - Media Studio Bootstrap 4 One Page
+Version          : 1.0.0
+Author           : SVYYAT
+Author URI       : https://themeforest.net/user/svyyat
+Created.         : May 2018
+File Description : Main CSS file of the template
+
+// ------------------------------------------ //
+//              Table Of Content              //
+// ------------------------------------------ //
+
+1. Basic
+2. Theme
+3. Navbar
+4. Home
+5. Team
+6. Statistic
+7. Project
+8. About
+9. Contact
+10. Footer
+11. Responsive
+*/
+
+/*========== Start Basic Style ==========*/
+
+@import url('https://fonts.googleapis.com/css?family=Nunito:300,700|Passion+One:700');
+
+body {
+	font-family: "Nunito", sans-serif;
+	font-weight: 300;
+	overflow-x: hidden;
+	min-width: 320px; }
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+	font-weight: 700; }
+
+section h2 {
+	font-family: "Passion One", sans-serif;
+	margin-bottom: 4rem;
+	text-align: center;
+	text-transform: uppercase; }
+
+.center {
+	display: -webkit-box !important;
+	display: -webkit-flex !important;
+	display: -ms-flexbox !important;
+	display: flex !important;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center; }
+
+.loader {
+	background-color: #060606;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	z-index: 1040; }
+
+.loader-inner {
+	-webkit-border-radius: 3.75rem;
+	border-radius: 3.75rem;
+	border: 2px solid #fff;
+	height: 80px;
+	width: 80px;
+	position: relative;
+	top: 28%;
+	top: -webkit-calc(50% - 43px);
+	top: calc(50% - 43px);
+	left: 35%;
+	left: -webkit-calc(50% - 43px);
+	left: calc(50% - 43px); }
+
+.loader-inner:after {
+	content: '';
+	position: absolute;
+	background-color: #fff;
+	top: 2px;
+	left: 48%;
+	height: 38px;
+	width: 3px;
+	-webkit-border-radius: 0.3125rem;
+	border-radius: 0.3125rem;
+	-webkit-transform-origin: 50% 97%;
+	-ms-transform-origin: 50% 97%;
+	transform-origin: 50% 97%;
+	-webkit-animation: grdAiguille 2s linear infinite;
+	animation: grdAiguille 2s linear infinite; }
+
+@-webkit-keyframes grdAiguille {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg); }
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg); } }
+
+@keyframes grdAiguille {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg); }
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg); } }
+
+.loader-inner:before {
+	content: '';
+	position: absolute;
+	background-color: #fff;
+	top: 6px;
+	left: 48%;
+	height: 35px;
+	width: 3px;
+	-webkit-border-radius: 0.3125rem;
+	border-radius: 0.3125rem;
+	-webkit-transform-origin: 50% 94%;
+	-ms-transform-origin: 50% 94%;
+	transform-origin: 50% 94%;
+	-webkit-animation: ptAiguille 8s linear infinite;
+	animation: ptAiguille 8s linear infinite; }
+
+@-webkit-keyframes ptAiguille {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg); }
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg); } }
+
+@keyframes ptAiguille {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg); }
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg); } }
+
+/*========== End Basic Style ==========*/
+/*========== Start Theme Style ==========*/
+
+.theme {
+	-webkit-border-top-left-radius: .125rem;
+					border-top-left-radius: .125rem;
+	-webkit-border-bottom-left-radius: .125rem;
+					border-bottom-left-radius: .125rem;
+	top: 6rem;
+	right: -4rem;
+	position: fixed;
+	text-align: center;
+	z-index: 1030;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+.theme:hover {
+	right: 0; }
+
+.theme a {
+	cursor: pointer;
+	margin: 0 .5rem;
+	opacity: .1;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+/*========== End Theme Style ==========*/
+/*========== Start Navbar Style ==========*/
+
+.custom-nav {
+	padding: 0.75rem 1rem;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+.active {
+	opacity: 1 !important; }
+
+.active-theme {
+	opacity: .2 !important; }
+
+.sticky {
+	padding: .5rem 1rem; }
+
+.sticky .logo-title {
+	font-size: 2.25rem; }
+
+.navbar button {
+	background-color: transparent;
+	border-color: transparent;
+	outline: none;
+	padding: 0; }
+
+.side-menu {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex; }
+
+.side-menu .nav .nav-link {
+	font-size: 0.875rem;
+	color: #fff;
+	opacity: .5;
+	text-transform: uppercase;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+.side-menu .nav .nav-link:hover {
+	opacity: .75; }
+
+.logo-title {
+	font-family: "Passion One", sans-serif;
+	font-size: 2.5rem;
+	text-transform: uppercase;
+	margin: 0;
+	padding: 0 .75rem;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+/*========== End Navbar Style ==========*/
+/*========== Start Home Style ==========*/
+
+.video-ytb {
+	height: 100vh;
+	position: relative;
+	background-size: cover;
+	overflow: hidden; }
+
+.home {
+	-webkit-clip-path: polygon(100% 0, 100% 100%, 50% 95%, 0 100%, 0 0);
+	clip-path: polygon(100% 0, 100% 100%, 50% 95%, 0 100%, 0 0); }
+
+.video-ytb:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #000;
+	opacity: .75;
+	z-index: 1020; }
+
+.home-table {
+	display: table;
+	position: absolute;
+	height: 100%;
+	width: 100%; 
+	z-index: 1030; }
+
+.home-table-cell {
+	display: table-cell;
+	vertical-align: middle; }
+
+.home-table-cell p {
+	color: #fff;
+	margin-bottom: 1.875rem; }
+
+.home-table-cell h4 {
+	font-family: "Nunito", sans-serif;
+	font-weight: 300;
+	color: #fff;
+	margin-bottom: 0;
+	text-transform: uppercase; }
+
+.home-table-cell h1 {
+	font-family: "Passion One", sans-serif;
+	font-size: 4.375rem;
+	color: #fff;
+	margin-top: 1rem;
+	margin-bottom: .5rem;
+	text-transform: uppercase;
+	text-align: center; }
+
+.home-table-cell .btn {
+	border: 2px solid #f7ca18;
+	-webkit-border-radius: 0.125rem;
+	border-radius: 0.125rem;
+	padding: 0.75rem 2rem;
+	text-transform: uppercase;
+	text-decoration: none;
+	text-align: center; }
+
+.home-table-cell .btn-primary {
+	color: #fff;
+	background-color: transparent;
+	position: relative;
+	-webkit-transition: all 0.25s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	-o-transition: all 0.25s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	transition: all 0.25s cubic-bezier(0.215, 0.61, 0.355, 1) 0s; }
+
+.home-table-cell .btn-primary {
+	color: #fff;
+	background-color: transparent;
+	position: relative;
+	-webkit-transition: all 0.25s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	-o-transition: all 0.25s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	transition: all 0.25s cubic-bezier(0.215, 0.61, 0.355, 1) 0s; }
+
+.home-table-cell .btn-primary:hover {
+	color: #000;
+	background-color: transparent; }
+
+.home-table-cell .btn-primary:hover:before {
+	top: 0%;
+	bottom: auto;
+	height: 100%; }
+
+.home-table-cell .btn-primary:before {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 0;
+	width: 100%;
+	z-index: -1;
+	content: '';
+	color: #000;
+	background: #f7ca18;
+	-webkit-transition: all 0.25s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	-o-transition: all 0.25s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	transition: all 0.25s cubic-bezier(0.215, 0.61, 0.355, 1) 0s; }
+
+.home-table-cell .btn-primary:focus {
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important; }
+
+.home-table-cell .btn-primary:active {
+	color: #f7ca18 !important;
+	background-color: #000 !important;
+	border-color: #f7ca18 !important; }
+
+/*========== End Home Style ==========*/
+/*========== Start Team Style ==========*/
+
+.team {
+	padding: 6rem 0; }
+
+.people {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	position: relative;
+	margin-bottom: 1rem; }
+
+.people-img {
+	position: relative; }
+
+.people-img img {
+	-webkit-border-radius: 6.25rem;
+	border-radius: 6.25rem;
+	height: auto;
+	width: 100px; }
+
+.people-inf {
+	-webkit-border-radius: 6.25rem;
+	border-radius: 6.25rem;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	position: absolute;
+	height: 100%;
+	width: 100px;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+.people-inf:hover {
+	opacity: 1;
+	background-color: rgba(0, 0, 0, 0.75); }
+
+.people-inf a {
+	color: #fff;
+	font-size: 1.5rem;
+	margin: 0 .75rem;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+.people-inf a:hover {
+	color: #f7ca18; }
+
+.people-title {
+	text-align: center; }
+
+.people-title h6 {
+	margin-bottom: .25rem; }
+
+/*========== End Team Style ==========*/
+/*========== Start Statistic Style ==========*/
+
+.statistic {
+	margin-bottom: 1.75rem;
+	height: 200px; }
+
+.statistic:before {
+	content: '';
+	position: absolute;
+	height: 200px;
+	width: 100%; }
+
+.statistic-table {
+	display: table;
+	height: 100%;
+	width: 100%; }
+
+.statistic-table-cell {
+	display: table-cell;
+	vertical-align: middle; }
+
+.statistic-table-cell i {
+	font-size: 2.5rem;
+	color: #fff;
+	margin-bottom: .5rem; }
+
+.statistic-table-cell p {
+	font-family: "Passion One", sans-serif;
+	font-size: 2.5rem;
+	letter-spacing: 0.125rem;
+	margin: 0;
+	text-transform: uppercase; }
+
+.statistic-table-cell h4 {
+	font-family: "Passion One", sans-serif;
+	margin-top: .25rem;
+	margin-bottom: 0;
+	text-transform: uppercase; }
+
+/*========== End Statistic Style ==========*/
+/*========== Start Project Style ==========*/
+
+.project {
+	padding: 6rem 0; }
+
+.project ul li a {
+	font-weight: 700;
+	opacity: .25;
+	cursor: pointer;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+.project ul li a.active-f {
+	opacity: 1;
+	border-bottom: 2px solid #f7ca18; }
+
+.project-container .video {
+	position: relative; }
+
+.project-item {
+	padding-top: .9375rem;
+	padding-bottom: .9375rem; }
+
+.project-item a {
+	opacity: .75;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+.project-item a:hover {
+	opacity: 1; }
+
+.project-item a i {
+	font-size: 3rem;
+	color: #f7ca18;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	position: absolute; }
+
+.project-item a img {
+	-webkit-border-radius: 0.125rem;
+	border-radius: 0.125rem;
+	width: 100%;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+/*========== End Project Style ==========*/
+/*========== Start About Style ==========*/
+
+.about {
+	-webkit-clip-path: polygon(100% 3%, 100% 100%, 50% 97%, 0 100%, 0 3%, 50% 0);
+	clip-path: polygon(100% 3%, 100% 100%, 50% 97%, 0 100%, 0 3%, 50% 0);
+	padding: 6rem 0; }
+
+.about h4 {
+	font-family: "Passion One", sans-serif;
+	margin-bottom: 3rem;
+	text-align: center;
+	text-transform: uppercase; }
+
+.about img {
+	-webkit-border-radius: 0.125rem;
+	border-radius: 0.125rem;
+	width: 330px; }
+
+.about .text-center i {
+	font-size: 2.5rem;
+	margin-bottom: 1.5rem; }
+
+.about .text-center h5 {
+	font-family: "Passion One", sans-serif;
+	margin: 0;
+	text-transform: uppercase; }
+
+.about-brdr {
+	background-color: #f7ca18;
+	margin: 1rem auto;
+	height: 2px;
+	width: 75px; }
+
+/*========== End About Style ==========*/
+/*========== Start Contact Style ==========*/
+
+.contact {
+	padding: 6rem 0; }
+
+.contact i {
+	font-size: 1.5rem;
+	margin-bottom: .5rem; }
+
+.form-group textarea {
+	min-height: 75px; }
+
+.form-control {
+	border: none;
+	-webkit-border-radius: 0.125rem;
+	border-radius: 0.125rem;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+.contact .btn {
+	font-size: 0.875rem;
+	border: none;
+	-webkit-border-radius: 0.125rem;
+	border-radius: 0.125rem;
+	text-transform: uppercase; }
+
+.contact .btn-success {
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+/*========== End Contact Style ==========*/
+/*========== Start Footer Style ==========*/
+
+footer {
+	-webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 100%, 0 100%, 0 25%);
+	clip-path: polygon(50% 0%, 100% 25%, 100% 100%, 0 100%, 0 25%);
+	padding: 3rem 0 1rem 0; }
+
+footer p {
+	font-size: 0.875rem;
+	margin: 0; }
+
+.social ul {
+	margin: 0; }
+
+.social a {
+	color: #666;
+	font-size: 1.25rem;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out; }
+
+/*========== End Footer Style ==========*/
+/*========== Start Responsive Style ==========*/
+
+@media (max-width: 991.98px) {
+	.theme {
+		-webkit-border-radius: 0;
+		border-radius: 0;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		top: auto;
+		right: auto;
+		padding: 0 1.5rem; }
+	.theme a {
+		margin: 0 .75rem; }
+	.side-menu-container {
+		width: 100%;
+		position: relative;
+		right: 0;
+		-webkit-transition: all .25s;
+		-o-transition: all .25s;
+		transition: all .25s; }
+	.side-menu-container.out {
+		right: 130px; }
+	.side-menu {
+		top: 72px;
+		right: 0;
+		height: 100%;
+		width: 130px;
+		position: fixed;
+		-webkit-transition: all .25s;
+		-o-transition: all .25s;
+		transition: all .25s; }
+	.side-menu.in {
+		width: 0; }
+	.side-menu .nav {
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		text-align: right;
+		padding-top: 1rem;
+		padding-left: 3rem;
+		margin-top: 1.5rem;
+		position: fixed; }
+	.side-menu .nav .nav-link {
+		padding: .5rem; }
+	.sticky .side-menu {
+		top: 59px; }
+	.home-table-cell .btn-primary {
+		color: #000;
+		background-color: #f7ca18;
+		border: none; }
+	.project-item a i {
+		font-size: 2rem; } }
+
+@media (max-width: 767.98px) {
+	.home-table-cell h1 {
+		font-size: 2.375rem; }
+	.about-title {
+		text-align: center; }
+	.social a {
+		font-size: 1.75rem; } }
+
+@media (max-width: 575.98px) {
+	.custom-nav {
+		padding: .25rem 1rem; }
+	.logo-title {
+		font-size: 2rem; }
+	.sticky .logo-title {
+		font-size: 1.75rem; }
+	.side-menu {
+		top: 46px; }
+	.sticky .side-menu {
+		top: 41px; }
+	.home-table-cell h4 {
+		font-size: 1.25rem; }
+	.home-table-cell .btn {
+		padding: .5rem 1rem; }
+	.statistic-table-cell i {
+		font-size: 2rem; }
+	.statistic-table-cell h4 {
+		font-size: 1rem; }
+	.statistic-table-cell p {
+		font-size: 2rem; }
+	.about {
+		-webkit-clip-path: polygon(100% 2%, 100% 100%, 50% 98%, 0 100%, 0 2%, 50% 0);
+		clip-path: polygon(100% 2%, 100% 100%, 50% 98%, 0 100%, 0 2%, 50% 0); }
+	.about img {
+		width: 250px; }
+	.about .center p {
+		text-align: center; } }
+
+/*========== End Responsive Style ==========*/
