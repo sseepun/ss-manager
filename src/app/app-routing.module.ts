@@ -1,7 +1,7 @@
 import { NgModule, Injectable } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 
-const appRoutes: Routes = [
+const routes: Routes = [
   // { path: 'computer-or-mobile', component: SsComputerOrMobileComponent },
   // { path: 'temperature-contour', component: SsTemperatureComponent },
   // { path: 'heatmap-set01', component: SsHeatmap01Component },
@@ -11,7 +11,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
