@@ -1,0 +1,117 @@
+<!-- Submitted results -->
+<section *ngIf="page==='Submitted ok'" class="contact top-section"><div class="container"><div class="row">
+  <div class="col-md-12">
+    <h2 class="text-medium">
+      {{_t.translate('Your form is submitted successfully. Our staff will check your form shortly. Thank you.')}}
+    </h2>
+  </div>
+  <div class="col-md-12 ss-result-button-container">
+    <button class="btn btn-success" type="button" routerLink="/">{{_t.translate('Go to home')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/forms">{{_t.translate('Go to forms')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/user-panel/form-history">{{_t.translate('Go to your history')}}</button>
+  </div>
+</div></div></section>
+<section *ngIf="page==='Submitted failed'" class="contact top-section"><div class="container"><div class="row">
+  <div class="col-md-12">
+    <h2 class="text-medium">
+      {{_t.translate('We cannot accept your form at this time. Please try again later. Thank you.')}}
+    </h2>
+  </div>
+  <div class="col-md-12 ss-result-button-container">
+    <button class="btn btn-success" type="button" routerLink="/">{{_t.translate('Go to home')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/forms">{{_t.translate('Go to forms')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/user-panel/form-history">{{_t.translate('Go to your history')}}</button>
+  </div>
+</div></div></section>
+
+<!-- Edited results -->
+<section *ngIf="page==='Edited ok'" class="contact top-section"><div class="container"><div class="row">
+  <div class="col-md-12">
+    <h2 class="text-medium">
+      {{_t.translate('Your form is updated successfully. Our staff will check your form shortly. Thank you.')}}
+    </h2>
+  </div>
+  <div class="col-md-12 ss-result-button-container">
+    <button class="btn btn-success" type="button" routerLink="/">{{_t.translate('Go to home')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/forms">{{_t.translate('Go to forms')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/user-panel/form-history">{{_t.translate('Go to your history')}}</button>
+  </div>
+</div></div></section>
+<section *ngIf="page==='Edited failed'" class="contact top-section"><div class="container"><div class="row">
+  <div class="col-md-12">
+    <h2 class="text-medium">
+      {{_t.translate('You cannot update your form at this time. Please try again later. Thank you.')}}
+    </h2>
+  </div>
+  <div class="col-md-12 ss-result-button-container">
+    <button class="btn btn-success" type="button" routerLink="/">{{_t.translate('Go to home')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/forms">{{_t.translate('Go to forms')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/user-panel/form-history">{{_t.translate('Go to your history')}}</button>
+  </div>
+</div></div></section>
+
+<!-- Admin results -->
+<section *ngIf="page==='Admin edited failed'" class="contact top-section"><div class="container"><div class="row">
+  <div class="col-md-12">
+    <h2 class="text-medium">
+      {{_t.translate('Edit submitted form failed.')}}
+    </h2>
+  </div>
+  <div class="col-md-12 ss-result-button-container">
+    <button class="btn btn-success" type="button" routerLink="/">{{_t.translate('Go to home')}}</button>
+    <button class="btn btn-success" type="button" (click)="goToLink('/admin-panel/submitted-forms')">
+      {{_t.translate('Back to admin forms')}}
+    </button>
+  </div>
+</div></div></section>
+<section *ngIf="page==='Admin set status failed'" class="contact top-section"><div class="container"><div class="row">
+  <div class="col-md-12">
+    <h2 class="text-medium">
+      {{_t.translate('Set submitted form status failed.')}}
+    </h2>
+  </div>
+  <div class="col-md-12 ss-result-button-container">
+    <button class="btn btn-success" type="button" routerLink="/">{{_t.translate('Go to home')}}</button>
+    <button class="btn btn-success" type="button" (click)="goToLink('/admin-panel/submitted-forms')">
+      {{_t.translate('Back to admin forms')}}
+    </button>
+  </div>
+</div></div></section>
+
+<!-- Socket.io announcements -->
+<section *ngIf="page==='Status change'" class="contact top-section"><div class="container"><div class="row">
+  <div class="col-md-12">
+    <h2 class="text-medium">
+      {{_t.translate('Your form status has been updated by our staff.')}}
+    </h2>
+  </div>
+  <div class="col-md-12 ss-result-button-container">
+    <button class="btn btn-success" type="button" routerLink="/">{{_t.translate('Go to home')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/forms">{{_t.translate('Go to forms')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/user-panel/form-history">{{_t.translate('Go to your history')}}</button>
+  </div>
+</div></div></section>
+<section *ngIf="page==='Form deleted'" class="contact top-section"><div class="container"><div class="row">
+  <div class="col-md-12">
+    <h2 class="text-medium">
+      {{_t.translate('Your form has been deleted by our staff. Please contact our staff for information. Thank you.')}}
+    </h2>
+  </div>
+  <div class="col-md-12 ss-result-button-container">
+    <button class="btn btn-success" type="button" routerLink="/">{{_t.translate('Go to home')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/forms">{{_t.translate('Go to forms')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/user-panel/form-history">{{_t.translate('Go to your history')}}</button>
+  </div>
+</div></div></section>
+<section *ngIf="page==='Main form deleted'" class="contact top-section"><div class="container"><div class="row">
+  <div class="col-md-12">
+    <h2 class="text-medium">
+      {{_t.translate('This form type has been set inactive or deleted by our staff.')}}
+    </h2>
+  </div>
+  <div class="col-md-12 ss-result-button-container">
+    <button class="btn btn-success" type="button" routerLink="/">{{_t.translate('Go to home')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/forms">{{_t.translate('Go to forms')}}</button>
+    <button class="btn btn-success" type="button" routerLink="/user-panel/form-history">{{_t.translate('Go to your history')}}</button>
+  </div>
+</div></div></section>

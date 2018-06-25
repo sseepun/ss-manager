@@ -21,19 +21,24 @@ export class UserService {
   ) { }
 
   init(): Promise<void> {
+    // Check cookie language
+    this._authentication.cookieLanguage();
     // Check remember me login
     return this._authentication.authenticate()
       .then(result => {
-        if (result.status) this.setUser(result.data as User);
+        if (result.status) {
+          this.setUser(result.data as User);
+        }
       });
   }
-
-  setUser(user: User): void {this.user = user}
-  getUser(): User {return this.user}  
 
   get isLoggedIn(): boolean {return this.user!==undefined && this.user!==null}
   get isAdmin(): boolean {return this.user!==undefined && this.user!==null && this.user.level>=7}
   get isActive(): boolean {return this.user!==undefined && this.user!==null && this.user.status==='Active'}
+
+  setUser(user: User): void {this.user = user}
+  getUser(): User {return this.user} 
+  logoutUser(): void {this.user = undefined}
 
   update(): Promise<void> {
     let url = this.apiUrl + '/update/' + this.user._id;
@@ -66,6 +71,27 @@ export class UserService {
         const result = response.json();
         if (testing) console.log(result.message);
         return result;
+      })
+      .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
+  }
+
+  getUserById(userId: string): Promise<JsonResponse> {
+    let url = this.apiUrl + '/getuserbyid/' + userId;
+    return this.http.get(url).toPromise()
+      .then(response => {
+        let result = response.json();
+        if (testing) console.log(result.message);
+        return result as JsonResponse;
+      })
+      .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
+  }
+  getUserDetailById(userId: string): Promise<JsonResponse> {
+    const url = this.apiUrl + '/detail/' + userId;
+    return this.http.get(url).toPromise()
+      .then(response => {
+        const result = response.json();
+        if (testing) console.log(result.message);
+        return result as JsonResponse;
       })
       .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
   }

@@ -1,5 +1,5 @@
 export class User {
-    _id: string;
+    _id ?: string;
     username: string;
     level: number;
     firstname: string;
@@ -7,4 +7,3 @@ export class User {
     email: string;
     status: string;    
 }
-  

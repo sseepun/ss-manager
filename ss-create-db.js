@@ -149,8 +149,8 @@ db.createCollection("forms", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["creatorId", "category", "nameTH", "pdfForm", "requireEvidence", "accessCode", "status"],
-      uniqueItems: ["nameTH"],
+      required: ["creatorId", "category", "nameTH", "nameEN", "pdfForm", "requireEvidence", "accessCode", "status"],
+      uniqueItems: ["nameTH", "nameEN", "accessCode"],
       properties: {
         creatorId: {
           bsonType: "objectId",
@@ -301,27 +301,6 @@ db.userLevel.insert({"level": 8, "levelName": "Manager",
 db.userLevel.insert({"level": 7, "levelName": "Author", 
   "access": [0]
 });
-db.userLevel.insert({"level": 6, "levelName": "Contributor", 
-  "access": []
-});
-db.userLevel.insert({"level": 5, "levelName": "Moderator", 
-  "access": []
-});
-db.userLevel.insert({"level": 4, "levelName": "Member Group 1", 
-  "access": []
-});
-db.userLevel.insert({"level": 3, "levelName": "Member Group 2", 
-  "access": []
-});
-db.userLevel.insert({"level": 2, "levelName": "Member Group 3", 
-  "access": []
-});
-db.userLevel.insert({"level": 1, "levelName": "Member Group 4", 
-  "access": []
-});
-db.userLevel.insert({"level": 0, "levelName": "Guest", 
-  "access": []
-});
 
 // Initialize page modules
 db.pageModules.insert({"moduleId": 0, "parentId": 0, "moduleName": 'Admin Panel'});
@@ -382,11 +361,20 @@ db.formCategory.insert({
   categoryEN: 'Disbursement Form'
 });
 
-// db.forms.insert({
-//   creatorId: user1, category: ['Attendance Forms'],
-//   nameTH: 'แบบตอบรับ ประชุมชี้แจงมัธยม 9-10 พค',
-//   pdfForm: 'ในศูนย์ แบบตอบรับ ประชุมชี้แจงมัธยม 9-10 พค.pdf',
-//   requireEvidence: false,
-//   accessCode: 'gov-form1', status: 'Active'
-// });
+db.forms.insert({
+  creatorId: user1, category: ['Attendance Forms'],
+  nameTH: 'แบบตอบรับ ประชุมชี้แจงมัธยม 9-10 พค',
+  nameEN: 'Testing form 01',
+  pdfForm: 'formpdfForm-1527995938423.pdf',
+  requireEvidence: false,
+  accessCode: 'form-1', status: 'Active'
+});
+db.forms.insert({
+  creatorId: user1, category: ['Disbursement Form'],
+  nameTH: 'แบบตอบรับ ประชุมชี้แจงมัธยม 20-21 พค',
+  nameEN: 'Testing form 02',
+  pdfForm: 'formpdfForm-1527995938424.pdf',
+  requireEvidence: false,
+  accessCode: 'form-2', status: 'Active'
+});
 

@@ -185,7 +185,7 @@ section h2 {
 	opacity: 1 !important; }
 
 .active-theme {
-	opacity: .2 !important; }
+	opacity: .25 !important; }
 
 .sticky {
 	padding: .5rem 1rem; }
@@ -207,8 +207,8 @@ section h2 {
 
 .side-menu .nav .nav-link {
 	font-size: 0.875rem;
-	color: #fff;
 	opacity: .5;
+	cursor: pointer;
 	text-transform: uppercase;
 	-webkit-transition: all .25s ease-in-out;
 	-o-transition: all .25s ease-in-out;
@@ -226,6 +226,13 @@ section h2 {
 	-webkit-transition: all .25s ease-in-out;
 	-o-transition: all .25s ease-in-out;
 	transition: all .25s ease-in-out; }
+
+.setting {pointer-events: none; opacity: 0.25 !important;}
+
+.theme-language {top: 7.7rem;}
+.theme-language .setting {padding: 0 0 0 3.5px; margin: 0 6.5px 0 9.5px;}
+.theme-language a {font-weight: 600;}
+.theme-language a:nth-child(2) {margin: 0 0 0 2px;}
 
 /*========== End Navbar Style ==========*/
 /*========== Start Home Style ==========*/
@@ -602,6 +609,8 @@ footer p {
 		top: auto;
 		right: auto;
 		padding: 0 1.5rem; }
+	.theme-language {
+		margin-top: 26px; }
 	.theme a {
 		margin: 0 .75rem; }
 	.side-menu-container {
@@ -617,7 +626,7 @@ footer p {
 		top: 72px;
 		right: 0;
 		height: 100%;
-		width: 130px;
+		width: 128px;
 		position: fixed;
 		-webkit-transition: all .25s;
 		-o-transition: all .25s;
@@ -632,8 +641,10 @@ footer p {
 		flex-direction: column;
 		text-align: right;
 		padding-top: 1rem;
-		padding-left: 3rem;
-		margin-top: 1.5rem;
+		padding-left: 0;
+		width: 128px;
+		text-align: right;
+		margin-top: 3rem;
 		position: fixed; }
 	.side-menu .nav .nav-link {
 		padding: .5rem; }
@@ -644,7 +655,9 @@ footer p {
 		background-color: #f7ca18;
 		border: none; }
 	.project-item a i {
-		font-size: 2rem; } }
+		font-size: 2rem; } 
+	.theme-language a:nth-child(2) {		
+		margin: 0 2.5px 0 10px; } }
 
 @media (max-width: 767.98px) {
 	.home-table-cell h1 {

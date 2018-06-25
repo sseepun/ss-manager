@@ -139,30 +139,29 @@ router.post('/uploaduserprofile', (req, res, next)=>{
     });
 });
 
-router.post('/uploadgovform', (req, res, next)=>{
+router.post('/uploadmainform', (req, res, next)=>{
     let upload = uploadForms.array('pdfForm', 1);
     upload(req, res, err=>{
-        if (err) res.json({status:false, message:'Upload gov form error: '+err, data:null});
+        if (err) res.json({status:false, message:'Upload main form error: '+err, data:null});
         else {
-            res.json({status:true, message:'Upload gov form successfully!', data:req.files[0].filename});
+            res.json({status:true, message:'Upload main form successfully!', data:req.files[0].filename});
         }
     });
 });
-
-router.post('/uploadgovformpreview', (req, res, next)=>{
+router.post('/uploadmainformpreview', (req, res, next)=>{
     let upload = uploadFormPreview.array('previewUrl', 1);
     upload(req, res, err=>{
-        if (err) res.json({status:false, message:'Upload gov form preview error: '+err, data:null});
+        if (err) res.json({status:false, message:'Upload main form preview error: '+err, data:null});
         else {
-            res.json({status:true, message:'Upload gov form preview successfully!', data:req.files[0].filename});
+            res.json({status:true, message:'Upload gov main preview successfully!', data:req.files[0].filename});
         }
     });
 });
-router.post('/removegovformpreview', (req, res, next)=>{
+router.post('/removemainformpreview', (req, res, next)=>{
     let previewPath = req.body.input.previewPath,
         path = 'public/formPreview/' + previewPath;
     if (fs.existsSync(path)) fs.unlinkSync(path);
-    res.json({status:true, message:'Delete gov form preview successfully!', data:1});
+    res.json({status:true, message:'Delete main form preview successfully!', data:1});
 });
 
 router.post('/uploadformevidences', (req, res, next)=>{

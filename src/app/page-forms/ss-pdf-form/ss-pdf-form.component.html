@@ -1,0 +1,296 @@
+<div class="header-space"></div>
+<div class="loader"><div class="loader-inner"></div></div>
+
+<!-- Form -->
+<section *ngIf="page==='Form'" class="contact ss-pdf-section"><div class="container"><div class="row">
+  <div *ngIf="form===null || userDetail===null" class="col-md-12">
+    <h2>Loading the form with access code - {{accessCode}}...</h2>
+  </div>
+  <ng-container *ngIf="form!==null && userDetail!==null">
+    <h2 *ngIf="_t.getLanguage==='EN'">{{form.nameEN}}</h2>
+    <h2 *ngIf="_t.getLanguage==='TH'">{{form.nameTH}}</h2>
+
+    <div class="col-md-12 ss-pdf-content" id="ss-pdf-content" #content>
+      <pdf-viewer class="ss-pdf-viewer" [src]="pdfPath"
+      (after-load-complete)="pdfLoadComplete($event)"></pdf-viewer>
+
+      <!-- New form -->
+      <ng-container *ngIf="_form.getMode==='New' && _form.getRole!=='Admin'">
+        <form #newForm="ngForm" (ngSubmit)="submitForm(newForm)" ngNativeValidate>
+          <ng-container *ngFor="let input of inputList;">
+            <ng-container *ngIf="!inputAdmin(input.name)">
+              <!-- Special inputs -->
+              <ng-container *ngIf="inputSpecial(input.name)">
+                <div *ngIf="inputSignature(input.name)" [ngStyle]="inputPosition(input)" class="ss-signature">
+                  <app-signature-pad [container]="input" (submitSignature)="submitSignature($event, input.name)"></app-signature-pad>
+                </div>
+                <div *ngIf="inputProfileImg(input.name)" [ngStyle]="inputPosition(input)" class="ss-profile">
+                  <img [src]="userProfileImage">
+                </div>
+                <input *ngIf="inputFullname(input.name)" class="ss-form-input"
+                  [type]="input.type" [value]="userFullname" [ngStyle]="inputPosition(input)" disabled>
+              </ng-container>
+              <!-- Normal inputs -->
+              <ng-container *ngIf="!inputSpecial(input.name)">
+                <input *ngIf="input.type!='checkbox' && inputRequired(input.name)" 
+                  class="ss-form-input" [type]="input.type" [name]="input.name" value=""
+                  [ngStyle]="inputPosition(input)" ngModel required>
+                <input *ngIf="input.type!='checkbox' && !inputRequired(input.name)" 
+                  class="ss-form-input" [type]="input.type" [name]="input.name" value=""
+                  [ngStyle]="inputPosition(input)" ngModel>
+                <input *ngIf="input.type=='checkbox' && inputRequired(input.name)"
+                  class="ss-form-input checkbox" [type]="input.type" [name]="input.name" 
+                  (change)="checkboxChange($event, input.name)"
+                  [ngStyle]="inputPosition(input)" ngModel required>
+                <input *ngIf="input.type=='checkbox' && !inputRequired(input.name)"
+                  class="ss-form-input checkbox" [type]="input.type" [name]="input.name" 
+                  (change)="checkboxChange($event, input.name)"
+                  [ngStyle]="inputPosition(input)" ngModel>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+
+          <div class="ss-button-container new-mode">
+            <h2 class="ss-btn-title">{{_t.translate('Form actions')}}</h2>
+            <input class="btn btn-primary" type="submit" [value]="_t.translate('Submit form')">
+            <input class="btn btn-success" type="button" [value]="_t.translate('Back to forms')"
+              routerLink="/forms">
+          </div>
+        </form>
+      </ng-container>
+
+      <!-- Edit form -->
+      <ng-container *ngIf="(_form.getMode==='Edit' || _form.getMode==='EditByPass') && loadForm!==null">
+        <form #editForm="ngForm" (ngSubmit)="editSubmittedForm(editForm)" ngNativeValidate>
+
+          <!-- Normal users -->          
+          <ng-container *ngIf="_form.getRole!='Admin'">
+            <ng-container *ngFor="let input of inputList">
+
+              <!-- User inputs -->
+              <ng-container *ngIf="!inputAdmin(input.name)">
+                <!-- Special inputs -->
+                <ng-container *ngIf="inputSpecial(input.name)">
+                  <div *ngIf="inputSignature(input.name)" [ngStyle]="inputPosition(input)" class="ss-signature">
+                    <app-signature-pad [container]="input" (submitSignature)="submitSignature($event, input.name)"
+                    [signature]="loadForm.formValue[input.name]"></app-signature-pad>
+                  </div>
+                  <div *ngIf="inputProfileImg(input.name)" [ngStyle]="inputPosition(input)" class="ss-profile">
+                    <img [src]="userProfileImage">
+                  </div>
+                  <input *ngIf="inputFullname(input.name)" class="ss-form-input"
+                    [type]="input.type" [value]="userFullname" [ngStyle]="inputPosition(input)" disabled>
+                </ng-container>
+                <!-- Normal inputs -->
+                <ng-container *ngIf="!inputSpecial(input.name)">
+                  <input *ngIf="input.type!='checkbox' && inputRequired(input.name)"
+                    class="ss-form-input" [type]="input.type" [name]="input.name"
+                    [ngModel]="default(loadForm.formValue[input.name])" [value]="input.value"
+                    [ngStyle]="inputPosition(input)" ngModel required>
+                  <input *ngIf="input.type!='checkbox' && !inputRequired(input.name)"
+                    class="ss-form-input" [type]="input.type" [name]="input.name"
+                    [ngModel]="default(loadForm.formValue[input.name])" [value]="input.value"
+                    [ngStyle]="inputPosition(input)" ngModel>
+                  <input *ngIf="input.type=='checkbox' && loadForm.formValue[input.name]"
+                    class="ss-form-input checkbox"
+                    [type]="input.type" [name]="input.name"
+                    (change)="checkboxChange($event, input.name)"
+                    [ngStyle]="inputPosition(input)" ngModel checked>
+                  <input *ngIf="input.type=='checkbox' && !loadForm.formValue[input.name]"
+                    class="ss-form-input checkbox"
+                    [type]="input.type" [name]="input.name"
+                    (change)="checkboxChange($event, input.name)"
+                    [ngStyle]="inputPosition(input)" ngModel>
+                </ng-container>
+              </ng-container>
+
+              <!-- Admin inputs -->
+              <ng-container *ngIf="inputAdmin(input.name)">
+                <!-- Spacial inputs -->
+                <ng-container *ngIf="inputSpecial(input.name)">
+                  <div *ngIf="inputSignature(input.name)" [ngStyle]="inputPosition(input)" class="ss-signature disabled">
+                    <app-signature-pad [container]="input" [disabled]="true"
+                    [signature]="loadForm.formValue[input.name]"></app-signature-pad>
+                  </div>
+                </ng-container>
+                <!-- Normal inputs -->
+                <ng-container *ngIf="!inputSpecial(input.name)">
+                  <input *ngIf="input.type!='checkbox'" class="ss-form-input"
+                    [type]="input.type" [name]="input.name"
+                    [ngModel]="default(loadForm.formValue[input.name])" [value]="input.value"
+                    [ngStyle]="inputPosition(input)" ngModel disabled>
+                  <div *ngIf="input.type=='checkbox' && loadForm.formValue[input.name]"
+                    class="ss-form-input checkbox-yes" [ngStyle]="inputPosition(input)"><div></div>
+                  </div>
+                  <div *ngIf="input.type=='checkbox' && !loadForm.formValue[input.name]"
+                    class="ss-form-input checkbox-no" [ngStyle]="inputPosition(input)"></div>
+                </ng-container>
+              </ng-container>
+
+            </ng-container>
+          </ng-container>
+
+          <!-- Admin users -->
+          <ng-container *ngIf="_form.getRole==='Admin'">
+            <ng-container *ngFor="let input of inputList">
+
+              <!-- Admin inputs -->
+              <ng-container *ngIf="inputAdmin(input.name)">
+                <!-- Special inputs -->
+                <ng-container *ngIf="inputSpecial(input.name)">
+                  <div *ngIf="inputSignature(input.name)" [ngStyle]="inputPosition(input)" class="ss-signature">
+                    <app-signature-pad [container]="input" (submitSignature)="submitSignature($event, input.name)"
+                    [signature]="loadForm.formValue[input.name]"></app-signature-pad>
+                  </div>
+                </ng-container>
+                <!-- Normal inputs -->
+                <ng-container *ngIf="!inputSpecial(input.name)">
+                  <input *ngIf="input.type!='checkbox' && inputRequired(input.name)"
+                    class="ss-form-input" [type]="input.type" [name]="input.name"
+                    [ngModel]="default(loadForm.formValue[input.name])" [value]="input.value"
+                    [ngStyle]="inputPosition(input)" ngModel required>
+                  <input *ngIf="input.type!='checkbox' && !inputRequired(input.name)"
+                    class="ss-form-input" [type]="input.type" [name]="input.name"
+                    [ngModel]="default(loadForm.formValue[input.name])" [value]="input.value"
+                    [ngStyle]="inputPosition(input)" ngModel>
+                  <input *ngIf="input.type=='checkbox' && loadForm.formValue[input.name]"
+                    class="ss-form-input checkbox" [type]="input.type" [name]="input.name"
+                    (change)="checkboxChange($event, input.name)"
+                    [ngStyle]="inputPosition(input)" ngModel checked>
+                  <input *ngIf="input.type=='checkbox' && !loadForm.formValue[input.name]"
+                    class="ss-form-input checkbox" [type]="input.type" [name]="input.name"
+                    (change)="checkboxChange($event, input.name)"
+                    [ngStyle]="inputPosition(input)" ngModel>
+                </ng-container>
+              </ng-container>
+
+              <!-- User inputs -->
+              <ng-container *ngIf="!inputAdmin(input.name)">
+                <!-- Special inputs -->
+                <ng-container *ngIf="inputSpecial(input.name)">
+                  <div *ngIf="inputSignature(input.name)" [ngStyle]="inputPosition(input)" class="ss-signature disabled">
+                    <app-signature-pad [container]="input" [disabled]="true"
+                    [signature]="loadForm.formValue[input.name]"></app-signature-pad>
+                  </div>
+                  <div *ngIf="inputProfileImg(input.name)" [ngStyle]="inputPosition(input)" class="ss-profile">
+                    <img [src]="userProfileImage" width="100%" height="100%">
+                  </div>
+                  <input *ngIf="inputFullname(input.name)" class="ss-form-input"
+                    [type]="input.type" [value]="userFullname" [ngStyle]="inputPosition(input)" disabled>
+                </ng-container>
+                <!-- Normal inputs -->
+                <ng-container *ngIf="!inputSpecial(input.name)">
+                  <input *ngIf="input.type!='checkbox'"
+                    class="ss-form-input" [type]="input.type" [name]="input.name"
+                    [ngModel]="default(loadForm.formValue[input.name])" [value]="input.value"
+                    [ngStyle]="inputPosition(input)" ngModel disabled>
+                  <div *ngIf="input.type=='checkbox' && loadForm.formValue[input.name]"
+                    class="ss-form-input checkbox-yes" [ngStyle]="inputPosition(input)"><div></div>
+                  </div>
+                  <div *ngIf="input.type=='checkbox' && !loadForm.formValue[input.name]"
+                    class="ss-form-input checkbox-no" [ngStyle]="inputPosition(input)"></div>
+                </ng-container>
+              </ng-container>
+
+            </ng-container>
+          </ng-container>
+
+          <div *ngIf="_form.getRole!=='Admin'" class="ss-button-container edit-mode">
+            <h2 class="ss-btn-title">{{_t.translate('Form actions')}}</h2>
+            <input class="btn btn-primary" type="submit" [value]="_t.translate('Edit this form')">
+            <input class="btn btn-success" type="button" [value]="_t.translate('Back to form history')"
+              routerLink="/user-panel/form-history">
+            <input class="btn btn-danger" type="button" [value]="_t.translate('Delete this form')"
+              (click)="userDeleteSubmittedForm()">
+          </div>
+          <!-- <div *ngIf="_form.getRole==='Admin'" class="ss-button-container view-mode">
+            <h2 class="ss-btn-title">{{_t.translate('Form actions')}}</h2>
+            <input class="btn btn-primary" type="button" [value]="_t.translate('Download PDF')"
+              (click)="downloadPDF()">
+            <input class="btn btn-success" type="button" [value]="_t.translate('Back to admin forms')"
+              routerLink="/admin-panel/submitted-forms">
+            <input *ngIf="loadForm.status!=='Approved'" class="btn btn-success" type="button"
+              [value]="_t.translate('Approved')" (click)="adminSetSubmittedFormStatus('Approved')">
+            <input *ngIf="loadForm.status!=='Not approved'" class="btn btn-success" type="button"
+              [value]="_t.translate('Not approved')" (click)="adminSetSubmittedFormStatus('Not approved')">
+            <input class="btn btn-success" type="button" [value]="_t.translate('Delete this form')"
+              (click)="adminDeleteSubmittedForm()"> -->
+
+          <!-- <div class="button-container">
+            <ng-container *ngIf="formService.getRole()=='Admin'">
+              <input class="political-simple-btn" type="button" value="Back to admin forms" (click)="backToAdminForms()">
+              <input *ngIf="form!==null && userDetail!==null"
+              class="political-simple-btn" type="submit" value="Edit and Approve">
+              <input *ngIf="loadForm.status!='Approved'" class="political-simple-btn"
+              type="button" value="Approve" (click)="adminSetSubmittedFormStatus('Approved')">
+              <input *ngIf="loadForm.status!='Not approved'" class="political-simple-btn warning-btn"
+              type="button" value="Not approved" (click)="adminSetSubmittedFormStatus('Not approved')">
+              <input class="political-simple-btn delete-btn" type="button" value="Delete form" (click)="adminDeleteSubmittedForm()">
+            </ng-container>
+          </div> -->
+        </form>
+      </ng-container>
+
+      <!-- View form -->
+      <ng-container *ngIf="(_form.getMode==='View' || _form.getMode==='ViewByPass') && loadForm!==null">
+        <form>
+          <ng-container *ngFor="let input of inputList">
+            <!-- Special inputs -->
+            <ng-container *ngIf="inputSpecial(input.name)">
+              <div *ngIf="inputSignature(input.name)" [ngStyle]="inputPosition(input)" class="ss-signature disabled">
+                <app-signature-pad [container]="input" [disabled]="true"
+                [signature]="loadForm.formValue[input.name]"></app-signature-pad>
+              </div>
+              <div *ngIf="inputProfileImg(input.name)" [ngStyle]="inputPosition(input)" class="ss-profile disabled">
+                <img [src]="userProfileImage">
+              </div>
+              <input *ngIf="inputFullname(input.name)" class="ss-form-input"
+                [type]="input.type" [value]="userFullname" [ngStyle]="inputPosition(input)" disabled>
+            </ng-container>
+            <!-- Normal inputs -->
+            <ng-container *ngIf="!inputSpecial(input.name)">
+              <input *ngIf="input.type!='checkbox'" class="ss-form-input"
+                [type]="input.type" [name]="input.name"
+                [ngModel]="default(loadForm.formValue[input.name])" [value]="input.value"
+                [ngStyle]="inputPosition(input)" ngModel disabled>
+              <div *ngIf="input.type=='checkbox' && loadForm.formValue[input.name]"
+                class="ss-form-input checkbox-yes" [ngStyle]="inputPosition(input)"><div></div>
+              </div>
+              <div *ngIf="input.type=='checkbox' && !loadForm.formValue[input.name]"
+                class="ss-form-input checkbox-no" [ngStyle]="inputPosition(input)"></div>
+            </ng-container>
+          </ng-container>
+
+          <div *ngIf="_form.getRole!=='Admin'" class="ss-button-container view-mode">
+            <h2 class="ss-btn-title">{{_t.translate('Form actions')}}</h2>
+            <input class="btn btn-primary" type="button" [value]="_t.translate('Download PDF')"
+              (click)="downloadPDF()">
+            <input class="btn btn-success" type="button" [value]="_t.translate('Back to form history')"
+              routerLink="/user-panel/form-history">
+          </div>
+          <!-- <div *ngIf="_form.getRole==='Admin'" class="ss-button-container view-mode">
+            <h2 class="ss-btn-title">{{_t.translate('Form actions')}}</h2>
+            <input class="btn btn-primary" type="button" [value]="_t.translate('Download PDF')"
+              (click)="downloadPDF()">
+            <input class="btn btn-success" type="button" [value]="_t.translate('Back to admin forms')"
+              routerLink="/admin-panel/submitted-forms">
+            <input *ngIf="loadForm.status!=='Approved'" class="btn btn-success" type="button"
+              [value]="_t.translate('Approved')" (click)="adminSetSubmittedFormStatus('Approved')">
+            <input *ngIf="loadForm.status!=='Not approved'" class="btn btn-success" type="button"
+              [value]="_t.translate('Not approved')" (click)="adminSetSubmittedFormStatus('Not approved')">
+            <input class="btn btn-success" type="button" [value]="_t.translate('Delete this form')"
+              (click)="adminDeleteSubmittedForm()"> 
+          </div> -->
+        </form>
+      </ng-container>
+
+    </div>
+  </ng-container>
+</div></div></section>
+
+<!-- Downloading -->
+<div id="ss-pdf-content-holder"></div>
+<div *ngIf="saving" class="ss-dowloading"><h2>Downloading PDF...</h2></div>
+
+<!-- Status result -->
+<app-form-result [page]="page" (redirect)="adminRedirect($event)"></app-form-result>

@@ -1,1 +1,149 @@
 /* You can add global styles to this file, and also import other style files */
+body {overflow-y: scroll;}
+
+nav {z-index: 1000;}
+.header-space {
+    position: sticky; top: 0; background: #000000; height: 72px; opacity: 1;
+    transition: .4s opacity, .4s height; z-index: 900;
+}
+.header-space.sticky {opacity: 0; height: 59px;}
+.loader {z-index: 800;}
+
+.top-section {padding-top: 4rem; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 96%, 0 100%);}
+.last-row {margin-bottom: 35px;}
+
+.strong {font-weight: 600;}
+.main-color {color: #f7ca18 !important;}
+.primary-color, .primary {color: #007bff !important;}
+.success-color, .success {color: #28a745 !important;}
+.info-color, .info {color: #17a2b8 !important;}
+.warning-color, .warning {color: #ffc107 !important;}
+.danger-color, .danger {color: #dc3545 !important;}
+
+.error-box {min-height: 40px; margin-top: -8px; color: red;}
+.error-message {min-height: 24px; color: red;}
+
+.content-section {padding: 4rem 0 1.5rem 0;}
+.content-section .container {max-width: calc(100vw - 120px) !important;}
+
+.list-header {font-size: 26px; padding-bottom: 10px; margin-bottom: 22px; text-align: left;}
+.list-item {
+    font-size: 15px; padding-bottom: 9px; margin-bottom: 9px; pointer-events: all; cursor: pointer;
+    opacity: 0.6; padding-left: 0; outline: none; transition: all .5s; text-transform: capitalize;
+}
+.list-item.active {opacity: 1; font-weight: 600;}
+.list-item:hover {padding-left: 12px; opacity: 1;}
+.list-item i {font-size: 11px; padding-right: 8px; border: 0 !important;}
+
+.table-criteria-container {margin-bottom: 20px;}
+.table-criteria {margin-bottom: 10px;}
+.table-criteria .form-control {display: inline-block; margin-left: 5px;}
+.table-search .btn {margin-top: -1.5px;}
+
+.form-selection-container {padding: 8.5px;}
+.form-selection-container:active, .form-selection-container:focus {
+    border: 0; text-decoration: none; outline-width: 0;
+}
+.form-container {margin-bottom: 30px;}
+.form-container h2 {width: 100%;}
+.form-selection {padding: 12px; position: relative; pointer-events: all; cursor: pointer;}
+.form-selection img {width: 100%; height: 11.5vw;}
+.form-selection .form-cover {
+    position: absolute; top: 12px; background: rgba(0,0,0,0); opacity: 0;
+    width: calc(100% - 24px); height: 11.5vw; transition: .3s background, .3s opacity;
+}
+.form-selection:hover .form-cover {background: rgba(0,0,0,.75); opacity: 1;}
+.form-selection .form-owner {text-align: left; font-size: 15px; color: #f7ca18; margin: 10px 0 0 0;}
+.form-selection .form-desc {margin: 5px 0 0 0; line-height: 22px; min-height: 44px;}
+.form-selection .form-date {margin: 10px 0 0 0; font-size: 12px;}
+.form-selection .form-date span {font-weight: 600;}
+.result-err-table-text {margin: 25px 0;}
+.no-transition {transition: 0s all !important;}
+
+.pagination-wraper {width: 100%; text-align: center;}
+.pagination-wraper li {
+    display: inline-block; list-style: none; vertical-align: middle;
+    text-align: center; pointer-events: none;
+}
+.pagination-wraper li.active {pointer-events: all; cursor: pointer;}
+.pagination-wraper li span {
+    float: left; width: 40px; height: 40px; font-size: 16px;
+    margin-right: 7px; padding-top: 6px; transition: all .2s;
+}
+.pagination-wraper li span, .pagination-wraper li span i {font-size: 16px}
+
+.table-container {width: 100%; padding: 10px 15px;}
+.table-container table {width: 100%;}
+th, td {text-align: center; font-size: 14px; padding: 8px 12px;}
+td i {font-size: 16px !important; margin: 0 !important; cursor: pointer;}
+th {font-size: 15px;}
+.col-left {text-align: left;}
+
+/* Start SS-PDF */
+.ng2-pdf-viewer-container {overflow: hidden !important;}
+.ss-pdf-section {padding: 2rem 0;}
+.ss-pdf-content {position: relative;}
+
+.ss-form-input, .ss-profile, .ss-signature {
+    position: absolute; border: 0; background: rgba(248,255,156,.75); border-radius: 2px;
+}
+.ss-profile img {position: absolute; width: 100%; height: auto;}
+.ss-form-input {padding-left: 10px; padding-right: 10px;}
+.ss-form-input:focus {background: #f8ff9c; border: 1.5px solid #228ae6; border-radius: 2px;}
+.ss-form-input[type=text] {color: #000;}
+.ss-form-input:disabled, .ss-signature.disabled, .ss-profile.disabled {
+    border: none; background: none; pointer-events: none; font-weight: 600;
+}
+
+.ss-button-container {
+    position: fixed; top: calc(100vh - 50px); right: 10px; padding: 15px 15px 17px 15px;
+    width: 260px; transition: .45s top; border-radius: 5px; z-index: 800;
+}
+.ss-button-container.new-mode:hover {top: calc(100vh - 160px);}
+.ss-button-container.view-mode:hover {top: calc(100vh - 160px);}
+.ss-button-container.edit-mode:hover {top: calc(100vh - 207px);}
+
+.ss-btn-title {margin-bottom: 10px; font-size: 20px;}
+.ss-button-container .btn {width: 100%; margin-top: 15px;}
+
+.text-medium {font-size: 26px;}
+.ss-result-button-container {text-align: center;}
+.ss-result-button-container .btn {margin: 0 2px; width: 180px;}
+
+.ss-dowloading {
+    position: sticky; top: 0; left: 0; width: 100vw; height: 100vh; text-align: center;
+    transition: .25s opacity; opacity: 1; z-index: 850; padding-top: 53vh;
+}
+.ss-dowloading.inactive {opacity: 0;}
+.ss-dowloading h2 {font-family: 'Passion One', sans-serif;}
+/* End SS-PDF */
+
+@media (max-width: 991.98px) {
+    .content-section .container {max-width: calc(100vw - 60px) !important;}
+    .form-selection img, .form-selection img, .form-selection .form-cover {height: 15.5vw;}
+}
+
+@media (max-width: 767.98px) {
+    .last-row {margin-bottom: 25px;}
+    .list-header {text-align: center;}
+
+    .list-item {border: 0; float: left; width: 33.333%; text-align: center;}
+    .list-item i {display: none;}
+
+    .table-criteria-container {margin: 5px 0 20px 0; padding: 20px 0 0 0;}
+    .form-selection img, .form-selection img, .form-selection .form-cover {height: 23vw;}
+}
+
+@media (max-width: 650.98px) {
+    .list-item {width: 50%;}
+}
+
+@media (max-width: 575.98px) {
+    .header-space {height: 46px;}
+    .header-space.sticky {height: 41px;}
+    .form-selection img, .form-selection img, .form-selection .form-cover {height: 48vw;}
+}
+
+@media (max-width: 450.98px) {
+    .list-item {width: 100%;}
+}

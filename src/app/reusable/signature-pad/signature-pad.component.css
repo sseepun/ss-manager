@@ -1,0 +1,13 @@
+.signature-container {width: 100%; height: 100%; position: relative;}
+*>>> .line {fill: none; stroke-width: 1.5px;}
+
+*>>> .swatch {cursor: pointer; opacity: 0.2; transition: .3s opacity;}
+*>>> .swatch:hover {opacity: 1;}
+*>>> .signature-delete {text-anchor: end;}
+
+.trash-btn {
+    position: absolute; right: 0; top: 0; cursor: pointer; font-size: 12px;
+    opacity: 0.2; transition: .3s opacity;
+}
+.trash-btn:hover {opacity: 1;}
+.trash-btn.disabled {display: none;}

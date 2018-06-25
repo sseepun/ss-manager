@@ -18,7 +18,8 @@ File Description : CSS file of the DAY skin to the main template
 6. About
 7. Contact
 8. Footer
-9. Responsive
+9. Edit Style
+10. Responsive
 */
 
 /*========== Start Basic Style ==========*/
@@ -33,7 +34,8 @@ section h2, section h4 {
 /*========== End Basic Style ==========*/
 
 .theme {
-	background-color: rgba(0, 0, 0, .05); }
+	background-color: rgba(0, 0, 0, .05); 
+	border: 1px solid rgba(255, 255, 255, .4); }
 
 .theme a {
 	color: #000 !important;}
@@ -53,6 +55,8 @@ section h2, section h4 {
 	background-color: #000 !important;
 	color: #fff !important; }
 
+.side-menu .nav a {
+	color: #fff !important; }
 .sticky .side-menu .nav a {
 	color: #000 !important; }
 
@@ -154,9 +158,30 @@ footer p span {
 	color: #000; }
 
 /*========== End Footer Style ==========*/
+/*========== Start Edit Style ==========*/
+
+.grey-body {background: #eeeeee;}
+
+.under-line {border-bottom: 2px solid rgba(0,0,0,0.1);}
+.form-selection {background: #fafafa; border: 1px solid rgba(0,0,0,0.2);}
+
+.pagination-wraper li span {background: #f2f2f2; border: 3px solid #eaeaea;}
+.pagination-wraper li.active:hover span {
+	background: #333; color: #fff; border: 3px solid #333;
+}
+.pagination-wraper li.selected span {background: #333; color: #fff; border: 3px solid #333;}
+
+th, td {border: 1px solid rgba(0,0,0,.3);}
+
+.ss-button-container {background: rgba(0,0,0,0.1); border: 1px solid #000;}
+.ss-dowloading {background: rgba(255,255,255,.85);}
+
+/*========== End Edit Style ==========*/
 /*========== Start Responsive Style ==========*/
 
 @media (max-width: 991.98px) {
+	.theme {
+		border: 0; }
 	.logo-title {
 		background-color: #000 !important;
 		color: #fff !important; }
@@ -164,6 +189,10 @@ footer p span {
 		background-color: #fff; }
 	.side-menu .nav a {
 		color: #000 !important; } }
+
+@media (max-width: 767.98px) {
+	.md-border-top {border-top: 2px solid rgba(0,0,0,0.1);} 
+}
 
 @media (max-width: 575.98px) {
 .logo-title {

@@ -57,5 +57,17 @@ router.post('/updatedetail', (req, res) => {
     .catch(err => { res.json({ status: false, message: 'Update user details failed: ' + err.message }); });
 });
 
+router.get('/getuserbyid/:userId', (req, res) => {
+  let userId = req.db.id(req.params.userId);
+  let dbUsers = req.db.get('users');
+  
+  dbUsers.findOne({ _id: userId })
+    .then(check1 => {
+      if (check1===null) res.json({ status: false, message: 'Get user by id failed: Cannot find the user', data: 0 });
+      else res.json({ status: true, message: 'Get user by id successfully!', data: check1 });
+    })
+    .catch(err1 => { res.json({ status: false, message: 'Get user by id error: ' + err1, data: null }); });
+});
+
 
 module.exports = router;

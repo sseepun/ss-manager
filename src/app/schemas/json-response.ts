@@ -3,4 +3,3 @@ export class JsonResponse {
     message: string;
     data: any;
 }
-  

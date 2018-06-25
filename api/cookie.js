@@ -14,5 +14,10 @@ router.get('/clearlogincookie', (req, res) => {
   res.clearCookie('username');
   res.send({status: true, message: 'Clear user login cookie successfully!', data: 1});
 });
+router.get('/setlanguagecookie/:language', (req, res) => {
+  let language = req.params.language;
+  res.cookie('language', language, { maxAge: 1000 * 60 * 60 * 24 * 7});
+  res.send({status: true,  message: 'Set language cookie successfully!', data: 1});
+});
 
 module.exports = router;

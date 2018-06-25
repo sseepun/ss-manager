@@ -1,0 +1,31 @@
+<div class="header-space"></div>
+
+<section class="contact content-section">
+  <div class="container">
+    <div class="row">
+      
+        <div class="col-md-4 col-lg-3">
+          <h2 class="list-header under-line">{{_t.translate('User Panel')}}</h2>
+          <div class="list-container">
+            <div class="list-item under-line" routerLinkActive="active" routerLink="profile">
+              <i class="fas fa-arrow-right"></i>
+              {{_t.translate('Profile')}}
+            </div>
+            <div class="list-item under-line" routerLinkActive="active" routerLink="form-history">
+              <i class="fas fa-arrow-right"></i>
+              {{_t.translate('Form History')}}
+            </div>
+            <div class="list-item under-line" routerLinkActive="active" routerLink="setting">
+              <i class="fas fa-arrow-right"></i>
+              {{_t.translate('Setting')}}
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-8 col-lg-9">
+          <router-outlet></router-outlet>
+        </div>
+
+    </div>
+  </div>
+</section>

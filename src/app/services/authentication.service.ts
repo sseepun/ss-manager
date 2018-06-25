@@ -7,6 +7,8 @@ import { User } from '../schemas/user';
 
 import { SocketioService } from './socketio.service';
 
+import { TranslationService } from './translation.service';
+
 @Injectable()
 export class AuthenticationService {
 
@@ -14,7 +16,8 @@ export class AuthenticationService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
   constructor(
-    private http: Http, private _socketio: SocketioService
+    private http: Http, private _socketio: SocketioService,
+    private _t: TranslationService
   ) { }
 
   authenticate(): Promise<JsonResponse> {
@@ -23,6 +26,18 @@ export class AuthenticationService {
       .then(response => {
         let result = response.json();
         if (testing) console.log(result.message);
+        if (result.status) this._socketio.login(result.data.username);
+        return result as JsonResponse;
+      })
+      .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
+  }
+  cookieLanguage(): void {
+    let url = this.apiUrl + '/cookielanguage';
+    this.http.get(url).toPromise()
+      .then(response => {
+        let result = response.json();
+        if (testing) console.log(result.message);
+        if (result.status) this._t.setLanguage(result.data);
         return result as JsonResponse;
       })
       .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
@@ -45,7 +60,7 @@ export class AuthenticationService {
       .then(response => {
         let result = response.json();
         if (testing) console.log(result.message);
-        if (response.status) this._socketio.login(result.data.username);
+        if (result.status) this._socketio.login(result.data.username);
         return result as JsonResponse;
       })
       .catch(err => {return {status: false, message: err, data: null} as JsonResponse});

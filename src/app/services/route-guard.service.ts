@@ -7,7 +7,7 @@ import { UserService } from './user.service';
 export class GuestRouteGuard implements CanActivate {
   constructor(private _user: UserService, private router: Router) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this._user.isLoggedIn) {
       this.router.navigate(['/']);
       return false;
@@ -20,7 +20,7 @@ export class GuestRouteGuard implements CanActivate {
 export class MemberRouteGuard implements CanActivate, CanActivateChild {
   constructor(private _user: UserService, private router: Router) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (!this._user.isLoggedIn || !this._user.isActive) {
       this.router.navigate(['/']);
       return false;
@@ -37,7 +37,7 @@ export class MemberRouteGuard implements CanActivate, CanActivateChild {
 export class AdminRouteGuard implements CanActivate, CanActivateChild {
   constructor(private _user: UserService, private router: Router) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (!this._user.isLoggedIn || !this._user.isActive || !this._user.isAdmin) {
       this.router.navigate(['/']);
       return false;

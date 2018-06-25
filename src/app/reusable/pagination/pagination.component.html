@@ -1,0 +1,16 @@
+<div class="row pagination-container">
+  <ul class="pagination-wraper">
+    <li [ngClass]="{'active':selected.page!==0}" (click)="previousPage()">
+      <span><i class="fas fa-angle-left"></i></span>
+    </li>
+
+    <li *ngFor="let page of pagination;" (click)="selectPage(page)"
+    [ngClass]="{'active':page!==selected.page, 'selected':page===selected.page}">
+      <span>{{page+1}}</span>
+    </li>
+
+    <li [ngClass]="{'active':selected.page!==pagination.length-1}" (click)="nextPage()">
+      <span><i class="fas fa-angle-right"></i></span>
+    </li>
+  </ul>
+</div>

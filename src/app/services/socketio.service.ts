@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
-import { ipHost } from 'globals';
+import { ipHost } from '../globals';
+
+import { SSForm } from '../schemas/ss-form';
+import { SubmittedForm } from '../schemas/submitted-form';
 
 @Injectable()
 export class SocketioService {
@@ -11,7 +14,7 @@ export class SocketioService {
   constructor(
   ) { }
 
-  connect() {
+  connect(): void {
     this.socket.on('online-users', function(onlineUsers) {
       this.onlineUsers = onlineUsers;
     }.bind(this));
@@ -19,27 +22,25 @@ export class SocketioService {
   }
   getSocket() { return this.socket; }
 
-  getOnlineUsers() { return this.onlineUsers; }
-
-  newMember(username) {this.socket.emit('new-member', username)}
-
-  login(username) {this.socket.emit('member-login', username)}
-  logout() {this.socket.emit('member-logout')}
+  getOnlineUsers(): Array<string> { return this.onlineUsers; }
+  newMember(username: string): void {this.socket.emit('new-member', username)}
+  login(username: string): void {this.socket.emit('member-login', username)}
+  logout(): void {this.socket.emit('member-logout')}
 
   // User account changing
-  accountStatus(userId) {this.socket.emit('account-status', userId)}
-  accountPrivilage(userId) {this.socket.emit('account-privilage', userId)}
-  deleteAccount(userId) {this.socket.emit('account-delete', userId)}
+  accountStatus(userId: string): void {this.socket.emit('account-status', userId)}
+  accountPrivilage(userId: string): void {this.socket.emit('account-privilage', userId)}
+  deleteAccount(userId: string): void {this.socket.emit('account-delete', userId)}
 
   // Forms
-  userFormSubmitted(formId) {this.socket.emit('form-submitted', formId)}
-  deletedUserForm(form) {this.socket.emit('form-deleted', form)}
-  submittedFormStatusChange(form) {
+  userFormSubmitted(formId: string): void {this.socket.emit('form-submitted', formId)}
+  deletedUserForm(form: SubmittedForm): void {this.socket.emit('form-deleted', form)}
+  submittedFormStatusChange(form: SubmittedForm): void {
     this.socket.emit('form-status', form.formId);
     this.socket.emit('form-user-status', form);
   }
 
   // Main forms
-  deleteGovForm(govForm) {this.socket.emit('main-form-deleted')}
+  deleteForm(form: SSForm): void {this.socket.emit('main-form-deleted')}
 
 }

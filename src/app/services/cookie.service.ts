@@ -33,5 +33,15 @@ export class CookieService {
       })
       .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
   }
+  setLanguageCookie(language: string): void {
+    let url = this.apiUrl + '/setlanguagecookie/' + language;
+    this.http.get(url).toPromise()
+      .then(response => {
+        let result = response.json();
+        if (testing) console.log(result.message);
+        return result as JsonResponse;
+      })
+      .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
+  }
 
 }

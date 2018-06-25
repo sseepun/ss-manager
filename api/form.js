@@ -6,7 +6,6 @@ const fs = require('fs');
 
 router.get('/getformcategory', (req, res)=>{
     let dbFormCategory = req.db.get('formCategory');
-    
     dbFormCategory.find()
         .then(check1=>{
             res.json({status:true, message:'Get form category successfully!', data:check1});
@@ -72,7 +71,7 @@ router.get('/getformdetail/:accessCode', (req, res)=>{
     
     dbForms.findOne({ accessCode: accessCode })
         .then(check1=>{
-            if (check1===null) res.json({status:false, message:'Get form detail fail: Cannot find the form.', data:0});
+            if (check1===null) res.json({status:false, message:'Get form detail failed: Cannot find the form.', data:0});
             else res.json({status:true, message:'Get form detail successfully!', data:check1})
         })
         .catch(err1=>{res.json({status:false, message:'Get form detail error: '+err1, data:null})});
@@ -127,8 +126,8 @@ router.get('/getsubmittedforms/:userId/:start/:limit/:sort', (req, res)=>{
     .catch(err1=>{res.json({status:false, message:'Get submitted forms error: '+err1, data:null})});
 });
 
-router.post('/submit', (req, res)=>{
-    let input = req.body.input,
+router.post('/submitform', (req, res)=>{
+    let input = req.body,
         userId = req.db.id(input.userId),
         formId = req.db.id(input.formId),
         formValue = input.formValue;
@@ -142,41 +141,33 @@ router.post('/submit', (req, res)=>{
 
     dbSubmittedForms.insert(insertObj)
     .then(check1=>{
-        res.json({status:true, message:'Submit gov form successfully!', data:formId});
+        res.json({status:true, message:'Submit form successfully!', data:formId});
     })
-    .catch(err1=>{res.json({status:false, message:'Submit gov form error: '+err1, data:null})}); 
+    .catch(err1=>{res.json({status:false, message:'Submit form error: '+err1, data:null})}); 
 });
-router.post('/editform', (req, res)=>{
-    let input = req.body.input,
+router.post('/editsubmittedform', (req, res)=>{
+    let input = req.body,
         formId = req.db.id(input.formId),
         formValue = input.formValue;
     let dbSubmittedForms = req.db.get('submittedForms');
 
     dbSubmittedForms.findOne({_id: formId})
         .then(check1=>{
-            if (check1===null) res.json({status:false, message:'Edit gov form fail: Cannot find the form.', data:0});
+            if (check1===null) res.json({status:false, message:'Edit submitted form failed: Cannot find the submitted form.', data:0});
             else {
-                // if (check1.status!='Pending') res.json({status:true, message:'Edit gov form fail: The form has already been approved.', data:1});
-                // else {
-                //     check1.formValue = formValue;
-                //     dbSubmittedForms.update({_id: formId}, check1, { multi: false })
-                //         .then(check2=>{
-                //             res.json({status:true, message:'Edit gov form successfully!', data:1});
-                //         });
-                // }
                 check1.formValue = formValue;
                 if (input.evidences!==undefined) check1['evidences'] = input.evidences;
 
                 dbSubmittedForms.update({_id: formId}, check1, { multi: false })
                     .then(check2=>{
-                        res.json({status:true, message:'Edit gov form successfully!', data:1});
+                        res.json({status:true, message:'Edit submitted form successfully!', data:1});
                     });
             }
         })
-        .catch(err1=>{res.json({status:false, message:'Edit gov form error: '+err1, data:null})}); 
+        .catch(err1=>{res.json({status:false, message:'Edit submitted form error: '+err1, data:null})}); 
 });
 router.post('/deletesubmittedform', (req, res)=>{
-    let input = req.body.input,
+    let input = req.body,
         userId = req.db.id(input.userId),
         formId = req.db.id(input.formId);
     let dbSubmittedForms = req.db.get('submittedForms');
@@ -314,7 +305,7 @@ router.get('/admingetsubmittedforms/:formId/:start/:limit/:sort', (req, res)=>{
     })
     .catch(err1=>{res.json({status:false, message:'Get admin submitted forms error: '+err1, data:null})});
 });
-router.get('/admingetgovforms/:start/:limit/:sort/:search', (req, res)=>{
+router.get('/admingetforms/:start/:limit/:sort/:search', (req, res)=>{
     let start = Number(req.params.start),
         limit = Number(req.params.limit),
         sort = req.params.sort,
@@ -348,23 +339,23 @@ router.get('/admingetgovforms/:start/:limit/:sort/:search', (req, res)=>{
             dbForms.count(query)
                 .then(totalForms=>{
                     res.json({
-                        status: true, message: 'Get gov forms successfully!', 
+                        status: true, message: 'Get forms successfully!', 
                         data: check1, totalForms: totalForms
                     });
                 });
         })
-        .catch(err1=>{res.json({status:false, message:'Get gov forms error: '+err1, data:null})});
+        .catch(err1=>{res.json({status:false, message:'Get forms error: '+err1, data:null})});
 });
 
 router.post('/setsubmittedformstatus', (req, res)=>{
-    let formId = req.db.id(req.body.input.formId),
-        status = req.body.input.status,
-        approver = req.body.input.approver;
+    let formId = req.db.id(req.body.formId),
+        status = req.body.status,
+        approver = req.body.approver;
     let dbSubmittedForms = req.db.get('submittedForms');
 
     dbSubmittedForms.findOne({ _id: formId })
         .then(check1=>{
-            if (check1===null) res.json({status:false, message:'Set submitted form status fail: Cannot find the form.', data:0});
+            if (check1===null) res.json({status:false, message:'Set submitted form status failed: Cannot find the form.', data:0});
             else {
                 check1.status = status;
                 check1.approverId = req.db.id(approver._id);
@@ -377,95 +368,95 @@ router.post('/setsubmittedformstatus', (req, res)=>{
         })
         .catch(err1=>{res.json({status:false, message:'Set submitted form status error: '+err1, data:null})});        
 });
-router.post('/setgovformstatus', (req, res)=>{
-    let formId = req.db.id(req.body.input.formId),
-        status = req.body.input.status;
+router.post('/setformstatus', (req, res)=>{
+    let formId = req.db.id(req.body.formId),
+        status = req.body.status;
     let dbForms = req.db.get('forms');
 
     dbForms.findOne({ _id: formId })
         .then(check1=>{
-            if (check1===null) res.json({status:false, message:'Set gov form status fail: Cannot find the form.', data:0});
+            if (check1===null) res.json({status:false, message:'Set form status failed: Cannot find the form.', data:0});
             else {
                 check1.status = status;
                 dbForms.update({ _id: formId }, check1, { multi: false })
                     .then(()=>{
-                        res.json({ status:true, message:'The gov form status is set successfully.', data:1});
+                        res.json({ status:true, message:'The form status is set successfully.', data:1});
                     });
             }
         })
-        .catch(err1=>{res.json({status:false, message:'Set gov form status error: '+err1, data:null})});        
+        .catch(err1=>{res.json({status:false, message:'Set form status error: '+err1, data:null})});        
 });
 
-router.post('/creategovform', (req, res)=>{
-    let govForm = req.body.input.govForm;
+router.post('/createform', (req, res)=>{
+    let form = req.body.form;
     let dbForms = req.db.get('forms');
 
     dbForms.findOne({}, {sort: {_id:-1}})
         .then(check1=>{
             let count = 0;
-            if (check1!==null) count = Number(check1.accessCode.replace('gov-form', ''));
+            if (check1!==null) count = Number(check1.accessCode.replace('form-', ''));
 
-            if (govForm.creatorId!==undefined) govForm.creatorId = req.db.id(govForm.creatorId);
-            govForm.accessCode = 'gov-form' + (count+1);
-            dbForms.insert(govForm)
+            if (form.creatorId!==undefined) form.creatorId = req.db.id(form.creatorId);
+            form.accessCode = 'form-' + (count+1);
+            dbForms.insert(form)
                 .then(check2=>{
-                    res.json({status:true, message:'Create gov form successfully.', data:1});
+                    res.json({status:true, message:'Create form successfully.', data:1});
                 })
-                .catch(err2=>{res.json({status:false, message:'Create gov form error: '+err2, data:null})}); 
+                .catch(err2=>{res.json({status:false, message:'Create form error: '+err2, data:null})}); 
         })
-        .catch(err1=>{res.json({status:false, message:'Create gov form error: '+err1, data:null})});       
+        .catch(err1=>{res.json({status:false, message:'Create form error: '+err1, data:null})});       
 });
-router.post('/deletegovform', (req, res)=>{
-    let govForm = req.body.input.govForm,
-        govFormId = req.db.id(govForm._id);
+router.post('/deleteform', (req, res)=>{
+    let form = req.body.form,
+        formId = req.db.id(form._id);
     let dbForms = req.db.get('forms'),
         dbSubmittedForms = req.db.get('submittedForms');
 
-    dbForms.remove({ _id: govFormId }, { justOne: true }).then(check1=>{
-        let path1 = 'public/forms/' + govForm.pdfForm;
+    dbForms.remove({ _id: formId }, { justOne: true }).then(check1=>{
+        let path1 = 'public/forms/' + form.pdfForm;
         if (fs.existsSync(path1)) fs.unlinkSync(path1);
 
-        if (govForm.previewUrl!==undefined && govForm.previewUrl!==null && govForm.previewUrl!='') {
-            let path2 = 'public/formPreview/' + govForm.previewUrl;
+        if (form.previewUrl!==undefined && form.previewUrl!==null && form.previewUrl!='') {
+            let path2 = 'public/formPreview/' + form.previewUrl;
             if (fs.existsSync(path2)) fs.unlinkSync(path2);
         }
 
-        if (!govForm.requireEvidence) {
-            dbSubmittedForms.remove({ formId: govFormId }).then(check2=>{
-                res.json({status:true, message:'Delete gov form successfully!', data:1})
+        if (!form.requireEvidence) {
+            dbSubmittedForms.remove({ formId: formId }).then(check2=>{
+                res.json({status:true, message:'Delete form successfully!', data:1})
             })
-            .catch(err2=>{res.json({status:false, message:'Delete gov form error: '+err2, data:null})});
+            .catch(err2=>{res.json({status:false, message:'Delete form error: '+err2, data:null})});
         } else {
             // To do if form require evidence
-            dbSubmittedForms.remove({ formId: govFormId }).then(check2=>{
-                res.json({status:true, message:'Delete gov form successfully!', data:1})
+            dbSubmittedForms.remove({ formId: formId }).then(check2=>{
+                res.json({status:true, message:'Delete form successfully!', data:1})
             })
-            .catch(err2=>{res.json({status:false, message:'Delete gov form error: '+err2, data:null})});
+            .catch(err2=>{res.json({status:false, message:'Delete form error: '+err2, data:null})});
         }
     })
-    .catch(err1=>{res.json({status:false, message:'Delete gov form error: '+err1, data:null})});     
+    .catch(err1=>{res.json({status:false, message:'Delete form error: '+err1, data:null})});     
 });
-router.post('/editgovform', (req, res)=>{
-    let govForm = req.body.input.govForm,
-        formId = req.db.id(govForm._id);
+router.post('/editform', (req, res)=>{
+    let form = req.body.form,
+        formId = req.db.id(form._id);
     let dbForms = req.db.get('forms');
 
     dbForms.findOne({_id: formId})
         .then(check1=>{
-            if (check1===null) res.json({status:false, message:'Edit gov form fail: Cannot find the gov form.', data:0});
+            if (check1===null) res.json({status:false, message:'Edit form failed: Cannot find the gov form.', data:0});
             else {
-                let editedForm = {...check1, ...govForm};
+                let editedForm = {...check1, ...form};
                 dbForms.update({ _id: formId }, editedForm, { multi: false })
                     .then(()=>{
-                        res.json({ status:true, message:'The gov form is edited successfully.', data:1});
+                        res.json({ status:true, message:'The form is edited successfully.', data:1});
                     });
             } 
         })
-        .catch(err1=>{res.json({status:false, message:'Edit gov form error: '+err1, data:null})});       
+        .catch(err1=>{res.json({status:false, message:'Edit form error: '+err1, data:null})});       
 });
 
-router.post('/addgovformcategory', (req, res)=>{
-    let formCategory = req.body.input.formCategory;
+router.post('/addformcategory', (req, res)=>{
+    let formCategory = req.body.formCategory;
     let dbFormCategory = req.db.get('formCategory');
 
     dbFormCategory.findOne({
@@ -475,27 +466,27 @@ router.post('/addgovformcategory', (req, res)=>{
         ]
     })
     .then(check1=>{
-        if (check1!==null) res.json({status:false, message:'Add gov form category fail: Repeated category name.', data:0});
+        if (check1!==null) res.json({status:false, message:'Add form category failed: Repeated category name.', data:0});
         else {
             dbFormCategory.insert(formCategory)
                 .then(check2=>{
-                    res.json({status:true, message:'Add gov form category successfully.', data:1});
+                    res.json({status:true, message:'Add form category successfully.', data:1});
                 })
-                .catch(err2=>{res.json({status:false, message:'Add gov form category error: '+err2, data:null})});
+                .catch(err2=>{res.json({status:false, message:'Add form category error: '+err2, data:null})});
         } 
     })
-    .catch(err1=>{res.json({status:false, message:'Add gov form category error: '+err1, data:null})});       
+    .catch(err1=>{res.json({status:false, message:'Add form category error: '+err1, data:null})});       
 });
-router.post('/deletegovformcategory', (req, res)=>{
-    let formCategory = req.body.input.formCategory,
+router.post('/deleteformcategory', (req, res)=>{
+    let formCategory = req.body.formCategory,
         formId = req.db.id(formCategory._id);
     let dbFormCategory = req.db.get('formCategory');
 
     dbFormCategory.remove({_id: formId}, { justOne: true })
         .then(check1=>{
-            res.json({status:true, message:'Delete gov form category successfully!', data:1});
+            res.json({status:true, message:'Delete form category successfully!', data:1});
         })
-        .catch(err1=>{res.json({status:false, message:'Delete gov form category error: '+err1, data:null})});       
+        .catch(err1=>{res.json({status:false, message:'Delete form category error: '+err1, data:null})});       
 });
 
 

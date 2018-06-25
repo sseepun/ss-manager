@@ -1,0 +1,45 @@
+<app-table-search [type]="2" [criteria]="options" [selected]="criteria" 
+(criteriaChange)="criteriaChange($event)"></app-table-search>
+
+<div class="row form-container">
+  
+  <div class="table-container"><table><tbody>
+    <tr>
+      <th width="45%">{{_t.translate('Form Name')}}</th>
+      <th width="22%">{{_t.translate('Submitted Date')}}</th>
+      <th width="15%">{{_t.translate('Status')}}</th>
+      <th width="18%">{{_t.translate('Actions')}}</th>
+    </tr>
+    <tr *ngIf="forms===null"><td colspan="4">
+      {{_t.translate('Loading submitted form history')}}...
+    </td></tr>
+    <tr *ngIf="forms!==null && forms.length==0"><td colspan="4">
+      {{_t.translate('No submitted forms found.')}}
+    </td></tr>
+    <ng-container *ngIf="forms!==null && forms.length>0">
+      <tr *ngFor="let form of forms;">
+        <td *ngIf="_t.getLanguage==='TH'" class="col-left">{{form.form.nameTH}}</td>
+        <td *ngIf="_t.getLanguage==='EN'" class="col-left">{{form.form.nameEN}}</td>
+        <td>{{dateFromObjectId(form._id)}}</td>
+        <td [ngClass]="{'danger':form.status=='Not approved', 'warning':form.status=='Pending', 'primary':form.status=='Approved'}">
+          {{form.status}}
+        </td>
+
+        <!-- Pending forms -->
+        <td *ngIf="form.status==='Pending'">
+          <i class="far fa-address-book primary" (click)="viewSubmittedForm(form)" title="View"></i>&nbsp;
+          <i class="fas fa-edit warning" (click)="editSubmittedForm(form)" title="Edit"></i>&nbsp;
+          <i class="far fa-trash-alt danger" (click)="tryDeleteForm(form)" title="Delete"></i>
+        </td>
+        <!-- Approved / Not approved forms -->
+        <td *ngIf="form.status==='Not approved' || form.status==='Approved'">
+          <i class="far fa-address-book primary" (click)="viewSubmittedForm(form)" title="View"></i>
+        </td>
+
+      </tr>
+    </ng-container>
+  </tbody></table></div>
+
+</div>
+
+<app-pagination [pagination]="pagination" [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-pagination>

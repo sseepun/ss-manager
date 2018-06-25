@@ -25,7 +25,12 @@ router.get('/authenticate', (req, res) => {
           });
         } else logout(res, 'Authentication failed: Mismatched username.');
       }).catch(err => logout(res, 'Authentication failed: ' + err));
-  } else res.json({status: true, message: 'No cookie logged in.', data: 0});
+  } else res.json({status: false, message: 'No cookie logged in.', data: 0});
+});
+router.get('/cookielanguage', (req, res) => {
+  if (req.cookies.language) {
+    res.json({status: true, message: 'Cookie language found.', data: req.cookies.language});
+  } else res.json({status: false, message: 'No cookie language found.', data: 0});
 });
 router.post('/register', (req, res) => {
   let input = req.body;

@@ -59,7 +59,7 @@ exports = module.exports = function (io) {
     socket.on('form-user-status', form => { io.emit('announce-form-user-status', form); });
 
     // Announcement: Main forms
-    socket.on('main-form-deleted', govForm => { io.emit('announce-main-form-deleted', govForm); });
+    socket.on('main-form-deleted', form => { io.emit('announce-main-form-deleted', form); });
 
     socket.on('disconnect', () => {
       onlineUsers.splice(onlineUsers.indexOf(userInfo.username), 1);

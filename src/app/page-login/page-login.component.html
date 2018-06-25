@@ -1,0 +1,50 @@
+<div class="header-space"></div>
+
+<section class="contact top-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 style="margin-bottom:25px;">{{_t.translate('Sign In')}}</h2>
+      </div>
+      
+      <div class="col-md-1 col-lg-2"></div>
+      <div class="col-md-10 col-lg-8 mt-4">
+        <form #login="ngForm" (ngSubmit)="memberLogIn(login)" ngNativeValidate>
+          <div class="row justify-content-center">
+            
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                {{_t.translate('Username')}}
+                <input class="form-control" type="text" name="username" value="" ngModel required>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                {{_t.translate('Password')}}
+                <input class="form-control" type="password" name="password" value="" ngModel required>
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-12 error-box">
+              <span *ngIf="loginMsg!==null">* {{loginMsg}}</span>
+            </div>            
+
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                  <input name="rememberme" type="checkbox" ngModel> {{_t.translate('Remember me')}}
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group last-row">
+                  {{_t.translate('Forgot')}}
+                  <a routerLink="/recover/username">{{_t.translate('username')}}</a> /
+                  <a routerLink="/recover/password">{{_t.translate('password')}}</a> ?
+              </div>
+            </div>
+            
+            <button class="btn btn-success" type="submit" style="padding:6px 20px;">{{_t.translate('Sign In')}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,73 @@
+<nav class="navbar fixed-top custom-nav">
+  <div class="container">
+    <div class="logo">
+      <h6 class="logo-title">SSM</h6>
+    </div>
+    <div class="d-xl-none d-lg-none">
+      <button class="navbar-toggle" type="button" data-toggle="menu-side" data-target=".side-menu" data-target-2=".side-menu-container">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div class="side-menu in">
+      <div class="theme">
+        <a class="d-md-none d-sm-none d-none d-lg-inline-block setting" href="#"><i class="fas fa-cog"></i></a>
+        <a id="day" class="active-theme" data-theme="assets/css/theme/day.css"><i class="fas fa-sun"></i></a>
+        <a id="night" data-theme="assets/css/theme/night.css"><i class="fas fa-moon"></i></a>
+      </div>
+      <div class="theme theme-language">
+        <a class="d-md-none d-sm-none d-none d-lg-inline-block setting" href="#"><i class="fas fa-globe"></i></a>
+        <a class="active-theme" (click)="_t.setLanguage('EN')">EN</a>
+        <a (click)="_t.setLanguage('TH')">TH</a>
+      </div>
+
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/" 
+          [routerLinkActiveOptions]="{exact: true}">{{_t.translate('Home')}}</a>
+        </li>
+
+        <ng-container *ngIf="!_user.isLoggedIn">
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="/login">{{_t.translate('Sign In')}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="/register">{{_t.translate('Sign Up')}}</a>
+          </li>
+        </ng-container>
+
+        <li class="nav-item" *ngIf="_user.isLoggedIn && _user.isActive && _user.isAdmin">
+          <a class="nav-link" routerLinkActive="active" routerLink="/admin-panel">{{_t.translate('Admin Panel')}}</a>
+        </li>
+
+        <ng-container *ngIf="_user.isLoggedIn && _user.isActive">
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="/user-panel">
+              {{_t.translate('Hello,')}} <span class="main-color strong">{{helloUsername()}}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="/forms">{{_t.translate('Forms')}}</a>
+          </li>
+        </ng-container>
+
+        <li class="nav-item" *ngIf="_user.isLoggedIn && !_user.isActive">
+          <a class="nav-link" routerLinkActive="active" routerLink="/status">
+            {{_t.translate('Status')}}: <span [ngClass]="statusClass()">{{userStatus()}}</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/about">{{_t.translate('About')}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/contact">{{_t.translate('Contact')}}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="_user.isLoggedIn">
+          <a class="nav-link" (click)="memberLogOut()">{{_t.translate('Sign Out')}}</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>

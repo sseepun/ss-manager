@@ -1,0 +1,54 @@
+<div class="header-space"></div>
+
+<section class="contact content-section">
+  <div class="container">
+    <div class="row">
+      
+        <div class="col-md-4 col-lg-3">
+          <h2 class="list-header under-line">{{_t.translate('Form Category')}}</h2>
+          <div class="list-container">
+            <div class="list-item under-line" [ngClass]="{'active':pageName=='All Forms'}"
+            (click)="changeFormCategory('All Forms')">
+              <i class="fas fa-arrow-right"></i>
+              {{_t.translate('All Forms')}}
+            </div>
+            <div *ngFor="let category of formCatagory;" class="list-item under-line"
+            [ngClass]="{'active':pageName===category.categoryEN}"
+            (click)="changeFormCategory(category.categoryEN)">
+              <i class="fas fa-arrow-right"></i>
+              <ng-container *ngIf="_t.getLanguage==='TH'">{{category.categoryTH}}</ng-container>
+              <ng-container *ngIf="_t.getLanguage==='EN'">{{category.categoryEN}}</ng-container>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-8 col-lg-9">
+          <app-table-search [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-table-search>
+
+          <div class="row form-container">
+            <h2 *ngIf="forms===null" class="result-err-table-text">{{_t.translate('Loading forms')}}...</h2>
+            <h2 *ngIf="forms!==null && forms.length==0" class="result-err-table-text">{{_t.translate('No forms available.')}}</h2>
+
+            <ng-container *ngIf="forms!==null && forms.length>0">
+              <div *ngFor="let form of forms;" class="col-sm-6 col-md-6 col-lg-4 form-selection-container"
+              routerLink="/forms/{{form.accessCode}}">
+                <div class="form-selection">
+                  <img class="form-img" [src]="formPreview(form)">
+                  <div class="form-cover"></div>
+                  <h2 class="form-owner">{{formOwner(form)}} Form</h2>
+                  <div class="form-desc">{{formName(form)}}</div>
+                  <div class="form-date">
+                    {{_t.translate('Create date')}}: 
+                    <span>{{dateFromObjectId(form._id)}}</span>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+
+          <app-pagination [pagination]="pagination" [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-pagination>
+        </div>
+
+    </div>
+  </div>
+</section>
