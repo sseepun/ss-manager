@@ -30,8 +30,14 @@ router.get('/authenticate', (req, res) => {
 router.get('/cookielanguage', (req, res) => {
   if (req.cookies.language) {
     res.json({status: true, message: 'Cookie language found.', data: req.cookies.language});
-  } else res.json({status: false, message: 'No cookie language found.', data: 0});
+  } else res.json({status: false, message: 'Cookie language not found.', data: 0});
 });
+router.get('/cookietheme', (req, res) => {
+  if (req.cookies.theme) {
+    res.json({status: true, message: 'Cookie theme found.', data: req.cookies.theme});
+  } else res.json({status: false, message: 'Cookie theme not found.', data: 0});
+});
+
 router.post('/register', (req, res) => {
   let input = req.body;
   let dbUsers = req.db.get('users'),
@@ -104,7 +110,6 @@ router.post('/login', (req, res) => {
     })
     .catch(err => {res.json({status: false, message: 'Login failed: ' + err.message, data: err.message})});
 });
-
 
 function logout(res, msg) {
   res.clearCookie('_id');

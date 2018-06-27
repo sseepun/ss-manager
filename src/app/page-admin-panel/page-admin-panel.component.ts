@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslationService } from '../services/translation.service';
 
 @Component({
   selector: 'app-page-admin-panel',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageAdminPanelComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public _t: TranslationService
+  ) { }
 
   ngOnInit() {
   }

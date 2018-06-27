@@ -7,6 +7,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 // Routing Modules
 import { PageUserPanelRoutingModule } from './page-user-panel/page-user-panel-routing.module';
+import { PageAdminPanelRoutingModule } from './page-admin-panel/page-admin-panel-routing.module';
 import { AppRoutingModule } from './app-routing.module';
 
 // Services
@@ -41,6 +42,11 @@ import { PageUserFormHistoryComponent } from './page-user-panel/page-user-form-h
 import { PageUserSettingComponent } from './page-user-panel/page-user-setting/page-user-setting.component';
 import { UserProfileComponent } from './reusable/user-profile/user-profile.component';
 import { FormResultComponent } from './reusable/form-result/form-result.component';
+import { PageAdminStatisticsComponent } from './page-admin-panel/page-admin-statistics/page-admin-statistics.component';
+import { PageAdminSubmittedFormsComponent } from './page-admin-panel/page-admin-submitted-forms/page-admin-submitted-forms.component';
+import { PageAdminFormCategoryComponent } from './page-admin-panel/page-admin-form-category/page-admin-form-category.component';
+import { PageAdminUserManagementComponent } from './page-admin-panel/page-admin-user-management/page-admin-user-management.component';
+import { PageAdminFormManagementComponent } from './page-admin-panel/page-admin-form-management/page-admin-form-management.component';
 
 
 @NgModule({
@@ -64,7 +70,12 @@ import { FormResultComponent } from './reusable/form-result/form-result.componen
     PageUserFormHistoryComponent,
     PageUserSettingComponent,
     UserProfileComponent,
-    FormResultComponent
+    FormResultComponent,
+    PageAdminStatisticsComponent,
+    PageAdminSubmittedFormsComponent,
+    PageAdminFormCategoryComponent,
+    PageAdminUserManagementComponent,
+    PageAdminFormManagementComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +83,7 @@ import { FormResultComponent } from './reusable/form-result/form-result.componen
     FormsModule,
     PdfViewerModule,
     PageUserPanelRoutingModule,
+    PageAdminPanelRoutingModule,
     AppRoutingModule
   ],
   providers: [

@@ -1,5 +1,39 @@
 <div class="header-space"></div>
 
-<p>
-  page-admin-panel works!
-</p>
+<section class="contact content-section">
+  <div class="container">
+    <div class="row">
+      
+        <div class="col-md-4 col-lg-3">
+          <h2 class="list-header under-line">{{_t.translate('Admin Panel')}}</h2>
+          <div class="list-container">
+            <div class="list-item under-line" routerLinkActive="active" routerLink="statistics">
+              <i class="fas fa-arrow-right"></i>
+              {{_t.translate('Statistic')}}
+            </div>
+            <div class="list-item under-line" routerLinkActive="active" routerLink="submitted-forms">
+              <i class="fas fa-arrow-right"></i>
+              {{_t.translate('Submitted Forms')}}
+            </div>
+            <div class="list-item under-line" routerLinkActive="active" routerLink="form-management">
+              <i class="fas fa-arrow-right"></i>
+              {{_t.translate('Form Management')}}
+            </div>
+            <div class="list-item under-line" routerLinkActive="active" routerLink="form-category">
+              <i class="fas fa-arrow-right"></i>
+              {{_t.translate('Form Category')}}
+            </div>
+            <div class="list-item under-line" routerLinkActive="active" routerLink="user-management">
+              <i class="fas fa-arrow-right"></i>
+              {{_t.translate('User Management')}}
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-8 col-lg-9">
+          <router-outlet></router-outlet>
+        </div>
+
+    </div>
+  </div>
+</section>

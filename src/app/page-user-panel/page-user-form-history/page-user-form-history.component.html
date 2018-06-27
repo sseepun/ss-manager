@@ -2,7 +2,6 @@
 (criteriaChange)="criteriaChange($event)"></app-table-search>
 
 <div class="row form-container">
-  
   <div class="table-container"><table><tbody>
     <tr>
       <th width="45%">{{_t.translate('Form Name')}}</th>
@@ -19,7 +18,7 @@
     <ng-container *ngIf="forms!==null && forms.length>0">
       <tr *ngFor="let form of forms;">
         <td *ngIf="_t.getLanguage==='TH'" class="col-left">{{form.form.nameTH}}</td>
-        <td *ngIf="_t.getLanguage==='EN'" class="col-left">{{form.form.nameEN}}</td>
+        <td *ngIf="_t.getLanguage!=='TH'" class="col-left">{{form.form.nameEN}}</td>
         <td>{{dateFromObjectId(form._id)}}</td>
         <td [ngClass]="{'danger':form.status=='Not approved', 'warning':form.status=='Pending', 'primary':form.status=='Approved'}">
           {{form.status}}
@@ -29,7 +28,7 @@
         <td *ngIf="form.status==='Pending'">
           <i class="far fa-address-book primary" (click)="viewSubmittedForm(form)" title="View"></i>&nbsp;
           <i class="fas fa-edit warning" (click)="editSubmittedForm(form)" title="Edit"></i>&nbsp;
-          <i class="far fa-trash-alt danger" (click)="tryDeleteForm(form)" title="Delete"></i>
+          <i class="far fa-trash-alt danger" (click)="tryDeleteSubmittedForm(form)" title="Delete"></i>
         </td>
         <!-- Approved / Not approved forms -->
         <td *ngIf="form.status==='Not approved' || form.status==='Approved'">
@@ -39,7 +38,26 @@
       </tr>
     </ng-container>
   </tbody></table></div>
-
 </div>
 
 <app-pagination [pagination]="pagination" [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-pagination>
+
+<div *ngIf="selectedDeleteForm!==null" class="box-popup">
+  <div class="box-popup-container danger-border">
+    <h2 class="danger-color">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>
+    <h4 *ngIf="_t.getLanguage==='TH'"><strong>แบบฟอร์ม:</strong> {{selectedDeleteForm.form.nameTH}}</h4>
+    <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form:</strong> {{selectedDeleteForm.form.nameEN}}</h4>
+    <div class="box-popup-btn-container">
+        <input class="btn btn-danger" type="button" [value]="_t.translate('Delete this form')"
+          (click)="deleteSubmittedForm()">
+        <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+          (click)="cancelDeleteSubmittedForm()">
+    </div>
+  </div>
+</div>
+<div *ngIf="deleteNotification" class="notification-container">
+  <div class="notification danger-bg">
+    {{_t.translate('The submitted form has been deleted successfully!')}}
+    <i class="far fa-times-circle notification-close" (click)="deleteNotification=false;"></i>
+  </div>
+</div>

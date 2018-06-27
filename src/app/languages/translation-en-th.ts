@@ -9,7 +9,16 @@ export const Translate_EN_TH = {
     'password': 'รหัสผ่าน',
     'remember me': 'จำฉันไว้ในระบบ',
     'forgot': 'ลืม',
-    'admin panel': 'ระบบจัดการ Admin',
+    'admin panel': 'ระบบการจัดการผู้ดูแล',
+    'statistic': 'สถิติ',
+    'submitted forms': 'แบบฟอร์มที่ได้รับ',
+    'form management': 'การจัดการแบบฟอร์ม',
+    'form category': 'ประเภทของแบบฟอร์ม',
+    'user management': 'การจัดการผู้ใช้งาน',
+    'user panel': 'หน้าผู้ใช้งาน',
+    'profile': 'ข้อมูลส่วนตัว',
+    'form history': 'ประวัติการส่งแบบฟอร์ม',
+    'setting': 'ตั้งค่าการใช้งาน',
     'hello,': 'สวัสดี',
     'status': 'สถานะ',
     'e-mail': 'อีเมล',
@@ -62,6 +71,9 @@ export const Translate_EN_TH = {
     'submitted date': 'วันที่ส่ง',
     'actions': 'การจัดการ',
     'delete this form': 'ลบแบบฟอร์มนี้',
-    'edit this form': 'แก้ไขแบบฟอร์มนี้'
+    'edit this form': 'แก้ไขแบบฟอร์มนี้',
+    'do you really want to delete this submitted form?': 'คุณกำลังที่จะลบแบบฟอร์มของคุณ',
+    'cancel': 'ยกเลิก',
+    'the submitted form has been deleted successfully!': 'แบบฟอร์มของคุณถูกลบเรียบร้อบเเล้ว'
 };
   

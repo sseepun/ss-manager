@@ -17,7 +17,7 @@
             (click)="changeFormCategory(category.categoryEN)">
               <i class="fas fa-arrow-right"></i>
               <ng-container *ngIf="_t.getLanguage==='TH'">{{category.categoryTH}}</ng-container>
-              <ng-container *ngIf="_t.getLanguage==='EN'">{{category.categoryEN}}</ng-container>
+              <ng-container *ngIf="_t.getLanguage!=='TH'">{{category.categoryEN}}</ng-container>
             </div>
           </div>
         </div>

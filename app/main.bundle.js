@@ -214,6 +214,7 @@ var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js")
 var ng2_pdf_viewer_1 = __webpack_require__("./node_modules/ng2-pdf-viewer/ng2-pdf-viewer.es5.js");
 // Routing Modules
 var page_user_panel_routing_module_1 = __webpack_require__("./src/app/page-user-panel/page-user-panel-routing.module.ts");
+var page_admin_panel_routing_module_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-panel-routing.module.ts");
 var app_routing_module_1 = __webpack_require__("./src/app/app-routing.module.ts");
 // Services
 var admin_service_1 = __webpack_require__("./src/app/services/admin.service.ts");
@@ -246,6 +247,11 @@ var page_user_form_history_component_1 = __webpack_require__("./src/app/page-use
 var page_user_setting_component_1 = __webpack_require__("./src/app/page-user-panel/page-user-setting/page-user-setting.component.ts");
 var user_profile_component_1 = __webpack_require__("./src/app/reusable/user-profile/user-profile.component.ts");
 var form_result_component_1 = __webpack_require__("./src/app/reusable/form-result/form-result.component.ts");
+var page_admin_statistics_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-statistics/page-admin-statistics.component.ts");
+var page_admin_submitted_forms_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-submitted-forms/page-admin-submitted-forms.component.ts");
+var page_admin_form_category_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-form-category/page-admin-form-category.component.ts");
+var page_admin_user_management_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-user-management/page-admin-user-management.component.ts");
+var page_admin_form_management_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-form-management/page-admin-form-management.component.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -271,7 +277,12 @@ var AppModule = /** @class */ (function () {
                 page_user_form_history_component_1.PageUserFormHistoryComponent,
                 page_user_setting_component_1.PageUserSettingComponent,
                 user_profile_component_1.UserProfileComponent,
-                form_result_component_1.FormResultComponent
+                form_result_component_1.FormResultComponent,
+                page_admin_statistics_component_1.PageAdminStatisticsComponent,
+                page_admin_submitted_forms_component_1.PageAdminSubmittedFormsComponent,
+                page_admin_form_category_component_1.PageAdminFormCategoryComponent,
+                page_admin_user_management_component_1.PageAdminUserManagementComponent,
+                page_admin_form_management_component_1.PageAdminFormManagementComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,
@@ -279,6 +290,7 @@ var AppModule = /** @class */ (function () {
                 forms_1.FormsModule,
                 ng2_pdf_viewer_1.PdfViewerModule,
                 page_user_panel_routing_module_1.PageUserPanelRoutingModule,
+                page_admin_panel_routing_module_1.PageAdminPanelRoutingModule,
                 app_routing_module_1.AppRoutingModule
             ],
             providers: [
@@ -337,7 +349,16 @@ exports.Translate_EN_TH = {
     'password': 'รหัสผ่าน',
     'remember me': 'จำฉันไว้ในระบบ',
     'forgot': 'ลืม',
-    'admin panel': 'ระบบจัดการ Admin',
+    'admin panel': 'ระบบการจัดการผู้ดูแล',
+    'statistic': 'สถิติ',
+    'submitted forms': 'แบบฟอร์มที่ได้รับ',
+    'form management': 'การจัดการแบบฟอร์ม',
+    'form category': 'ประเภทของแบบฟอร์ม',
+    'user management': 'การจัดการผู้ใช้งาน',
+    'user panel': 'หน้าผู้ใช้งาน',
+    'profile': 'ข้อมูลส่วนตัว',
+    'form history': 'ประวัติการส่งแบบฟอร์ม',
+    'setting': 'ตั้งค่าการใช้งาน',
     'hello,': 'สวัสดี',
     'status': 'สถานะ',
     'e-mail': 'อีเมล',
@@ -383,7 +404,10 @@ exports.Translate_EN_TH = {
     'submitted date': 'วันที่ส่ง',
     'actions': 'การจัดการ',
     'delete this form': 'ลบแบบฟอร์มนี้',
-    'edit this form': 'แก้ไขแบบฟอร์มนี้'
+    'edit this form': 'แก้ไขแบบฟอร์มนี้',
+    'do you really want to delete this submitted form?': 'คุณกำลังที่จะลบแบบฟอร์มของคุณ',
+    'cancel': 'ยกเลิก',
+    'the submitted form has been deleted successfully!': 'แบบฟอร์มของคุณถูกลบเรียบร้อบเเล้ว'
 };
 
 
@@ -449,7 +473,7 @@ module.exports = ""
 /***/ "./src/app/navbars/header-navbar/header-navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar fixed-top custom-nav\">\n  <div class=\"container\">\n    <div class=\"logo\">\n      <h6 class=\"logo-title\">SSM</h6>\n    </div>\n    <div class=\"d-xl-none d-lg-none\">\n      <button class=\"navbar-toggle\" type=\"button\" data-toggle=\"menu-side\" data-target=\".side-menu\" data-target-2=\".side-menu-container\">\n        <i class=\"fas fa-bars\"></i>\n      </button>\n    </div>\n    <div class=\"side-menu in\">\n      <div class=\"theme\">\n        <a class=\"d-md-none d-sm-none d-none d-lg-inline-block setting\" href=\"#\"><i class=\"fas fa-cog\"></i></a>\n        <a id=\"day\" class=\"active-theme\" data-theme=\"assets/css/theme/day.css\"><i class=\"fas fa-sun\"></i></a>\n        <a id=\"night\" data-theme=\"assets/css/theme/night.css\"><i class=\"fas fa-moon\"></i></a>\n      </div>\n      <div class=\"theme theme-language\">\n        <a class=\"d-md-none d-sm-none d-none d-lg-inline-block setting\" href=\"#\"><i class=\"fas fa-globe\"></i></a>\n        <a class=\"active-theme\" (click)=\"_t.setLanguage('EN')\">EN</a>\n        <a (click)=\"_t.setLanguage('TH')\">TH</a>\n      </div>\n\n      <ul class=\"nav\">\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/\" \n          [routerLinkActiveOptions]=\"{exact: true}\">{{_t.translate('Home')}}</a>\n        </li>\n\n        <ng-container *ngIf=\"!_user.isLoggedIn\">\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/login\">{{_t.translate('Sign In')}}</a>\n          </li>\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/register\">{{_t.translate('Sign Up')}}</a>\n          </li>\n        </ng-container>\n\n        <li class=\"nav-item\" *ngIf=\"_user.isLoggedIn && _user.isActive && _user.isAdmin\">\n          <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/admin-panel\">{{_t.translate('Admin Panel')}}</a>\n        </li>\n\n        <ng-container *ngIf=\"_user.isLoggedIn && _user.isActive\">\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/user-panel\">\n              {{_t.translate('Hello,')}} <span class=\"main-color strong\">{{helloUsername()}}</span>\n            </a>\n          </li>\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/forms\">{{_t.translate('Forms')}}</a>\n          </li>\n        </ng-container>\n\n        <li class=\"nav-item\" *ngIf=\"_user.isLoggedIn && !_user.isActive\">\n          <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/status\">\n            {{_t.translate('Status')}}: <span [ngClass]=\"statusClass()\">{{userStatus()}}</span>\n          </a>\n        </li>\n\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/about\">{{_t.translate('About')}}</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/contact\">{{_t.translate('Contact')}}</a>\n        </li>\n\n        <li class=\"nav-item\" *ngIf=\"_user.isLoggedIn\">\n          <a class=\"nav-link\" (click)=\"memberLogOut()\">{{_t.translate('Sign Out')}}</a>\n        </li>\n      </ul>\n\n    </div>\n  </div>\n</nav>"
+module.exports = "<nav class=\"navbar fixed-top custom-nav\">\n  <div class=\"container\">\n    <div class=\"logo\">\n      <h6 class=\"logo-title\">SSM</h6>\n    </div>\n    <div class=\"d-xl-none d-lg-none\">\n      <button class=\"navbar-toggle\" type=\"button\" data-toggle=\"menu-side\" data-target=\".side-menu\" data-target-2=\".side-menu-container\">\n        <i class=\"fas fa-bars\"></i>\n      </button>\n    </div>\n    <div class=\"side-menu in\">\n      <div class=\"theme\">\n        <a class=\"d-md-none d-sm-none d-none d-lg-inline-block setting\" href=\"#\"><i class=\"fas fa-cog\"></i></a>\n        <a id=\"day\" class=\"active-theme\" data-theme=\"assets/css/theme/day.css\"\n          (click)=\"themeChange('day')\"><i class=\"fas fa-sun\"></i></a>\n        <a id=\"night\" data-theme=\"assets/css/theme/night.css\"\n          (click)=\"themeChange('night')\"><i class=\"fas fa-moon\"></i></a>\n      </div>\n      <div class=\"theme theme-language\">\n        <a class=\"d-md-none d-sm-none d-none d-lg-inline-block setting\" href=\"#\"><i class=\"fas fa-globe\"></i></a>\n        <a class=\"active-theme\" (click)=\"_t.setLanguage('EN')\">EN</a>\n        <a (click)=\"_t.setLanguage('TH')\">TH</a>\n      </div>\n\n      <ul class=\"nav\">\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/\" \n          [routerLinkActiveOptions]=\"{exact: true}\">{{_t.translate('Home')}}</a>\n        </li>\n\n        <ng-container *ngIf=\"!_user.isLoggedIn\">\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/login\">{{_t.translate('Sign In')}}</a>\n          </li>\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/register\">{{_t.translate('Sign Up')}}</a>\n          </li>\n        </ng-container>\n\n        <li class=\"nav-item\" *ngIf=\"_user.isLoggedIn && _user.isActive && _user.isAdmin\">\n          <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/admin-panel\">{{_t.translate('Admin Panel')}}</a>\n        </li>\n\n        <ng-container *ngIf=\"_user.isLoggedIn && _user.isActive\">\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/user-panel\">\n              {{_t.translate('Hello,')}} <span class=\"main-color strong\">{{helloUsername()}}</span>\n            </a>\n          </li>\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/forms\">{{_t.translate('Forms')}}</a>\n          </li>\n        </ng-container>\n\n        <li class=\"nav-item\" *ngIf=\"_user.isLoggedIn && !_user.isActive\">\n          <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/status\">\n            {{_t.translate('Status')}}: <span [ngClass]=\"statusClass()\">{{userStatus()}}</span>\n          </a>\n        </li>\n\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/about\">{{_t.translate('About')}}</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" routerLinkActive=\"active\" routerLink=\"/contact\">{{_t.translate('Contact')}}</a>\n        </li>\n\n        <li class=\"nav-item\" *ngIf=\"_user.isLoggedIn\">\n          <a class=\"nav-link\" (click)=\"memberLogOut()\">{{_t.translate('Sign Out')}}</a>\n        </li>\n      </ul>\n\n    </div>\n  </div>\n</nav>"
 
 /***/ }),
 
@@ -483,6 +507,9 @@ var HeaderNavbarComponent = /** @class */ (function () {
         this._user = _user;
     }
     HeaderNavbarComponent.prototype.ngOnInit = function () {
+    };
+    HeaderNavbarComponent.prototype.themeChange = function (theme) {
+        this._cookie.setThemeCookie(theme);
     };
     HeaderNavbarComponent.prototype.helloUsername = function () {
         var name = this._user.getUser().username.substring(0, this._user.getUser().username.length);
@@ -611,6 +638,162 @@ exports.PageAboutComponent = PageAboutComponent;
 
 /***/ }),
 
+/***/ "./src/app/page-admin-panel/page-admin-form-category/page-admin-form-category.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-form-category/page-admin-form-category.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  page-admin-form-category works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-form-category/page-admin-form-category.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var PageAdminFormCategoryComponent = /** @class */ (function () {
+    function PageAdminFormCategoryComponent() {
+    }
+    PageAdminFormCategoryComponent.prototype.ngOnInit = function () {
+    };
+    PageAdminFormCategoryComponent = __decorate([
+        core_1.Component({
+            selector: 'app-page-admin-form-category',
+            template: __webpack_require__("./src/app/page-admin-panel/page-admin-form-category/page-admin-form-category.component.html"),
+            styles: [__webpack_require__("./src/app/page-admin-panel/page-admin-form-category/page-admin-form-category.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], PageAdminFormCategoryComponent);
+    return PageAdminFormCategoryComponent;
+}());
+exports.PageAdminFormCategoryComponent = PageAdminFormCategoryComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-form-management/page-admin-form-management.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-form-management/page-admin-form-management.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  page-admin-form-management works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-form-management/page-admin-form-management.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var PageAdminFormManagementComponent = /** @class */ (function () {
+    function PageAdminFormManagementComponent() {
+    }
+    PageAdminFormManagementComponent.prototype.ngOnInit = function () {
+    };
+    PageAdminFormManagementComponent = __decorate([
+        core_1.Component({
+            selector: 'app-page-admin-form-management',
+            template: __webpack_require__("./src/app/page-admin-panel/page-admin-form-management/page-admin-form-management.component.html"),
+            styles: [__webpack_require__("./src/app/page-admin-panel/page-admin-form-management/page-admin-form-management.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], PageAdminFormManagementComponent);
+    return PageAdminFormManagementComponent;
+}());
+exports.PageAdminFormManagementComponent = PageAdminFormManagementComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-panel-routing.module.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+// Route Guard
+var route_guard_service_1 = __webpack_require__("./src/app/services/route-guard.service.ts");
+// Components
+var page_admin_panel_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-panel.component.ts");
+var page_admin_statistics_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-statistics/page-admin-statistics.component.ts");
+var page_admin_submitted_forms_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-submitted-forms/page-admin-submitted-forms.component.ts");
+var page_admin_form_management_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-form-management/page-admin-form-management.component.ts");
+var page_admin_form_category_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-form-category/page-admin-form-category.component.ts");
+var page_admin_user_management_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-user-management/page-admin-user-management.component.ts");
+var routes = [
+    {
+        path: 'admin-panel', component: page_admin_panel_component_1.PageAdminPanelComponent,
+        canActivate: [route_guard_service_1.AdminRouteGuard],
+        canActivateChild: [route_guard_service_1.AdminRouteGuard],
+        children: [
+            { path: 'statistics', component: page_admin_statistics_component_1.PageAdminStatisticsComponent },
+            { path: 'submitted-forms', component: page_admin_submitted_forms_component_1.PageAdminSubmittedFormsComponent },
+            { path: 'form-management', component: page_admin_form_management_component_1.PageAdminFormManagementComponent },
+            { path: 'form-category', component: page_admin_form_category_component_1.PageAdminFormCategoryComponent },
+            { path: 'user-management', component: page_admin_user_management_component_1.PageAdminUserManagementComponent },
+            { path: '', redirectTo: 'statistics', pathMatch: 'full' },
+            { path: '**', redirectTo: 'statistics' }
+        ]
+    }
+];
+var PageAdminPanelRoutingModule = /** @class */ (function () {
+    function PageAdminPanelRoutingModule() {
+    }
+    PageAdminPanelRoutingModule = __decorate([
+        core_1.NgModule({
+            imports: [router_1.RouterModule.forChild(routes)],
+            exports: [router_1.RouterModule],
+            providers: [route_guard_service_1.AdminRouteGuard]
+        })
+    ], PageAdminPanelRoutingModule);
+    return PageAdminPanelRoutingModule;
+}());
+exports.PageAdminPanelRoutingModule = PageAdminPanelRoutingModule;
+
+
+/***/ }),
+
 /***/ "./src/app/page-admin-panel/page-admin-panel.component.css":
 /***/ (function(module, exports) {
 
@@ -621,7 +804,7 @@ module.exports = ""
 /***/ "./src/app/page-admin-panel/page-admin-panel.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"header-space\"></div>\n\n<p>\n  page-admin-panel works!\n</p>\n"
+module.exports = "<div class=\"header-space\"></div>\n\n<section class=\"contact content-section\">\n  <div class=\"container\">\n    <div class=\"row\">\n      \n        <div class=\"col-md-4 col-lg-3\">\n          <h2 class=\"list-header under-line\">{{_t.translate('Admin Panel')}}</h2>\n          <div class=\"list-container\">\n            <div class=\"list-item under-line\" routerLinkActive=\"active\" routerLink=\"statistics\">\n              <i class=\"fas fa-arrow-right\"></i>\n              {{_t.translate('Statistic')}}\n            </div>\n            <div class=\"list-item under-line\" routerLinkActive=\"active\" routerLink=\"submitted-forms\">\n              <i class=\"fas fa-arrow-right\"></i>\n              {{_t.translate('Submitted Forms')}}\n            </div>\n            <div class=\"list-item under-line\" routerLinkActive=\"active\" routerLink=\"form-management\">\n              <i class=\"fas fa-arrow-right\"></i>\n              {{_t.translate('Form Management')}}\n            </div>\n            <div class=\"list-item under-line\" routerLinkActive=\"active\" routerLink=\"form-category\">\n              <i class=\"fas fa-arrow-right\"></i>\n              {{_t.translate('Form Category')}}\n            </div>\n            <div class=\"list-item under-line\" routerLinkActive=\"active\" routerLink=\"user-management\">\n              <i class=\"fas fa-arrow-right\"></i>\n              {{_t.translate('User Management')}}\n            </div>\n          </div>\n        </div>\n        \n        <div class=\"col-md-8 col-lg-9\">\n          <router-outlet></router-outlet>\n        </div>\n\n    </div>\n  </div>\n</section>"
 
 /***/ }),
 
@@ -641,8 +824,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var translation_service_1 = __webpack_require__("./src/app/services/translation.service.ts");
 var PageAdminPanelComponent = /** @class */ (function () {
-    function PageAdminPanelComponent() {
+    function PageAdminPanelComponent(_t) {
+        this._t = _t;
     }
     PageAdminPanelComponent.prototype.ngOnInit = function () {
     };
@@ -652,11 +837,161 @@ var PageAdminPanelComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/page-admin-panel/page-admin-panel.component.html"),
             styles: [__webpack_require__("./src/app/page-admin-panel/page-admin-panel.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [translation_service_1.TranslationService])
     ], PageAdminPanelComponent);
     return PageAdminPanelComponent;
 }());
 exports.PageAdminPanelComponent = PageAdminPanelComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-statistics/page-admin-statistics.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-statistics/page-admin-statistics.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  page-admin-statistics works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-statistics/page-admin-statistics.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var PageAdminStatisticsComponent = /** @class */ (function () {
+    function PageAdminStatisticsComponent() {
+    }
+    PageAdminStatisticsComponent.prototype.ngOnInit = function () {
+    };
+    PageAdminStatisticsComponent = __decorate([
+        core_1.Component({
+            selector: 'app-page-admin-statistics',
+            template: __webpack_require__("./src/app/page-admin-panel/page-admin-statistics/page-admin-statistics.component.html"),
+            styles: [__webpack_require__("./src/app/page-admin-panel/page-admin-statistics/page-admin-statistics.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], PageAdminStatisticsComponent);
+    return PageAdminStatisticsComponent;
+}());
+exports.PageAdminStatisticsComponent = PageAdminStatisticsComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-submitted-forms/page-admin-submitted-forms.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-submitted-forms/page-admin-submitted-forms.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  page-admin-submitted-forms works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-submitted-forms/page-admin-submitted-forms.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var PageAdminSubmittedFormsComponent = /** @class */ (function () {
+    function PageAdminSubmittedFormsComponent() {
+    }
+    PageAdminSubmittedFormsComponent.prototype.ngOnInit = function () {
+    };
+    PageAdminSubmittedFormsComponent = __decorate([
+        core_1.Component({
+            selector: 'app-page-admin-submitted-forms',
+            template: __webpack_require__("./src/app/page-admin-panel/page-admin-submitted-forms/page-admin-submitted-forms.component.html"),
+            styles: [__webpack_require__("./src/app/page-admin-panel/page-admin-submitted-forms/page-admin-submitted-forms.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], PageAdminSubmittedFormsComponent);
+    return PageAdminSubmittedFormsComponent;
+}());
+exports.PageAdminSubmittedFormsComponent = PageAdminSubmittedFormsComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-user-management/page-admin-user-management.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-user-management/page-admin-user-management.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  page-admin-user-management works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/page-admin-panel/page-admin-user-management/page-admin-user-management.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var PageAdminUserManagementComponent = /** @class */ (function () {
+    function PageAdminUserManagementComponent() {
+    }
+    PageAdminUserManagementComponent.prototype.ngOnInit = function () {
+    };
+    PageAdminUserManagementComponent = __decorate([
+        core_1.Component({
+            selector: 'app-page-admin-user-management',
+            template: __webpack_require__("./src/app/page-admin-panel/page-admin-user-management/page-admin-user-management.component.html"),
+            styles: [__webpack_require__("./src/app/page-admin-panel/page-admin-user-management/page-admin-user-management.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], PageAdminUserManagementComponent);
+    return PageAdminUserManagementComponent;
+}());
+exports.PageAdminUserManagementComponent = PageAdminUserManagementComponent;
 
 
 /***/ }),
@@ -721,7 +1056,7 @@ module.exports = ""
 /***/ "./src/app/page-forms/page-forms.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"header-space\"></div>\n\n<section class=\"contact content-section\">\n  <div class=\"container\">\n    <div class=\"row\">\n      \n        <div class=\"col-md-4 col-lg-3\">\n          <h2 class=\"list-header under-line\">{{_t.translate('Form Category')}}</h2>\n          <div class=\"list-container\">\n            <div class=\"list-item under-line\" [ngClass]=\"{'active':pageName=='All Forms'}\"\n            (click)=\"changeFormCategory('All Forms')\">\n              <i class=\"fas fa-arrow-right\"></i>\n              {{_t.translate('All Forms')}}\n            </div>\n            <div *ngFor=\"let category of formCatagory;\" class=\"list-item under-line\"\n            [ngClass]=\"{'active':pageName===category.categoryEN}\"\n            (click)=\"changeFormCategory(category.categoryEN)\">\n              <i class=\"fas fa-arrow-right\"></i>\n              <ng-container *ngIf=\"_t.getLanguage==='TH'\">{{category.categoryTH}}</ng-container>\n              <ng-container *ngIf=\"_t.getLanguage==='EN'\">{{category.categoryEN}}</ng-container>\n            </div>\n          </div>\n        </div>\n        \n        <div class=\"col-md-8 col-lg-9\">\n          <app-table-search [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-table-search>\n\n          <div class=\"row form-container\">\n            <h2 *ngIf=\"forms===null\" class=\"result-err-table-text\">{{_t.translate('Loading forms')}}...</h2>\n            <h2 *ngIf=\"forms!==null && forms.length==0\" class=\"result-err-table-text\">{{_t.translate('No forms available.')}}</h2>\n\n            <ng-container *ngIf=\"forms!==null && forms.length>0\">\n              <div *ngFor=\"let form of forms;\" class=\"col-sm-6 col-md-6 col-lg-4 form-selection-container\"\n              routerLink=\"/forms/{{form.accessCode}}\">\n                <div class=\"form-selection\">\n                  <img class=\"form-img\" [src]=\"formPreview(form)\">\n                  <div class=\"form-cover\"></div>\n                  <h2 class=\"form-owner\">{{formOwner(form)}} Form</h2>\n                  <div class=\"form-desc\">{{formName(form)}}</div>\n                  <div class=\"form-date\">\n                    {{_t.translate('Create date')}}: \n                    <span>{{dateFromObjectId(form._id)}}</span>\n                  </div>\n                </div>\n              </div>\n            </ng-container>\n          </div>\n\n          <app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>\n        </div>\n\n    </div>\n  </div>\n</section>"
+module.exports = "<div class=\"header-space\"></div>\n\n<section class=\"contact content-section\">\n  <div class=\"container\">\n    <div class=\"row\">\n      \n        <div class=\"col-md-4 col-lg-3\">\n          <h2 class=\"list-header under-line\">{{_t.translate('Form Category')}}</h2>\n          <div class=\"list-container\">\n            <div class=\"list-item under-line\" [ngClass]=\"{'active':pageName=='All Forms'}\"\n            (click)=\"changeFormCategory('All Forms')\">\n              <i class=\"fas fa-arrow-right\"></i>\n              {{_t.translate('All Forms')}}\n            </div>\n            <div *ngFor=\"let category of formCatagory;\" class=\"list-item under-line\"\n            [ngClass]=\"{'active':pageName===category.categoryEN}\"\n            (click)=\"changeFormCategory(category.categoryEN)\">\n              <i class=\"fas fa-arrow-right\"></i>\n              <ng-container *ngIf=\"_t.getLanguage==='TH'\">{{category.categoryTH}}</ng-container>\n              <ng-container *ngIf=\"_t.getLanguage!=='TH'\">{{category.categoryEN}}</ng-container>\n            </div>\n          </div>\n        </div>\n        \n        <div class=\"col-md-8 col-lg-9\">\n          <app-table-search [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-table-search>\n\n          <div class=\"row form-container\">\n            <h2 *ngIf=\"forms===null\" class=\"result-err-table-text\">{{_t.translate('Loading forms')}}...</h2>\n            <h2 *ngIf=\"forms!==null && forms.length==0\" class=\"result-err-table-text\">{{_t.translate('No forms available.')}}</h2>\n\n            <ng-container *ngIf=\"forms!==null && forms.length>0\">\n              <div *ngFor=\"let form of forms;\" class=\"col-sm-6 col-md-6 col-lg-4 form-selection-container\"\n              routerLink=\"/forms/{{form.accessCode}}\">\n                <div class=\"form-selection\">\n                  <img class=\"form-img\" [src]=\"formPreview(form)\">\n                  <div class=\"form-cover\"></div>\n                  <h2 class=\"form-owner\">{{formOwner(form)}} Form</h2>\n                  <div class=\"form-desc\">{{formName(form)}}</div>\n                  <div class=\"form-date\">\n                    {{_t.translate('Create date')}}: \n                    <span>{{dateFromObjectId(form._id)}}</span>\n                  </div>\n                </div>\n              </div>\n            </ng-container>\n          </div>\n\n          <app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>\n        </div>\n\n    </div>\n  </div>\n</section>"
 
 /***/ }),
 
@@ -885,7 +1220,7 @@ module.exports = ""
 /***/ "./src/app/page-forms/ss-pdf-form/ss-pdf-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"header-space\"></div>\n<div class=\"loader\"><div class=\"loader-inner\"></div></div>\n\n<!-- Form -->\n<section *ngIf=\"page==='Form'\" class=\"contact ss-pdf-section\"><div class=\"container\"><div class=\"row\">\n  <div *ngIf=\"form===null || userDetail===null\" class=\"col-md-12\">\n    <h2>Loading the form with access code - {{accessCode}}...</h2>\n  </div>\n  <ng-container *ngIf=\"form!==null && userDetail!==null\">\n    <h2 *ngIf=\"_t.getLanguage==='EN'\">{{form.nameEN}}</h2>\n    <h2 *ngIf=\"_t.getLanguage==='TH'\">{{form.nameTH}}</h2>\n\n    <div class=\"col-md-12 ss-pdf-content\" id=\"ss-pdf-content\" #content>\n      <pdf-viewer class=\"ss-pdf-viewer\" [src]=\"pdfPath\"\n      (after-load-complete)=\"pdfLoadComplete($event)\"></pdf-viewer>\n\n      <!-- New form -->\n      <ng-container *ngIf=\"_form.getMode==='New' && _form.getRole!=='Admin'\">\n        <form #newForm=\"ngForm\" (ngSubmit)=\"submitForm(newForm)\" ngNativeValidate>\n          <ng-container *ngFor=\"let input of inputList;\">\n            <ng-container *ngIf=\"!inputAdmin(input.name)\">\n              <!-- Special inputs -->\n              <ng-container *ngIf=\"inputSpecial(input.name)\">\n                <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature\">\n                  <app-signature-pad [container]=\"input\" (submitSignature)=\"submitSignature($event, input.name)\"></app-signature-pad>\n                </div>\n                <div *ngIf=\"inputProfileImg(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-profile\">\n                  <img [src]=\"userProfileImage\">\n                </div>\n                <input *ngIf=\"inputFullname(input.name)\" class=\"ss-form-input\"\n                  [type]=\"input.type\" [value]=\"userFullname\" [ngStyle]=\"inputPosition(input)\" disabled>\n              </ng-container>\n              <!-- Normal inputs -->\n              <ng-container *ngIf=\"!inputSpecial(input.name)\">\n                <input *ngIf=\"input.type!='checkbox' && inputRequired(input.name)\" \n                  class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\" value=\"\"\n                  [ngStyle]=\"inputPosition(input)\" ngModel required>\n                <input *ngIf=\"input.type!='checkbox' && !inputRequired(input.name)\" \n                  class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\" value=\"\"\n                  [ngStyle]=\"inputPosition(input)\" ngModel>\n                <input *ngIf=\"input.type=='checkbox' && inputRequired(input.name)\"\n                  class=\"ss-form-input checkbox\" [type]=\"input.type\" [name]=\"input.name\" \n                  (change)=\"checkboxChange($event, input.name)\"\n                  [ngStyle]=\"inputPosition(input)\" ngModel required>\n                <input *ngIf=\"input.type=='checkbox' && !inputRequired(input.name)\"\n                  class=\"ss-form-input checkbox\" [type]=\"input.type\" [name]=\"input.name\" \n                  (change)=\"checkboxChange($event, input.name)\"\n                  [ngStyle]=\"inputPosition(input)\" ngModel>\n              </ng-container>\n            </ng-container>\n          </ng-container>\n\n          <div class=\"ss-button-container new-mode\">\n            <h2 class=\"ss-btn-title\">{{_t.translate('Form actions')}}</h2>\n            <input class=\"btn btn-primary\" type=\"submit\" [value]=\"_t.translate('Submit form')\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Back to forms')\"\n              routerLink=\"/forms\">\n          </div>\n        </form>\n      </ng-container>\n\n      <!-- Edit form -->\n      <ng-container *ngIf=\"(_form.getMode==='Edit' || _form.getMode==='EditByPass') && loadForm!==null\">\n        <form #editForm=\"ngForm\" (ngSubmit)=\"editSubmittedForm(editForm)\" ngNativeValidate>\n\n          <!-- Normal users -->          \n          <ng-container *ngIf=\"_form.getRole!='Admin'\">\n            <ng-container *ngFor=\"let input of inputList\">\n\n              <!-- User inputs -->\n              <ng-container *ngIf=\"!inputAdmin(input.name)\">\n                <!-- Special inputs -->\n                <ng-container *ngIf=\"inputSpecial(input.name)\">\n                  <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature\">\n                    <app-signature-pad [container]=\"input\" (submitSignature)=\"submitSignature($event, input.name)\"\n                    [signature]=\"loadForm.formValue[input.name]\"></app-signature-pad>\n                  </div>\n                  <div *ngIf=\"inputProfileImg(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-profile\">\n                    <img [src]=\"userProfileImage\">\n                  </div>\n                  <input *ngIf=\"inputFullname(input.name)\" class=\"ss-form-input\"\n                    [type]=\"input.type\" [value]=\"userFullname\" [ngStyle]=\"inputPosition(input)\" disabled>\n                </ng-container>\n                <!-- Normal inputs -->\n                <ng-container *ngIf=\"!inputSpecial(input.name)\">\n                  <input *ngIf=\"input.type!='checkbox' && inputRequired(input.name)\"\n                    class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel required>\n                  <input *ngIf=\"input.type!='checkbox' && !inputRequired(input.name)\"\n                    class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel>\n                  <input *ngIf=\"input.type=='checkbox' && loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox\"\n                    [type]=\"input.type\" [name]=\"input.name\"\n                    (change)=\"checkboxChange($event, input.name)\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel checked>\n                  <input *ngIf=\"input.type=='checkbox' && !loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox\"\n                    [type]=\"input.type\" [name]=\"input.name\"\n                    (change)=\"checkboxChange($event, input.name)\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel>\n                </ng-container>\n              </ng-container>\n\n              <!-- Admin inputs -->\n              <ng-container *ngIf=\"inputAdmin(input.name)\">\n                <!-- Spacial inputs -->\n                <ng-container *ngIf=\"inputSpecial(input.name)\">\n                  <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature disabled\">\n                    <app-signature-pad [container]=\"input\" [disabled]=\"true\"\n                    [signature]=\"loadForm.formValue[input.name]\"></app-signature-pad>\n                  </div>\n                </ng-container>\n                <!-- Normal inputs -->\n                <ng-container *ngIf=\"!inputSpecial(input.name)\">\n                  <input *ngIf=\"input.type!='checkbox'\" class=\"ss-form-input\"\n                    [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel disabled>\n                  <div *ngIf=\"input.type=='checkbox' && loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox-yes\" [ngStyle]=\"inputPosition(input)\"><div></div>\n                  </div>\n                  <div *ngIf=\"input.type=='checkbox' && !loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox-no\" [ngStyle]=\"inputPosition(input)\"></div>\n                </ng-container>\n              </ng-container>\n\n            </ng-container>\n          </ng-container>\n\n          <!-- Admin users -->\n          <ng-container *ngIf=\"_form.getRole==='Admin'\">\n            <ng-container *ngFor=\"let input of inputList\">\n\n              <!-- Admin inputs -->\n              <ng-container *ngIf=\"inputAdmin(input.name)\">\n                <!-- Special inputs -->\n                <ng-container *ngIf=\"inputSpecial(input.name)\">\n                  <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature\">\n                    <app-signature-pad [container]=\"input\" (submitSignature)=\"submitSignature($event, input.name)\"\n                    [signature]=\"loadForm.formValue[input.name]\"></app-signature-pad>\n                  </div>\n                </ng-container>\n                <!-- Normal inputs -->\n                <ng-container *ngIf=\"!inputSpecial(input.name)\">\n                  <input *ngIf=\"input.type!='checkbox' && inputRequired(input.name)\"\n                    class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel required>\n                  <input *ngIf=\"input.type!='checkbox' && !inputRequired(input.name)\"\n                    class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel>\n                  <input *ngIf=\"input.type=='checkbox' && loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox\" [type]=\"input.type\" [name]=\"input.name\"\n                    (change)=\"checkboxChange($event, input.name)\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel checked>\n                  <input *ngIf=\"input.type=='checkbox' && !loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox\" [type]=\"input.type\" [name]=\"input.name\"\n                    (change)=\"checkboxChange($event, input.name)\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel>\n                </ng-container>\n              </ng-container>\n\n              <!-- User inputs -->\n              <ng-container *ngIf=\"!inputAdmin(input.name)\">\n                <!-- Special inputs -->\n                <ng-container *ngIf=\"inputSpecial(input.name)\">\n                  <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature disabled\">\n                    <app-signature-pad [container]=\"input\" [disabled]=\"true\"\n                    [signature]=\"loadForm.formValue[input.name]\"></app-signature-pad>\n                  </div>\n                  <div *ngIf=\"inputProfileImg(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-profile\">\n                    <img [src]=\"userProfileImage\" width=\"100%\" height=\"100%\">\n                  </div>\n                  <input *ngIf=\"inputFullname(input.name)\" class=\"ss-form-input\"\n                    [type]=\"input.type\" [value]=\"userFullname\" [ngStyle]=\"inputPosition(input)\" disabled>\n                </ng-container>\n                <!-- Normal inputs -->\n                <ng-container *ngIf=\"!inputSpecial(input.name)\">\n                  <input *ngIf=\"input.type!='checkbox'\"\n                    class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel disabled>\n                  <div *ngIf=\"input.type=='checkbox' && loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox-yes\" [ngStyle]=\"inputPosition(input)\"><div></div>\n                  </div>\n                  <div *ngIf=\"input.type=='checkbox' && !loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox-no\" [ngStyle]=\"inputPosition(input)\"></div>\n                </ng-container>\n              </ng-container>\n\n            </ng-container>\n          </ng-container>\n\n          <div *ngIf=\"_form.getRole!=='Admin'\" class=\"ss-button-container edit-mode\">\n            <h2 class=\"ss-btn-title\">{{_t.translate('Form actions')}}</h2>\n            <input class=\"btn btn-primary\" type=\"submit\" [value]=\"_t.translate('Edit this form')\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Back to form history')\"\n              routerLink=\"/user-panel/form-history\">\n            <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\n              (click)=\"userDeleteSubmittedForm()\">\n          </div>\n          <!-- <div *ngIf=\"_form.getRole==='Admin'\" class=\"ss-button-container view-mode\">\n            <h2 class=\"ss-btn-title\">{{_t.translate('Form actions')}}</h2>\n            <input class=\"btn btn-primary\" type=\"button\" [value]=\"_t.translate('Download PDF')\"\n              (click)=\"downloadPDF()\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Back to admin forms')\"\n              routerLink=\"/admin-panel/submitted-forms\">\n            <input *ngIf=\"loadForm.status!=='Approved'\" class=\"btn btn-success\" type=\"button\"\n              [value]=\"_t.translate('Approved')\" (click)=\"adminSetSubmittedFormStatus('Approved')\">\n            <input *ngIf=\"loadForm.status!=='Not approved'\" class=\"btn btn-success\" type=\"button\"\n              [value]=\"_t.translate('Not approved')\" (click)=\"adminSetSubmittedFormStatus('Not approved')\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\n              (click)=\"adminDeleteSubmittedForm()\"> -->\n\n          <!-- <div class=\"button-container\">\n            <ng-container *ngIf=\"formService.getRole()=='Admin'\">\n              <input class=\"political-simple-btn\" type=\"button\" value=\"Back to admin forms\" (click)=\"backToAdminForms()\">\n              <input *ngIf=\"form!==null && userDetail!==null\"\n              class=\"political-simple-btn\" type=\"submit\" value=\"Edit and Approve\">\n              <input *ngIf=\"loadForm.status!='Approved'\" class=\"political-simple-btn\"\n              type=\"button\" value=\"Approve\" (click)=\"adminSetSubmittedFormStatus('Approved')\">\n              <input *ngIf=\"loadForm.status!='Not approved'\" class=\"political-simple-btn warning-btn\"\n              type=\"button\" value=\"Not approved\" (click)=\"adminSetSubmittedFormStatus('Not approved')\">\n              <input class=\"political-simple-btn delete-btn\" type=\"button\" value=\"Delete form\" (click)=\"adminDeleteSubmittedForm()\">\n            </ng-container>\n          </div> -->\n        </form>\n      </ng-container>\n\n      <!-- View form -->\n      <ng-container *ngIf=\"(_form.getMode==='View' || _form.getMode==='ViewByPass') && loadForm!==null\">\n        <form>\n          <ng-container *ngFor=\"let input of inputList\">\n            <!-- Special inputs -->\n            <ng-container *ngIf=\"inputSpecial(input.name)\">\n              <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature disabled\">\n                <app-signature-pad [container]=\"input\" [disabled]=\"true\"\n                [signature]=\"loadForm.formValue[input.name]\"></app-signature-pad>\n              </div>\n              <div *ngIf=\"inputProfileImg(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-profile disabled\">\n                <img [src]=\"userProfileImage\">\n              </div>\n              <input *ngIf=\"inputFullname(input.name)\" class=\"ss-form-input\"\n                [type]=\"input.type\" [value]=\"userFullname\" [ngStyle]=\"inputPosition(input)\" disabled>\n            </ng-container>\n            <!-- Normal inputs -->\n            <ng-container *ngIf=\"!inputSpecial(input.name)\">\n              <input *ngIf=\"input.type!='checkbox'\" class=\"ss-form-input\"\n                [type]=\"input.type\" [name]=\"input.name\"\n                [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                [ngStyle]=\"inputPosition(input)\" ngModel disabled>\n              <div *ngIf=\"input.type=='checkbox' && loadForm.formValue[input.name]\"\n                class=\"ss-form-input checkbox-yes\" [ngStyle]=\"inputPosition(input)\"><div></div>\n              </div>\n              <div *ngIf=\"input.type=='checkbox' && !loadForm.formValue[input.name]\"\n                class=\"ss-form-input checkbox-no\" [ngStyle]=\"inputPosition(input)\"></div>\n            </ng-container>\n          </ng-container>\n\n          <div *ngIf=\"_form.getRole!=='Admin'\" class=\"ss-button-container view-mode\">\n            <h2 class=\"ss-btn-title\">{{_t.translate('Form actions')}}</h2>\n            <input class=\"btn btn-primary\" type=\"button\" [value]=\"_t.translate('Download PDF')\"\n              (click)=\"downloadPDF()\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Back to form history')\"\n              routerLink=\"/user-panel/form-history\">\n          </div>\n          <!-- <div *ngIf=\"_form.getRole==='Admin'\" class=\"ss-button-container view-mode\">\n            <h2 class=\"ss-btn-title\">{{_t.translate('Form actions')}}</h2>\n            <input class=\"btn btn-primary\" type=\"button\" [value]=\"_t.translate('Download PDF')\"\n              (click)=\"downloadPDF()\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Back to admin forms')\"\n              routerLink=\"/admin-panel/submitted-forms\">\n            <input *ngIf=\"loadForm.status!=='Approved'\" class=\"btn btn-success\" type=\"button\"\n              [value]=\"_t.translate('Approved')\" (click)=\"adminSetSubmittedFormStatus('Approved')\">\n            <input *ngIf=\"loadForm.status!=='Not approved'\" class=\"btn btn-success\" type=\"button\"\n              [value]=\"_t.translate('Not approved')\" (click)=\"adminSetSubmittedFormStatus('Not approved')\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\n              (click)=\"adminDeleteSubmittedForm()\"> \n          </div> -->\n        </form>\n      </ng-container>\n\n    </div>\n  </ng-container>\n</div></div></section>\n\n<!-- Downloading -->\n<div id=\"ss-pdf-content-holder\"></div>\n<div *ngIf=\"saving\" class=\"ss-dowloading\"><h2>Downloading PDF...</h2></div>\n\n<!-- Status result -->\n<app-form-result [page]=\"page\" (redirect)=\"adminRedirect($event)\"></app-form-result>"
+module.exports = "<div class=\"header-space\"></div>\n<div class=\"loader\"><div class=\"loader-inner\"></div></div>\n\n<!-- Form -->\n<section *ngIf=\"page==='Form'\" class=\"contact ss-pdf-section\"><div class=\"container\"><div class=\"row\">\n  <div *ngIf=\"form===null || userDetail===null\" class=\"col-md-12\">\n    <h2>Loading the form with access code - {{accessCode}}...</h2>\n  </div>\n  <ng-container *ngIf=\"form!==null && userDetail!==null\">\n    <h2 *ngIf=\"_t.getLanguage==='TH'\">{{form.nameTH}}</h2>\n    <h2 *ngIf=\"_t.getLanguage!=='TH'\">{{form.nameEN}}</h2>    \n\n    <div class=\"col-md-12 ss-pdf-content\" id=\"ss-pdf-content\" #content>\n      <pdf-viewer class=\"ss-pdf-viewer\" [src]=\"pdfPath\"\n      (after-load-complete)=\"pdfLoadComplete($event)\"></pdf-viewer>\n\n      <!-- New form -->\n      <ng-container *ngIf=\"_form.getMode==='New' && _form.getRole!=='Admin'\">\n        <form #newForm=\"ngForm\" (ngSubmit)=\"submitForm(newForm)\" ngNativeValidate>\n          <ng-container *ngFor=\"let input of inputList;\">\n            <ng-container *ngIf=\"!inputAdmin(input.name)\">\n              <!-- Special inputs -->\n              <ng-container *ngIf=\"inputSpecial(input.name)\">\n                <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature\">\n                  <app-signature-pad [container]=\"input\" (submitSignature)=\"submitSignature($event, input.name)\"></app-signature-pad>\n                </div>\n                <div *ngIf=\"inputProfileImg(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-profile\">\n                  <img [src]=\"userProfileImage\">\n                </div>\n                <input *ngIf=\"inputFullname(input.name)\" class=\"ss-form-input\"\n                  [type]=\"input.type\" [value]=\"userFullname\" [ngStyle]=\"inputPosition(input)\" disabled>\n              </ng-container>\n              <!-- Normal inputs -->\n              <ng-container *ngIf=\"!inputSpecial(input.name)\">\n                <input *ngIf=\"input.type!='checkbox' && inputRequired(input.name)\" \n                  class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\" value=\"\"\n                  [ngStyle]=\"inputPosition(input)\" ngModel required>\n                <input *ngIf=\"input.type!='checkbox' && !inputRequired(input.name)\" \n                  class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\" value=\"\"\n                  [ngStyle]=\"inputPosition(input)\" ngModel>\n                <input *ngIf=\"input.type=='checkbox' && inputRequired(input.name)\"\n                  class=\"ss-form-input checkbox\" [type]=\"input.type\" [name]=\"input.name\" \n                  (change)=\"checkboxChange($event, input.name)\"\n                  [ngStyle]=\"inputPosition(input)\" ngModel required>\n                <input *ngIf=\"input.type=='checkbox' && !inputRequired(input.name)\"\n                  class=\"ss-form-input checkbox\" [type]=\"input.type\" [name]=\"input.name\" \n                  (change)=\"checkboxChange($event, input.name)\"\n                  [ngStyle]=\"inputPosition(input)\" ngModel>\n              </ng-container>\n            </ng-container>\n          </ng-container>\n\n          <div class=\"ss-button-container new-mode\">\n            <h2 class=\"ss-btn-title\">{{_t.translate('Form actions')}}</h2>\n            <input class=\"btn btn-primary\" type=\"submit\" [value]=\"_t.translate('Submit form')\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Back to forms')\"\n              routerLink=\"/forms\">\n          </div>\n        </form>\n      </ng-container>\n\n      <!-- Edit form -->\n      <ng-container *ngIf=\"(_form.getMode==='Edit' || _form.getMode==='EditByPass') && loadForm!==null\">\n        <form #editForm=\"ngForm\" (ngSubmit)=\"editSubmittedForm(editForm)\" ngNativeValidate>\n\n          <!-- Normal users -->          \n          <ng-container *ngIf=\"_form.getRole!='Admin'\">\n            <ng-container *ngFor=\"let input of inputList\">\n\n              <!-- User inputs -->\n              <ng-container *ngIf=\"!inputAdmin(input.name)\">\n                <!-- Special inputs -->\n                <ng-container *ngIf=\"inputSpecial(input.name)\">\n                  <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature\">\n                    <app-signature-pad [container]=\"input\" (submitSignature)=\"submitSignature($event, input.name)\"\n                    [signature]=\"loadForm.formValue[input.name]\"></app-signature-pad>\n                  </div>\n                  <div *ngIf=\"inputProfileImg(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-profile\">\n                    <img [src]=\"userProfileImage\">\n                  </div>\n                  <input *ngIf=\"inputFullname(input.name)\" class=\"ss-form-input\"\n                    [type]=\"input.type\" [value]=\"userFullname\" [ngStyle]=\"inputPosition(input)\" disabled>\n                </ng-container>\n                <!-- Normal inputs -->\n                <ng-container *ngIf=\"!inputSpecial(input.name)\">\n                  <input *ngIf=\"input.type!='checkbox' && inputRequired(input.name)\"\n                    class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel required>\n                  <input *ngIf=\"input.type!='checkbox' && !inputRequired(input.name)\"\n                    class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel>\n                  <input *ngIf=\"input.type=='checkbox' && loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox\"\n                    [type]=\"input.type\" [name]=\"input.name\"\n                    (change)=\"checkboxChange($event, input.name)\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel checked>\n                  <input *ngIf=\"input.type=='checkbox' && !loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox\"\n                    [type]=\"input.type\" [name]=\"input.name\"\n                    (change)=\"checkboxChange($event, input.name)\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel>\n                </ng-container>\n              </ng-container>\n\n              <!-- Admin inputs -->\n              <ng-container *ngIf=\"inputAdmin(input.name)\">\n                <!-- Spacial inputs -->\n                <ng-container *ngIf=\"inputSpecial(input.name)\">\n                  <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature disabled\">\n                    <app-signature-pad [container]=\"input\" [disabled]=\"true\"\n                    [signature]=\"loadForm.formValue[input.name]\"></app-signature-pad>\n                  </div>\n                </ng-container>\n                <!-- Normal inputs -->\n                <ng-container *ngIf=\"!inputSpecial(input.name)\">\n                  <input *ngIf=\"input.type!='checkbox'\" class=\"ss-form-input\"\n                    [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel disabled>\n                  <div *ngIf=\"input.type=='checkbox' && loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox-yes\" [ngStyle]=\"inputPosition(input)\"><div></div>\n                  </div>\n                  <div *ngIf=\"input.type=='checkbox' && !loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox-no\" [ngStyle]=\"inputPosition(input)\"></div>\n                </ng-container>\n              </ng-container>\n\n            </ng-container>\n          </ng-container>\n\n          <!-- Admin users -->\n          <ng-container *ngIf=\"_form.getRole==='Admin'\">\n            <ng-container *ngFor=\"let input of inputList\">\n\n              <!-- Admin inputs -->\n              <ng-container *ngIf=\"inputAdmin(input.name)\">\n                <!-- Special inputs -->\n                <ng-container *ngIf=\"inputSpecial(input.name)\">\n                  <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature\">\n                    <app-signature-pad [container]=\"input\" (submitSignature)=\"submitSignature($event, input.name)\"\n                    [signature]=\"loadForm.formValue[input.name]\"></app-signature-pad>\n                  </div>\n                </ng-container>\n                <!-- Normal inputs -->\n                <ng-container *ngIf=\"!inputSpecial(input.name)\">\n                  <input *ngIf=\"input.type!='checkbox' && inputRequired(input.name)\"\n                    class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel required>\n                  <input *ngIf=\"input.type!='checkbox' && !inputRequired(input.name)\"\n                    class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel>\n                  <input *ngIf=\"input.type=='checkbox' && loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox\" [type]=\"input.type\" [name]=\"input.name\"\n                    (change)=\"checkboxChange($event, input.name)\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel checked>\n                  <input *ngIf=\"input.type=='checkbox' && !loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox\" [type]=\"input.type\" [name]=\"input.name\"\n                    (change)=\"checkboxChange($event, input.name)\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel>\n                </ng-container>\n              </ng-container>\n\n              <!-- User inputs -->\n              <ng-container *ngIf=\"!inputAdmin(input.name)\">\n                <!-- Special inputs -->\n                <ng-container *ngIf=\"inputSpecial(input.name)\">\n                  <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature disabled\">\n                    <app-signature-pad [container]=\"input\" [disabled]=\"true\"\n                    [signature]=\"loadForm.formValue[input.name]\"></app-signature-pad>\n                  </div>\n                  <div *ngIf=\"inputProfileImg(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-profile\">\n                    <img [src]=\"userProfileImage\" width=\"100%\" height=\"100%\">\n                  </div>\n                  <input *ngIf=\"inputFullname(input.name)\" class=\"ss-form-input\"\n                    [type]=\"input.type\" [value]=\"userFullname\" [ngStyle]=\"inputPosition(input)\" disabled>\n                </ng-container>\n                <!-- Normal inputs -->\n                <ng-container *ngIf=\"!inputSpecial(input.name)\">\n                  <input *ngIf=\"input.type!='checkbox'\"\n                    class=\"ss-form-input\" [type]=\"input.type\" [name]=\"input.name\"\n                    [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                    [ngStyle]=\"inputPosition(input)\" ngModel disabled>\n                  <div *ngIf=\"input.type=='checkbox' && loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox-yes\" [ngStyle]=\"inputPosition(input)\"><div></div>\n                  </div>\n                  <div *ngIf=\"input.type=='checkbox' && !loadForm.formValue[input.name]\"\n                    class=\"ss-form-input checkbox-no\" [ngStyle]=\"inputPosition(input)\"></div>\n                </ng-container>\n              </ng-container>\n\n            </ng-container>\n          </ng-container>\n\n          <div *ngIf=\"_form.getRole!=='Admin'\" class=\"ss-button-container edit-mode\">\n            <h2 class=\"ss-btn-title\">{{_t.translate('Form actions')}}</h2>\n            <input class=\"btn btn-primary\" type=\"submit\" [value]=\"_t.translate('Edit this form')\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Back to form history')\"\n              routerLink=\"/user-panel/form-history\">\n            <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\n              (click)=\"userDeleteSubmittedForm()\">\n          </div>\n          <!-- <div *ngIf=\"_form.getRole==='Admin'\" class=\"ss-button-container view-mode\">\n            <h2 class=\"ss-btn-title\">{{_t.translate('Form actions')}}</h2>\n            <input class=\"btn btn-primary\" type=\"button\" [value]=\"_t.translate('Download PDF')\"\n              (click)=\"downloadPDF()\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Back to admin forms')\"\n              routerLink=\"/admin-panel/submitted-forms\">\n            <input *ngIf=\"loadForm.status!=='Approved'\" class=\"btn btn-success\" type=\"button\"\n              [value]=\"_t.translate('Approved')\" (click)=\"adminSetSubmittedFormStatus('Approved')\">\n            <input *ngIf=\"loadForm.status!=='Not approved'\" class=\"btn btn-success\" type=\"button\"\n              [value]=\"_t.translate('Not approved')\" (click)=\"adminSetSubmittedFormStatus('Not approved')\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\n              (click)=\"adminDeleteSubmittedForm()\"> -->\n\n          <!-- <div class=\"button-container\">\n            <ng-container *ngIf=\"formService.getRole()=='Admin'\">\n              <input class=\"political-simple-btn\" type=\"button\" value=\"Back to admin forms\" (click)=\"backToAdminForms()\">\n              <input *ngIf=\"form!==null && userDetail!==null\"\n              class=\"political-simple-btn\" type=\"submit\" value=\"Edit and Approve\">\n              <input *ngIf=\"loadForm.status!='Approved'\" class=\"political-simple-btn\"\n              type=\"button\" value=\"Approve\" (click)=\"adminSetSubmittedFormStatus('Approved')\">\n              <input *ngIf=\"loadForm.status!='Not approved'\" class=\"political-simple-btn warning-btn\"\n              type=\"button\" value=\"Not approved\" (click)=\"adminSetSubmittedFormStatus('Not approved')\">\n              <input class=\"political-simple-btn delete-btn\" type=\"button\" value=\"Delete form\" (click)=\"adminDeleteSubmittedForm()\">\n            </ng-container>\n          </div> -->\n        </form>\n      </ng-container>\n\n      <!-- View form -->\n      <ng-container *ngIf=\"(_form.getMode==='View' || _form.getMode==='ViewByPass') && loadForm!==null\">\n        <form>\n          <ng-container *ngFor=\"let input of inputList\">\n            <!-- Special inputs -->\n            <ng-container *ngIf=\"inputSpecial(input.name)\">\n              <div *ngIf=\"inputSignature(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-signature disabled\">\n                <app-signature-pad [container]=\"input\" [disabled]=\"true\"\n                [signature]=\"loadForm.formValue[input.name]\"></app-signature-pad>\n              </div>\n              <div *ngIf=\"inputProfileImg(input.name)\" [ngStyle]=\"inputPosition(input)\" class=\"ss-profile disabled\">\n                <img [src]=\"userProfileImage\">\n              </div>\n              <input *ngIf=\"inputFullname(input.name)\" class=\"ss-form-input\"\n                [type]=\"input.type\" [value]=\"userFullname\" [ngStyle]=\"inputPosition(input)\" disabled>\n            </ng-container>\n            <!-- Normal inputs -->\n            <ng-container *ngIf=\"!inputSpecial(input.name)\">\n              <input *ngIf=\"input.type!='checkbox'\" class=\"ss-form-input\"\n                [type]=\"input.type\" [name]=\"input.name\"\n                [ngModel]=\"default(loadForm.formValue[input.name])\" [value]=\"input.value\"\n                [ngStyle]=\"inputPosition(input)\" ngModel disabled>\n              <div *ngIf=\"input.type=='checkbox' && loadForm.formValue[input.name]\"\n                class=\"ss-form-input checkbox-yes\" [ngStyle]=\"inputPosition(input)\"><div></div>\n              </div>\n              <div *ngIf=\"input.type=='checkbox' && !loadForm.formValue[input.name]\"\n                class=\"ss-form-input checkbox-no\" [ngStyle]=\"inputPosition(input)\"></div>\n            </ng-container>\n          </ng-container>\n\n          <div *ngIf=\"_form.getRole!=='Admin'\" class=\"ss-button-container view-mode\">\n            <h2 class=\"ss-btn-title\">{{_t.translate('Form actions')}}</h2>\n            <input class=\"btn btn-primary\" type=\"button\" [value]=\"_t.translate('Download PDF')\"\n              (click)=\"downloadPDF()\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Back to form history')\"\n              routerLink=\"/user-panel/form-history\">\n          </div>\n          <!-- <div *ngIf=\"_form.getRole==='Admin'\" class=\"ss-button-container view-mode\">\n            <h2 class=\"ss-btn-title\">{{_t.translate('Form actions')}}</h2>\n            <input class=\"btn btn-primary\" type=\"button\" [value]=\"_t.translate('Download PDF')\"\n              (click)=\"downloadPDF()\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Back to admin forms')\"\n              routerLink=\"/admin-panel/submitted-forms\">\n            <input *ngIf=\"loadForm.status!=='Approved'\" class=\"btn btn-success\" type=\"button\"\n              [value]=\"_t.translate('Approved')\" (click)=\"adminSetSubmittedFormStatus('Approved')\">\n            <input *ngIf=\"loadForm.status!=='Not approved'\" class=\"btn btn-success\" type=\"button\"\n              [value]=\"_t.translate('Not approved')\" (click)=\"adminSetSubmittedFormStatus('Not approved')\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\n              (click)=\"adminDeleteSubmittedForm()\"> \n          </div> -->\n        </form>\n      </ng-container>\n\n    </div>\n  </ng-container>\n</div></div></section>\n\n<!-- Downloading -->\n<div id=\"ss-pdf-content-holder\"></div>\n<div *ngIf=\"saving\" class=\"ss-dowloading\"><h2>Downloading PDF...</h2></div>\n\n<!-- Status result -->\n<app-form-result [page]=\"page\" (redirect)=\"adminRedirect($event)\"></app-form-result>"
 
 /***/ }),
 
@@ -1325,7 +1660,7 @@ var SsPdfFormComponent = /** @class */ (function () {
                 setTimeout(function () {
                     _this.saving = false;
                     d3.selectAll('.ss-button-container').style('display', 'block');
-                }, 250);
+                }, 600);
             });
         }
     };
@@ -1689,7 +2024,7 @@ module.exports = ""
 /***/ "./src/app/page-user-panel/page-user-form-history/page-user-form-history.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-table-search [type]=\"2\" [criteria]=\"options\" [selected]=\"criteria\" \n(criteriaChange)=\"criteriaChange($event)\"></app-table-search>\n\n<div class=\"row form-container\">\n  \n  <div class=\"table-container\"><table><tbody>\n    <tr>\n      <th width=\"45%\">{{_t.translate('Form Name')}}</th>\n      <th width=\"22%\">{{_t.translate('Submitted Date')}}</th>\n      <th width=\"15%\">{{_t.translate('Status')}}</th>\n      <th width=\"18%\">{{_t.translate('Actions')}}</th>\n    </tr>\n    <tr *ngIf=\"forms===null\"><td colspan=\"4\">\n      {{_t.translate('Loading submitted form history')}}...\n    </td></tr>\n    <tr *ngIf=\"forms!==null && forms.length==0\"><td colspan=\"4\">\n      {{_t.translate('No submitted forms found.')}}\n    </td></tr>\n    <ng-container *ngIf=\"forms!==null && forms.length>0\">\n      <tr *ngFor=\"let form of forms;\">\n        <td *ngIf=\"_t.getLanguage==='TH'\" class=\"col-left\">{{form.form.nameTH}}</td>\n        <td *ngIf=\"_t.getLanguage==='EN'\" class=\"col-left\">{{form.form.nameEN}}</td>\n        <td>{{dateFromObjectId(form._id)}}</td>\n        <td [ngClass]=\"{'danger':form.status=='Not approved', 'warning':form.status=='Pending', 'primary':form.status=='Approved'}\">\n          {{form.status}}\n        </td>\n\n        <!-- Pending forms -->\n        <td *ngIf=\"form.status==='Pending'\">\n          <i class=\"far fa-address-book primary\" (click)=\"viewSubmittedForm(form)\" title=\"View\"></i>&nbsp;\n          <i class=\"fas fa-edit warning\" (click)=\"editSubmittedForm(form)\" title=\"Edit\"></i>&nbsp;\n          <i class=\"far fa-trash-alt danger\" (click)=\"tryDeleteForm(form)\" title=\"Delete\"></i>\n        </td>\n        <!-- Approved / Not approved forms -->\n        <td *ngIf=\"form.status==='Not approved' || form.status==='Approved'\">\n          <i class=\"far fa-address-book primary\" (click)=\"viewSubmittedForm(form)\" title=\"View\"></i>\n        </td>\n\n      </tr>\n    </ng-container>\n  </tbody></table></div>\n\n</div>\n\n<app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>"
+module.exports = "<app-table-search [type]=\"2\" [criteria]=\"options\" [selected]=\"criteria\" \n(criteriaChange)=\"criteriaChange($event)\"></app-table-search>\n\n<div class=\"row form-container\">\n  <div class=\"table-container\"><table><tbody>\n    <tr>\n      <th width=\"45%\">{{_t.translate('Form Name')}}</th>\n      <th width=\"22%\">{{_t.translate('Submitted Date')}}</th>\n      <th width=\"15%\">{{_t.translate('Status')}}</th>\n      <th width=\"18%\">{{_t.translate('Actions')}}</th>\n    </tr>\n    <tr *ngIf=\"forms===null\"><td colspan=\"4\">\n      {{_t.translate('Loading submitted form history')}}...\n    </td></tr>\n    <tr *ngIf=\"forms!==null && forms.length==0\"><td colspan=\"4\">\n      {{_t.translate('No submitted forms found.')}}\n    </td></tr>\n    <ng-container *ngIf=\"forms!==null && forms.length>0\">\n      <tr *ngFor=\"let form of forms;\">\n        <td *ngIf=\"_t.getLanguage==='TH'\" class=\"col-left\">{{form.form.nameTH}}</td>\n        <td *ngIf=\"_t.getLanguage!=='TH'\" class=\"col-left\">{{form.form.nameEN}}</td>\n        <td>{{dateFromObjectId(form._id)}}</td>\n        <td [ngClass]=\"{'danger':form.status=='Not approved', 'warning':form.status=='Pending', 'primary':form.status=='Approved'}\">\n          {{form.status}}\n        </td>\n\n        <!-- Pending forms -->\n        <td *ngIf=\"form.status==='Pending'\">\n          <i class=\"far fa-address-book primary\" (click)=\"viewSubmittedForm(form)\" title=\"View\"></i>&nbsp;\n          <i class=\"fas fa-edit warning\" (click)=\"editSubmittedForm(form)\" title=\"Edit\"></i>&nbsp;\n          <i class=\"far fa-trash-alt danger\" (click)=\"tryDeleteSubmittedForm(form)\" title=\"Delete\"></i>\n        </td>\n        <!-- Approved / Not approved forms -->\n        <td *ngIf=\"form.status==='Not approved' || form.status==='Approved'\">\n          <i class=\"far fa-address-book primary\" (click)=\"viewSubmittedForm(form)\" title=\"View\"></i>\n        </td>\n\n      </tr>\n    </ng-container>\n  </tbody></table></div>\n</div>\n\n<app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>\n\n<div *ngIf=\"selectedDeleteForm!==null\" class=\"box-popup\">\n  <div class=\"box-popup-container danger-border\">\n    <h2 class=\"danger-color\">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>\n    <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedDeleteForm.form.nameTH}}</h4>\n    <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedDeleteForm.form.nameEN}}</h4>\n    <div class=\"box-popup-btn-container\">\n        <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\n          (click)=\"deleteSubmittedForm()\">\n        <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n          (click)=\"cancelDeleteSubmittedForm()\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"deleteNotification\" class=\"notification-container\">\n  <div class=\"notification danger-bg\">\n    {{_t.translate('The submitted form has been deleted successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"deleteNotification=false;\"></i>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1742,7 +2077,9 @@ var PageUserFormHistoryComponent = /** @class */ (function () {
         };
         this.pagination = [];
         this.forms = null;
-        this.selectedForm = null;
+        this.processing = false;
+        this.deleteNotification = false;
+        this.selectedDeleteForm = null;
     }
     PageUserFormHistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -1772,7 +2109,7 @@ var PageUserFormHistoryComponent = /** @class */ (function () {
     };
     PageUserFormHistoryComponent.prototype.yourSubmittedFormUpdate = function (userId) {
         if (userId === this._user.getUser()._id) {
-            this.selectedForm = null;
+            this.selectedDeleteForm = null;
             this._form.setMode();
             this._form.getSubmittedForms(this._user.getUser()._id, this.criteria);
         }
@@ -1792,6 +2129,32 @@ var PageUserFormHistoryComponent = /** @class */ (function () {
     PageUserFormHistoryComponent.prototype.editSubmittedForm = function (form) {
         this.router.navigate(['/forms/' + form.form.accessCode]);
         this._form.setMode('Edit', 'User', form);
+    };
+    PageUserFormHistoryComponent.prototype.tryDeleteSubmittedForm = function (form) {
+        this.selectedDeleteForm = form;
+        this.deleteNotification = false;
+    };
+    PageUserFormHistoryComponent.prototype.deleteSubmittedForm = function () {
+        var _this = this;
+        if (this.selectedDeleteForm !== null && !this.processing) {
+            this.processing = true;
+            this._form.deleteSubmittedForm(this._user.getUser()._id, this.selectedDeleteForm).then(function (result) {
+                if (result.status) {
+                    _this.deleteNotification = true;
+                    _this._socketio.deletedUserForm(_this.selectedDeleteForm);
+                    _this.selectedDeleteForm = null;
+                    _this.pagination = [];
+                    _this.forms = null;
+                }
+                else
+                    _this.selectedDeleteForm = null;
+                _this.processing = false;
+            });
+        }
+    };
+    PageUserFormHistoryComponent.prototype.cancelDeleteSubmittedForm = function () {
+        if (!this.processing)
+            this.selectedDeleteForm = null;
     };
     PageUserFormHistoryComponent.prototype.ngOnDestroy = function () {
         this.getSubmittedFormsSubscription.unsubscribe();
@@ -2652,6 +3015,19 @@ var AuthenticationService = /** @class */ (function () {
         })
             .catch(function (err) { return { status: false, message: err, data: null }; });
     };
+    AuthenticationService.prototype.cookieTheme = function () {
+        var url = this.apiUrl + '/cookietheme';
+        this.http.get(url).toPromise()
+            .then(function (response) {
+            var result = response.json();
+            if (globals_1.testing)
+                console.log(result.message);
+            if (result.status)
+                $('head link#theme').attr('href', 'assets/css/theme/' + result.data + '.css');
+            return result;
+        })
+            .catch(function (err) { return { status: false, message: err, data: null }; });
+    };
     AuthenticationService.prototype.register = function (formValue) {
         var url = this.apiUrl + '/register';
         return this.http.post(url, JSON.stringify(formValue), { headers: this.headers })
@@ -2739,6 +3115,17 @@ var CookieService = /** @class */ (function () {
     };
     CookieService.prototype.setLanguageCookie = function (language) {
         var url = this.apiUrl + '/setlanguagecookie/' + language;
+        this.http.get(url).toPromise()
+            .then(function (response) {
+            var result = response.json();
+            if (globals_1.testing)
+                console.log(result.message);
+            return result;
+        })
+            .catch(function (err) { return { status: false, message: err, data: null }; });
+    };
+    CookieService.prototype.setThemeCookie = function (theme) {
+        var url = this.apiUrl + '/setthemecookie/' + theme;
         this.http.get(url).toPromise()
             .then(function (response) {
             var result = response.json();
@@ -3462,8 +3849,9 @@ var UserService = /** @class */ (function () {
     }
     UserService.prototype.init = function () {
         var _this = this;
-        // Check cookie language
+        // Check setting cookie
         this._authentication.cookieLanguage();
+        this._authentication.cookieTheme();
         // Check remember me login
         return this._authentication.authenticate()
             .then(function (result) {

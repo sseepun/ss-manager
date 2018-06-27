@@ -26,6 +26,10 @@ export class HeaderNavbarComponent implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
+  public themeChange(theme: string): void {
+    this._cookie.setThemeCookie(theme);
+  }
+
   public helloUsername() {
     let name = this._user.getUser().username.substring(0, this._user.getUser().username.length);
     if (name.length<13) return name;

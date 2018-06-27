@@ -21,8 +21,10 @@ export class UserService {
   ) { }
 
   init(): Promise<void> {
-    // Check cookie language
+    // Check setting cookie
     this._authentication.cookieLanguage();
+    this._authentication.cookieTheme();
+
     // Check remember me login
     return this._authentication.authenticate()
       .then(result => {

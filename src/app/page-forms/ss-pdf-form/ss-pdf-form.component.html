@@ -7,8 +7,8 @@
     <h2>Loading the form with access code - {{accessCode}}...</h2>
   </div>
   <ng-container *ngIf="form!==null && userDetail!==null">
-    <h2 *ngIf="_t.getLanguage==='EN'">{{form.nameEN}}</h2>
     <h2 *ngIf="_t.getLanguage==='TH'">{{form.nameTH}}</h2>
+    <h2 *ngIf="_t.getLanguage!=='TH'">{{form.nameEN}}</h2>    
 
     <div class="col-md-12 ss-pdf-content" id="ss-pdf-content" #content>
       <pdf-viewer class="ss-pdf-viewer" [src]="pdfPath"

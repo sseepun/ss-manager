@@ -31,7 +31,9 @@ export class PageUserFormHistoryComponent implements OnInit, OnDestroy {
   public pagination = [];
   public forms: Array<SubmittedForm> = null;
 
-  public selectedForm: SubmittedForm = null;
+  private processing = false;
+  public deleteNotification = false;
+  public selectedDeleteForm: SubmittedForm = null;
 
   constructor(
     private router: Router,
@@ -70,7 +72,7 @@ export class PageUserFormHistoryComponent implements OnInit, OnDestroy {
   }
   yourSubmittedFormUpdate(userId) {
     if (userId === this._user.getUser()._id) {
-      this.selectedForm = null;
+      this.selectedDeleteForm = null;
       this._form.setMode();
       this._form.getSubmittedForms(this._user.getUser()._id, this.criteria);
     }
@@ -85,13 +87,35 @@ export class PageUserFormHistoryComponent implements OnInit, OnDestroy {
     this._form.getSubmittedForms(this._user.getUser()._id, this.criteria);
   }
 
-  viewSubmittedForm(form) {
+  public viewSubmittedForm(form): void {
     this.router.navigate(['/forms/' + form.form.accessCode]);
     this._form.setMode('View', 'User', form);
   }
-  editSubmittedForm(form) {
+  public editSubmittedForm(form): void {
     this.router.navigate(['/forms/' + form.form.accessCode]);
     this._form.setMode('Edit', 'User', form);
+  }
+  public tryDeleteSubmittedForm(form): void {
+    this.selectedDeleteForm = form;
+    this.deleteNotification = false;
+  }
+  public deleteSubmittedForm(): void {
+    if (this.selectedDeleteForm !== null && !this.processing) {
+      this.processing = true;
+      this._form.deleteSubmittedForm(this._user.getUser()._id, this.selectedDeleteForm).then(result => {
+        if (result.status) {
+          this.deleteNotification = true;
+          this._socketio.deletedUserForm(this.selectedDeleteForm);
+          this.selectedDeleteForm = null;
+          this.pagination = [];
+          this.forms = null;
+        } else this.selectedDeleteForm = null;
+        this.processing = false;
+      });
+    }
+  }
+  public cancelDeleteSubmittedForm(): void {
+    if (!this.processing) this.selectedDeleteForm = null;
   }
 
   ngOnDestroy() {

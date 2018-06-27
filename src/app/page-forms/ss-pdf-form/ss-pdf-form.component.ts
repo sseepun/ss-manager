@@ -421,7 +421,7 @@ export class SsPdfFormComponent implements OnInit, OnDestroy {
         setTimeout(()=>{
           this.saving = false;
           d3.selectAll('.ss-button-container').style('display', 'block');
-        }, 250);
+        }, 600);
       });
     }
   }

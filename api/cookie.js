@@ -19,5 +19,11 @@ router.get('/setlanguagecookie/:language', (req, res) => {
   res.cookie('language', language, { maxAge: 1000 * 60 * 60 * 24 * 7});
   res.send({status: true,  message: 'Set language cookie successfully!', data: 1});
 });
+router.get('/setthemecookie/:theme', (req, res) => {
+  let theme = req.params.theme;
+  res.cookie('theme', theme, { maxAge: 1000 * 60 * 60 * 24 * 7});
+  res.send({status: true,  message: 'Set theme cookie successfully!', data: 1});
+});
+
 
 module.exports = router;

@@ -173,6 +173,9 @@ footer p span {
 
 th, td {border: 1px solid rgba(0,0,0,.3);}
 
+.box-popup {background: rgba(255,255,255,.8);}
+.box-popup > .box-popup-container {background: #fff;  border-color: #1e1e13;}
+
 .ss-button-container {background: rgba(0,0,0,0.1); border: 1px solid #000;}
 .ss-dowloading {background: rgba(255,255,255,.85);}
 

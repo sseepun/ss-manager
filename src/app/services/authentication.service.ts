@@ -6,8 +6,9 @@ import { JsonResponse } from '../schemas/json-response';
 import { User } from '../schemas/user';
 
 import { SocketioService } from './socketio.service';
-
 import { TranslationService } from './translation.service';
+
+declare var $: any;
 
 @Injectable()
 export class AuthenticationService {
@@ -42,6 +43,18 @@ export class AuthenticationService {
       })
       .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
   }
+  cookieTheme(): void {
+    let url = this.apiUrl + '/cookietheme';
+    this.http.get(url).toPromise()
+      .then(response => {
+        let result = response.json();
+        if (testing) console.log(result.message);
+        if (result.status) $('head link#theme').attr('href', 'assets/css/theme/'+result.data+'.css');
+        return result as JsonResponse;
+      })
+      .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
+  }
+
   register(formValue): Promise<JsonResponse> {
     let url = this.apiUrl + '/register';
     return this.http.post(url, JSON.stringify(formValue), { headers: this.headers })

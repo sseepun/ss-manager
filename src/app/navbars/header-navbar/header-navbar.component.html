@@ -11,8 +11,10 @@
     <div class="side-menu in">
       <div class="theme">
         <a class="d-md-none d-sm-none d-none d-lg-inline-block setting" href="#"><i class="fas fa-cog"></i></a>
-        <a id="day" class="active-theme" data-theme="assets/css/theme/day.css"><i class="fas fa-sun"></i></a>
-        <a id="night" data-theme="assets/css/theme/night.css"><i class="fas fa-moon"></i></a>
+        <a id="day" class="active-theme" data-theme="assets/css/theme/day.css"
+          (click)="themeChange('day')"><i class="fas fa-sun"></i></a>
+        <a id="night" data-theme="assets/css/theme/night.css"
+          (click)="themeChange('night')"><i class="fas fa-moon"></i></a>
       </div>
       <div class="theme theme-language">
         <a class="d-md-none d-sm-none d-none d-lg-inline-block setting" href="#"><i class="fas fa-globe"></i></a>
