@@ -105,7 +105,6 @@ export class PageUserFormHistoryComponent implements OnInit, OnDestroy {
       this._form.deleteSubmittedForm(this._user.getUser()._id, this.selectedDeleteForm).then(result => {
         if (result.status) {
           this.deleteNotification = true;
-          this._socketio.deletedUserForm(this.selectedDeleteForm);
           this.selectedDeleteForm = null;
           this.pagination = [];
           this.forms = null;

@@ -1,3 +1,170 @@
-<p>
-  page-admin-submitted-forms works!
-</p>
+<!-- Forms -->
+<ng-container *ngIf="selectedForm===null">
+  <app-table-search [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-table-search>
+  <div class="row form-container">
+    <h2 *ngIf="forms===null" class="result-err-table-text">{{_t.translate('Loading forms')}}...</h2>
+    <h2 *ngIf="forms!==null && forms.length==0" class="result-err-table-text">{{_t.translate('No forms available.')}}</h2>
+
+    <ng-container *ngIf="forms!==null && forms.length>0">
+      <div *ngFor="let form of forms;" class="col-sm-6 col-md-6 col-lg-4 form-selection-container"
+      (click)="selectForm(form)">
+        <div class="form-selection">
+          <img class="form-img" [src]="formPreview(form)">
+          <div class="form-cover"></div>
+          <h2 class="form-owner">{{formOwner(form)}} Form</h2>
+          <div class="form-desc">{{formName(form)}}</div>
+          <div class="form-date">
+            {{_t.translate('Create date')}}: 
+            <span>{{dateFromObjectId(form._id)}}</span>
+          </div>
+        </div>
+        <div *ngIf="form.pendingNumber>0" class="form-pending-warning warning-bg">{{form.pendingNumber}}</div>
+      </div>
+    </ng-container>
+  </div>
+  <app-pagination [pagination]="pagination" [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-pagination>
+</ng-container>
+
+<!-- Submitted form table -->
+<ng-container *ngIf="selectedForm!==null">
+  <div class="row" class="form-table-btn-container">
+    <input class="btn btn-success" type="button" [value]="_t.translate('Go back')" (click)="backToFormPage()">
+  </div>
+  <h2 *ngIf="_t.getLanguage==='TH'" class="form-table-header">{{selectedForm.nameTH}}</h2>
+  <h2 *ngIf="_t.getLanguage!=='TH'" class="form-table-header">{{selectedForm.nameEN}}</h2>
+
+  <app-table-search [type]="2" [criteria]="tableOptions" [selected]="tableCriteria" (criteriaChange)="tableCriteriaChange($event)"></app-table-search>
+  <div class="row form-container">
+    <div class="table-container"><table><tbody>
+      <tr>
+        <th width="12%">{{_t.translate('First Name')}}</th>
+        <th width="12%">{{_t.translate('Last Name')}}</th>
+        <th width="20%">{{_t.translate('E-mail Address')}}</th>
+        <th width="16%">{{_t.translate('Submitted Date')}}</th>
+        <th width="12%">{{_t.translate('Status')}}</th>
+        <th width="18%">{{_t.translate('Actions')}}</th>
+      </tr>
+      <tr *ngIf="submittedForms===null"><td colspan="6">
+        {{_t.translate('Loading submitted forms')}}...
+      </td></tr>
+      <tr *ngIf="submittedForms!==null && submittedForms.length==0"><td colspan="6">
+        {{_t.translate('No submitted forms found.')}}
+      </td></tr>
+      <ng-container *ngIf="submittedForms!==null && submittedForms.length>0">
+        <tr *ngFor="let submittedForm of submittedForms;">
+          <td>{{submittedForm.firstname}}</td>
+          <td>{{submittedForm.lastname}}</td>
+          <td>{{submittedForm.email}}</td>
+          <td>{{dateFromObjectId(submittedForm._id)}}</td>
+          <td [ngClass]="{'danger':submittedForm.status=='Not approved', 'warning':submittedForm.status=='Pending', 'primary':submittedForm.status=='Approved'}">
+            <strong>{{submittedForm.status}}</strong>
+          </td>
+          <td>
+            <i *ngIf="submittedForm.status!=='Approved'" class="far fa-check-circle success" title="Approve"
+              (click)="approvingSubmittedForm(submittedForm)">&nbsp;</i>
+            <i *ngIf="submittedForm.status!=='Not approved'" class="far fa-times-circle danger" title="Not approve"
+              (click)="notApprovingSubmittedForm(submittedForm)">&nbsp;</i>
+            <i class="far fa-address-book primary" title="View"
+              (click)="byPassSubmittedForm(submittedForm, 'ViewByPass')"></i>&nbsp;
+            <i class="fas fa-edit warning" title="Edit"
+              (click)="byPassSubmittedForm(submittedForm, 'EditByPass')"></i>&nbsp;
+            <i class="far fa-trash-alt danger" title="Delete" 
+              (click)="deletingingSubmittedForm(submittedForm)"></i>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody></table></div>
+  </div>
+  <app-pagination [pagination]="pagination" [selected]="tableCriteria" (criteriaChange)="tableCriteriaChange($event)"></app-pagination>
+</ng-container>
+
+<!-- Approving -->
+<div *ngIf="approving && selectedSubmittedForm!==null && selectedForm!==null" class="box-popup">
+  <div class="box-popup-container primary-border">
+    <h2 class="primary-color">{{_t.translate('Do you want to approve this submitted form?')}}</h2>
+    <h4 *ngIf="_t.getLanguage==='TH'"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>
+    <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>
+    <h4>
+      <strong>{{_t.translate('Owner')}}:</strong>
+      {{selectedSubmittedForm.firstname + ' ' + selectedSubmittedForm.lastname}}
+    </h4>
+    <div class="box-popup-btn-container">
+        <input class="btn btn-primary" type="button" [value]="_t.translate('Approve this form')"
+          (click)="setSubmittedFormStatus(selectedSubmittedForm, 'Approved')">
+        <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+          (click)="approving=false; selectedSubmittedForm=null;">
+    </div>
+  </div>
+</div>
+<div *ngIf="approvedNotification===1" class="notification-container">
+  <div class="notification primary-bg">
+    {{_t.translate('The submitted form has been approved successfully!')}}
+    <i class="far fa-times-circle notification-close" (click)="approvedNotification=0;"></i>
+  </div>
+</div>
+<div *ngIf="approvedNotification===-1" class="notification-container">
+  <div class="notification warning-bg">
+    {{_t.translate('Failed to approve the submitted form.')}}
+    <i class="far fa-times-circle notification-close" (click)="approvedNotification=0;"></i>
+  </div>
+</div>
+<!-- Not approving -->
+<div *ngIf="notApproving && selectedSubmittedForm!==null && selectedForm!==null" class="box-popup">
+  <div class="box-popup-container danger-border">
+    <h2 class="danger-color">{{_t.translate('Do you want to unapprove this submitted form?')}}</h2>
+    <h4 *ngIf="_t.getLanguage==='TH'"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>
+    <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>
+    <h4>
+      <strong>{{_t.translate('Owner')}}:</strong>
+      {{selectedSubmittedForm.firstname + ' ' + selectedSubmittedForm.lastname}}
+    </h4>
+    <div class="box-popup-btn-container">
+        <input class="btn btn-danger" type="button" [value]="_t.translate('Unapprove this form')"
+          (click)="setSubmittedFormStatus(selectedSubmittedForm, 'Not approved')">
+        <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+          (click)="approving=false; selectedSubmittedForm=null;">
+    </div>
+  </div>
+</div>
+<div *ngIf="notApprovedNotification===1" class="notification-container">
+  <div class="notification danger-bg">
+    {{_t.translate('The submitted form has been unapproved successfully!')}}
+    <i class="far fa-times-circle notification-close" (click)="notApprovedNotification=0;"></i>
+  </div>
+</div>
+<div *ngIf="notApprovedNotification===-1" class="notification-container">
+  <div class="notification warning-bg">
+    {{_t.translate('Failed to unapprove the submitted form.')}}
+    <i class="far fa-times-circle notification-close" (click)="notApprovedNotification=0;"></i>
+  </div>
+</div>
+<!-- Deleting -->
+<div *ngIf="deleting && selectedSubmittedForm!==null && selectedForm!==null" class="box-popup">
+  <div class="box-popup-container danger-border">
+    <h2 class="danger-color">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>
+    <h4 *ngIf="_t.getLanguage==='TH'"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>
+    <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>
+    <h4>
+      <strong>{{_t.translate('Owner')}}:</strong>
+      {{selectedSubmittedForm.firstname + ' ' + selectedSubmittedForm.lastname}}
+    </h4>
+    <div class="box-popup-btn-container">
+        <input class="btn btn-danger" type="button" [value]="_t.translate('Delete this form')"
+          (click)="deleteSubmittedForm(selectedSubmittedForm)">
+        <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+          (click)="deleting=false; selectedSubmittedForm=null;">
+    </div>
+  </div>
+</div>
+<div *ngIf="deletedNotification===1" class="notification-container">
+  <div class="notification danger-bg">
+    {{_t.translate('The submitted form has been deleted successfully!')}}
+    <i class="far fa-times-circle notification-close" (click)="deletedNotification=0;"></i>
+  </div>
+</div>
+<div *ngIf="deletedNotification===-1" class="notification-container">
+  <div class="notification warning-bg">
+    {{_t.translate('Failed to delete the submitted form.')}}
+    <i class="far fa-times-circle notification-close" (click)="deletedNotification=0;"></i>
+  </div>
+</div>

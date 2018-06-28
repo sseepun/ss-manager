@@ -259,7 +259,48 @@ router.get('/admingetactiveforms/:category/:start/:limit/:sort/:search', (req, r
         })
         .catch(err1=>{res.json({status:false, message:'Get admin forms error: '+err1, data:null})});
 });
-router.get('/admingetsubmittedforms/:formId/:start/:limit/:sort', (req, res)=>{
+router.get('/admingetforms/:start/:limit/:sort/:search', (req, res)=>{
+    let start = Number(req.params.start),
+        limit = Number(req.params.limit),
+        sort = req.params.sort,
+        search = req.params.search;
+    let dbForms = req.db.get('forms');
+
+    let sortObj = {_id:-1};
+    if (sort=='Name increasing') sortObj = {nameTH: 1, nameEN: 1};
+    else if (sort=='Name decreasing') sortObj = {nameTH: -1, nameEN: -1};
+    else if (sort=='Status increasing') sortObj = {status: 1};
+    else if (sort=='Status decreasing') sortObj = {status: -1};
+    else if (sort=='Created date increasing') sortObj = {_id: 1};
+    else if (sort=='Created date decreasing') sortObj = {_id: -1};
+    else if (sort=='Owner increasing') sortObj = {owner: 1};
+    else if (sort=='Owner decreasing') sortObj = {owner: -1};
+
+    let query = {};
+    if (search!='EmptyNone') {
+        query = {
+            $or: [
+                {nameTH: {$regex: search, $options: 'i'}},
+                {nameEN: {$regex: search, $options: 'i'}},
+                {status: {$regex: search, $options: 'i'}},
+                {owner: {$regex: search, $options: 'i'}}
+            ]
+        }
+    }
+
+    dbForms.find(query, {limit: limit, skip: start, sort: sortObj})
+        .then(check1=>{
+            dbForms.count(query)
+                .then(totalForms=>{
+                    res.json({
+                        status: true, message: 'Get forms successfully!', 
+                        data: check1, totalForms: totalForms
+                    });
+                });
+        })
+        .catch(err1=>{res.json({status:false, message:'Get forms error: '+err1, data:null})});
+});
+router.get('/admingetsubmittedforms/:formId/:start/:limit/:sort/:search', (req, res)=>{
     let formId = req.db.id(req.params.formId),
         start = Number(req.params.start),
         limit = Number(req.params.limit),
@@ -304,47 +345,6 @@ router.get('/admingetsubmittedforms/:formId/:start/:limit/:sort', (req, res)=>{
             });
     })
     .catch(err1=>{res.json({status:false, message:'Get admin submitted forms error: '+err1, data:null})});
-});
-router.get('/admingetforms/:start/:limit/:sort/:search', (req, res)=>{
-    let start = Number(req.params.start),
-        limit = Number(req.params.limit),
-        sort = req.params.sort,
-        search = req.params.search;
-    let dbForms = req.db.get('forms');
-
-    let sortObj = {_id:-1};
-    if (sort=='Name increasing') sortObj = {nameTH: 1, nameEN: 1};
-    else if (sort=='Name decreasing') sortObj = {nameTH: -1, nameEN: -1};
-    else if (sort=='Status increasing') sortObj = {status: 1};
-    else if (sort=='Status decreasing') sortObj = {status: -1};
-    else if (sort=='Created date increasing') sortObj = {_id: 1};
-    else if (sort=='Created date decreasing') sortObj = {_id: -1};
-    else if (sort=='Owner increasing') sortObj = {owner: 1};
-    else if (sort=='Owner decreasing') sortObj = {owner: -1};
-
-    let query = {};
-    if (search!='EmptyNone') {
-        query = {
-            $or: [
-                {nameTH: {$regex: search, $options: 'i'}},
-                {nameEN: {$regex: search, $options: 'i'}},
-                {status: {$regex: search, $options: 'i'}},
-                {owner: {$regex: search, $options: 'i'}}
-            ]
-        }
-    }
-
-    dbForms.find(query, {limit: limit, skip: start, sort: sortObj})
-        .then(check1=>{
-            dbForms.count(query)
-                .then(totalForms=>{
-                    res.json({
-                        status: true, message: 'Get forms successfully!', 
-                        data: check1, totalForms: totalForms
-                    });
-                });
-        })
-        .catch(err1=>{res.json({status:false, message:'Get forms error: '+err1, data:null})});
 });
 
 router.post('/setsubmittedformstatus', (req, res)=>{

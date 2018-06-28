@@ -11,6 +11,8 @@ import { SSForm } from '../schemas/ss-form';
 import { SubmittedForm } from '../schemas/submitted-form';
 import { FormCategory } from '../schemas/form-category';
 
+import { SocketioService } from './socketio.service';
+
 @Injectable()
 export class FormService {
 
@@ -33,7 +35,10 @@ export class FormService {
 
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter();
 
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http,
+    private _socketio: SocketioService
+  ) { }
 
   setMode(mode='New', role='User', submittedForm:SubmittedForm=null, form:SSForm=null, criteria=null): void {
     if (submittedForm===null) {
@@ -68,8 +73,8 @@ export class FormService {
     let search = criteria.search;
     if (search==='') search = 'EmptyNone';
     let url = this.apiUrl + '/getactiveforms/' + criteria.category + '/'
-      + criteria.start + '/' + criteria.limit + '/'
-      + criteria.sort + '/' + search;
+      + criteria.start + '/' + criteria.limit + '/' + criteria.sort + '/' + search;
+      
     return this.http.get(url).toPromise()
       .then(response=> {
         let result = response.json();
@@ -115,6 +120,7 @@ export class FormService {
       .then(response=> {
         const result = response.json();
         if (testing) console.log(result.message);
+        if (result.status) this._socketio.userFormSubmitted(result.data);
         return result as JsonResponse;
       })
       .catch(err=>{return {status: false, message: err, data: null} as JsonResponse});
@@ -129,6 +135,7 @@ export class FormService {
       .then(response=> {
         const result = response.json();
         if (testing) console.log(result.message);
+        if (result.status) this._socketio.userFormDeleted(form);
         return result as JsonResponse;
       })
       .catch(err=>{return {status: false, message: err, data: null} as JsonResponse});
@@ -162,9 +169,10 @@ export class FormService {
   }
 
   adminGetActiveForms(criteria): Promise<void> {
+    let search = criteria.search;
+    if (search==='') search = 'EmptyNone';
     const url = this.apiUrl + '/admingetactiveforms/' + criteria.category + '/'
-      + criteria.start + '/' + criteria.limit + '/'
-      + criteria.sort + '/' + criteria.search.replace(/\//g, '');
+      + criteria.start + '/' + criteria.limit + '/' + criteria.sort + '/' + search;
 
     return this.http.get(url).toPromise()
       .then(response=> {
@@ -176,22 +184,12 @@ export class FormService {
         this.subjectAdminForms.next({status: false, message: err, data: null} as JsonResponse);
       });
   }
-  adminGetSubmittedForms(form:SubmittedForm, criteria) {
-    const url = this.apiUrl + '/admingetsubmittedforms/' + form._id + '/'
-      + criteria.start + '/' + criteria.limit + '/' + criteria.sort;
-    return this.http.get(url).toPromise()
-      .then(response => {
-        const result = response.json();
-        if (testing) console.log(result.message);
-        this.subjectAdminSubmittedForms.next(result as JsonResponse);
-      })
-      .catch(err => {
-        this.subjectAdminSubmittedForms.next({status: false, message: err, data: null} as JsonResponse);
-      });
-  }
   adminGetForms(criteria): Promise<void> {
+    let search = criteria.search;
+    if (search==='') search = 'EmptyNone';
     const url = this.apiUrl + '/admingetforms/' + criteria.start + '/' + criteria.limit + '/'
-      + criteria.sort + '/' + criteria.search.replace(/\//g, '');
+      + criteria.sort + '/' + search;
+      
     return this.http.get(url).toPromise()
       .then(response=> {
         const result = response.json();
@@ -202,15 +200,32 @@ export class FormService {
         this.subjectAdminGovForms.next({status: false, message: err, data: null} as JsonResponse);
       });
   }
+  adminGetSubmittedForms(form:SSForm, criteria) {
+    let search = criteria.search;
+    if (search==='') search = 'EmptyNone';
+    const url = this.apiUrl + '/admingetsubmittedforms/' + form._id + '/'
+      + criteria.start + '/' + criteria.limit + '/' + criteria.sort + '/' + search;
+
+    return this.http.get(url).toPromise()
+      .then(response => {
+        const result = response.json();
+        if (testing) console.log(result.message);
+        this.subjectAdminSubmittedForms.next(result as JsonResponse);
+      })
+      .catch(err => {
+        this.subjectAdminSubmittedForms.next({status: false, message: err, data: null} as JsonResponse);
+      });
+  }
 
   setSubmittedFormStatus(form:SubmittedForm, status:string, approver:User): Promise<JsonResponse> {
-    const url = this.apiUrl + '/setsubmittedformstatus',
+    let url = this.apiUrl + '/setsubmittedformstatus',
         input = {formId: form._id, status: status, approver: approver};
     return this.http.post(url, JSON.stringify(input), { headers: this.headers })
       .toPromise()
       .then(response => {
         const result = response.json();
         if (testing) console.log(result.message);
+        if (result.status) this._socketio.submittedFormStatusChange(form);
         return result as JsonResponse;
       })
       .catch(err => {return {status: false, message: err, data: null} as JsonResponse});

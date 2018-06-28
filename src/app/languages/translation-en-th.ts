@@ -9,7 +9,7 @@ export const Translate_EN_TH = {
     'password': 'รหัสผ่าน',
     'remember me': 'จำฉันไว้ในระบบ',
     'forgot': 'ลืม',
-    'admin panel': 'ระบบการจัดการผู้ดูแล',
+    'admin panel': 'หน้าผู้ดูแล',
     'statistic': 'สถิติ',
     'submitted forms': 'แบบฟอร์มที่ได้รับ',
     'form management': 'การจัดการแบบฟอร์ม',
@@ -49,6 +49,7 @@ export const Translate_EN_TH = {
         'ระบบของเราเราไม่สามารถรับแบบฟอร์มของคุณได้ในขณะนี้ กรุณาลองใหม่อีกครั้งในภายหลัง ขอบคุณครับ',
     'your form is updated successfully. our staff will check your form shortly. thank you.':
         'คุณได้แก้ไขแบบฟอร์มของคุณเรียบร้อยแล้ว เจ้าหน้าที่ของเรากำลังตรวจสอบความถูกต้อง ขอบคุณครับ',
+    'your form is deleted successfully.': 'คุณได้ลบแบบฟอร์มของคุณเรียบร้อยแล้ว',
     'you cannot update your form at this time. please try again later. thank you.':
         'คุณไม่สามารถแก้ไขแบบฟอร์มของคุณได้ในขณะนี้ กรุณาลองใหม่อีกครั้งในภายหลัง ขอบคุณครับ',
     'your form status has been updated by our staff.': 
@@ -72,8 +73,25 @@ export const Translate_EN_TH = {
     'actions': 'การจัดการ',
     'delete this form': 'ลบแบบฟอร์มนี้',
     'edit this form': 'แก้ไขแบบฟอร์มนี้',
-    'do you really want to delete this submitted form?': 'คุณกำลังที่จะลบแบบฟอร์มของคุณ',
+    'do you really want to delete this submitted form?': 'คุณกำลังที่จะลบแบบฟอร์มนี้หรือไม่',
     'cancel': 'ยกเลิก',
-    'the submitted form has been deleted successfully!': 'แบบฟอร์มของคุณถูกลบเรียบร้อบเเล้ว'
+    'go back': 'ย้อนกลับ',
+    'owner': 'เจ้าของ',
+    'the submitted form has been deleted successfully!': 'แบบฟอร์มถูกลบเรียบร้อยเเล้ว',
+    'do you want to approve this submitted form?': 'คุณต้องการอนุมัติแบบฟอร์มนี้หรือไม่',
+    'approve this form': 'อนุมัติแบบฟอร์มนี้',
+    'the submitted form has been approved successfully!': 'แบบฟอร์มนี้ได้รับการอนุมัติเรียบร้อยเเล้ว',
+    'failed to approve the submitted form.': 'เกิดข้อผิดพลาดในการอนุมัติแบบฟอร์ม',
+    'do you want to unapprove this submitted form?': 'คุณต้องการยกเลิกการอนุมัติแบบฟอร์มนี้หรือไม่',
+    'unapprove this form': 'ยกเลิกการอนุมัติแบบฟอร์มนี้',
+    'the submitted form has been unapproved successfully!': 'แบบฟอร์มนี้ได้รับการยกเลิกการอนุมัติเรียบร้อยเเล้ว',
+    'failed to unapprove the submitted form.': 'เกิดข้อผิดพลาดในการยกเลิกการอนุมัติแบบฟอร์ม',
+    'failed to delete the submitted form.': 'เกิดข้อผิดพลาดในการลบแบบฟอร์ม',
+    'approved': 'อนุมัติ',
+    'not approved': 'ไม่อนุมัติ',
+    'edit and approve': 'แก้ไขและอนุมัติ',
+    'the submitted form status has been set successfully!': 'แบบฟอร์มได้รับการตั้งสถานะเรียบร้อยเเล้ว',
+    'failed to set the submitted form status.': 'เกิดข้อผิดพลาดในการตั้งสถานะแบบฟอร์ม',
+    'back to admin submitted forms': 'กลับไปหน้าแบบฟอร์มที่ได้รับ'
 };
   

@@ -13,7 +13,8 @@
             </div>
             <div class="list-item under-line" routerLinkActive="active" routerLink="submitted-forms">
               <i class="fas fa-arrow-right"></i>
-              {{_t.translate('Submitted Forms')}}
+              {{_t.translate('Submitted Forms')}} 
+              <div *ngIf="pendingFormNumber>0" class="alert warning-bg">{{pendingFormNumber}}</div>
             </div>
             <div class="list-item under-line" routerLinkActive="active" routerLink="form-management">
               <i class="fas fa-arrow-right"></i>

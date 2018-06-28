@@ -50,6 +50,7 @@
             </ng-container>
           </ng-container>
 
+          <!-- User actions -->
           <div class="ss-button-container new-mode">
             <h2 class="ss-btn-title">{{_t.translate('Form actions')}}</h2>
             <input class="btn btn-primary" type="submit" [value]="_t.translate('Submit form')">
@@ -195,39 +196,28 @@
             </ng-container>
           </ng-container>
 
+          <!-- User actions -->
           <div *ngIf="_form.getRole!=='Admin'" class="ss-button-container edit-mode">
             <h2 class="ss-btn-title">{{_t.translate('Form actions')}}</h2>
             <input class="btn btn-primary" type="submit" [value]="_t.translate('Edit this form')">
             <input class="btn btn-success" type="button" [value]="_t.translate('Back to form history')"
               routerLink="/user-panel/form-history">
             <input class="btn btn-danger" type="button" [value]="_t.translate('Delete this form')"
-              (click)="userDeleteSubmittedForm()">
+              (click)="deleting=true;">
           </div>
-          <!-- <div *ngIf="_form.getRole==='Admin'" class="ss-button-container view-mode">
+          <!-- Admin actions -->
+          <div *ngIf="_form.getRole==='Admin'" class="ss-button-container" [ngClass]="adminViewMode()">
             <h2 class="ss-btn-title">{{_t.translate('Form actions')}}</h2>
-            <input class="btn btn-primary" type="button" [value]="_t.translate('Download PDF')"
-              (click)="downloadPDF()">
-            <input class="btn btn-success" type="button" [value]="_t.translate('Back to admin forms')"
-              routerLink="/admin-panel/submitted-forms">
-            <input *ngIf="loadForm.status!=='Approved'" class="btn btn-success" type="button"
-              [value]="_t.translate('Approved')" (click)="adminSetSubmittedFormStatus('Approved')">
-            <input *ngIf="loadForm.status!=='Not approved'" class="btn btn-success" type="button"
-              [value]="_t.translate('Not approved')" (click)="adminSetSubmittedFormStatus('Not approved')">
-            <input class="btn btn-success" type="button" [value]="_t.translate('Delete this form')"
-              (click)="adminDeleteSubmittedForm()"> -->
-
-          <!-- <div class="button-container">
-            <ng-container *ngIf="formService.getRole()=='Admin'">
-              <input class="political-simple-btn" type="button" value="Back to admin forms" (click)="backToAdminForms()">
-              <input *ngIf="form!==null && userDetail!==null"
-              class="political-simple-btn" type="submit" value="Edit and Approve">
-              <input *ngIf="loadForm.status!='Approved'" class="political-simple-btn"
-              type="button" value="Approve" (click)="adminSetSubmittedFormStatus('Approved')">
-              <input *ngIf="loadForm.status!='Not approved'" class="political-simple-btn warning-btn"
-              type="button" value="Not approved" (click)="adminSetSubmittedFormStatus('Not approved')">
-              <input class="political-simple-btn delete-btn" type="button" value="Delete form" (click)="adminDeleteSubmittedForm()">
-            </ng-container>
-          </div> -->
+            <input class="btn btn-primary" type="submit" [value]="_t.translate('Edit and approve')">
+            <input class="btn btn-success" type="button" [value]="_t.translate('Go back')"
+              (click)="adminRedirect('/admin-panel/submitted-forms')">
+            <input *ngIf="loadForm.status!=='Approved'" class="btn btn-primary" type="button"
+              [value]="_t.translate('Approved')" (click)="approving=true">
+            <input *ngIf="loadForm.status!=='Not approved'" class="btn btn-warning" type="button"
+              [value]="_t.translate('Not approved')" (click)="notApproving=true">
+            <input class="btn btn-danger" type="button" [value]="_t.translate('Delete this form')"
+              (click)="adminDeleting=true"> 
+          </div>
         </form>
       </ng-container>
 
@@ -261,26 +251,28 @@
             </ng-container>
           </ng-container>
 
+          <!-- User actions -->
           <div *ngIf="_form.getRole!=='Admin'" class="ss-button-container view-mode">
             <h2 class="ss-btn-title">{{_t.translate('Form actions')}}</h2>
-            <input class="btn btn-primary" type="button" [value]="_t.translate('Download PDF')"
+            <input class="btn btn-success" type="button" [value]="_t.translate('Download PDF')"
               (click)="downloadPDF()">
             <input class="btn btn-success" type="button" [value]="_t.translate('Back to form history')"
               routerLink="/user-panel/form-history">
           </div>
-          <!-- <div *ngIf="_form.getRole==='Admin'" class="ss-button-container view-mode">
+          <!-- Admin actions -->
+          <div *ngIf="_form.getRole==='Admin'" class="ss-button-container" [ngClass]="adminViewMode()">
             <h2 class="ss-btn-title">{{_t.translate('Form actions')}}</h2>
-            <input class="btn btn-primary" type="button" [value]="_t.translate('Download PDF')"
+            <input class="btn btn-success" type="button" [value]="_t.translate('Download PDF')"
               (click)="downloadPDF()">
-            <input class="btn btn-success" type="button" [value]="_t.translate('Back to admin forms')"
-              routerLink="/admin-panel/submitted-forms">
-            <input *ngIf="loadForm.status!=='Approved'" class="btn btn-success" type="button"
-              [value]="_t.translate('Approved')" (click)="adminSetSubmittedFormStatus('Approved')">
-            <input *ngIf="loadForm.status!=='Not approved'" class="btn btn-success" type="button"
-              [value]="_t.translate('Not approved')" (click)="adminSetSubmittedFormStatus('Not approved')">
-            <input class="btn btn-success" type="button" [value]="_t.translate('Delete this form')"
-              (click)="adminDeleteSubmittedForm()"> 
-          </div> -->
+            <input class="btn btn-success" type="button" [value]="_t.translate('Go back')"
+              (click)="adminRedirect('/admin-panel/submitted-forms')">
+            <input *ngIf="loadForm.status!=='Approved'" class="btn btn-primary" type="button"
+              [value]="_t.translate('Approved')" (click)="approving=true">
+            <input *ngIf="loadForm.status!=='Not approved'" class="btn btn-warning" type="button"
+              [value]="_t.translate('Not approved')" (click)="notApproving=true">
+            <input class="btn btn-danger" type="button" [value]="_t.translate('Delete this form')"
+              (click)="adminDeleting=true"> 
+          </div>
         </form>
       </ng-container>
 
@@ -294,3 +286,71 @@
 
 <!-- Status result -->
 <app-form-result [page]="page" (redirect)="adminRedirect($event)"></app-form-result>
+
+<!-- User deleting -->
+<div *ngIf="loadForm!==null && deleting" class="big-box-popup">
+  <div class="box-popup-container danger-border">
+    <h2 class="danger-color">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>
+    <h4 *ngIf="_t.getLanguage==='TH'"><strong>แบบฟอร์ม:</strong> {{loadForm.form.nameTH}}</h4>
+    <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form:</strong> {{loadForm.form.nameEN}}</h4>
+    <div class="box-popup-btn-container">
+        <input class="btn btn-danger" type="button" [value]="_t.translate('Delete this form')"
+          (click)="userDeleteSubmittedForm()">
+        <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+          (click)="deleting=false;">
+    </div>
+  </div>
+</div>
+
+<!-- Admin -->
+<div *ngIf="form!==null && loadForm!==null && approving" class="big-box-popup">
+  <div class="box-popup-container primary-border">
+    <h2 class="primary-color">{{_t.translate('Do you want to approve this submitted form?')}}</h2>
+    <h4 *ngIf="_t.getLanguage==='TH'"><strong>แบบฟอร์ม:</strong> {{form.nameTH}}</h4>
+    <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form:</strong> {{form.nameEN}}</h4>
+    <h4>
+      <strong>{{_t.translate('Owner')}}:</strong>
+      {{loadForm.firstname + ' ' + loadForm.lastname}}
+    </h4>
+    <div class="box-popup-btn-container">
+        <input class="btn btn-primary" type="button" [value]="_t.translate('Approve this form')"
+          (click)="adminSetSubmittedFormStatus('Approved')">
+        <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+          (click)="approving=false;">
+    </div>
+  </div>
+</div>
+<div *ngIf="form!==null && loadForm!==null && notApproving" class="big-box-popup">
+  <div class="box-popup-container danger-border">
+    <h2 class="danger-color">{{_t.translate('Do you want to unapprove this submitted form?')}}</h2>
+    <h4 *ngIf="_t.getLanguage==='TH'"><strong>แบบฟอร์ม:</strong> {{form.nameTH}}</h4>
+    <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form:</strong> {{form.nameEN}}</h4>
+    <h4>
+      <strong>{{_t.translate('Owner')}}:</strong>
+      {{loadForm.firstname + ' ' + loadForm.lastname}}
+    </h4>
+    <div class="box-popup-btn-container">
+        <input class="btn btn-danger" type="button" [value]="_t.translate('Unapprove this form')"
+          (click)="adminSetSubmittedFormStatus('Not approved')">
+        <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+          (click)="notApproving=false;">
+    </div>
+  </div>
+</div>
+<div *ngIf="form!==null && loadForm!==null && adminDeleting" class="big-box-popup">
+  <div class="box-popup-container danger-border">
+    <h2 class="danger-color">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>
+    <h4 *ngIf="_t.getLanguage==='TH'"><strong>แบบฟอร์ม:</strong> {{form.nameTH}}</h4>
+    <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form:</strong> {{form.nameEN}}</h4>
+    <h4>
+      <strong>{{_t.translate('Owner')}}:</strong>
+      {{loadForm.firstname + ' ' + loadForm.lastname}}
+    </h4>
+    <div class="box-popup-btn-container">
+        <input class="btn btn-danger" type="button" [value]="_t.translate('Delete this form')"
+          (click)="adminDeleteSubmittedForm()">
+        <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+          (click)="adminDeleting=false;">
+    </div>
+  </div>
+</div>

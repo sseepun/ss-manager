@@ -34,7 +34,7 @@ export class SocketioService {
 
   // Forms
   userFormSubmitted(formId: string): void {this.socket.emit('form-submitted', formId)}
-  deletedUserForm(form: SubmittedForm): void {this.socket.emit('form-deleted', form)}
+  userFormDeleted(form: SubmittedForm): void {this.socket.emit('form-deleted', form)}
   submittedFormStatusChange(form: SubmittedForm): void {
     this.socket.emit('form-status', form.formId);
     this.socket.emit('form-user-status', form);

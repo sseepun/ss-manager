@@ -124,20 +124,20 @@ section h2, section h4 {
 	-webkit-box-shadow: none;
 					box-shadow: none; }
 
-.contact .btn-success {
+.btn-success {
 	background-color: #333;
 	-webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 					box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); }
 
-.contact .btn-success:hover {
+.btn-success:hover {
 	background-color: #000;
 	-webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 					box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); }
 
-.contact .btn-success:focus {
+.btn-success:focus {
 	box-shadow: none !important; }
 
-.contact .btn-success:active {
+.btn-success:active {
 	background-color: #666 !important;
 	color: #fff !important;
 	border-color: transparent !important; }
@@ -173,8 +173,9 @@ footer p span {
 
 th, td {border: 1px solid rgba(0,0,0,.3);}
 
-.box-popup {background: rgba(255,255,255,.8);}
-.box-popup > .box-popup-container {background: #fff;  border-color: #1e1e13;}
+.box-popup, .big-box-popup {background: rgba(255,255,255,.8);}
+.box-popup > .box-popup-container,
+.big-box-popup > .box-popup-container {background: #fff;  border-color: #1e1e13;}
 
 .ss-button-container {background: rgba(0,0,0,0.1); border: 1px solid #000;}
 .ss-dowloading {background: rgba(255,255,255,.85);}

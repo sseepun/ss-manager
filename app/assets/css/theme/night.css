@@ -88,17 +88,19 @@ section h2, section h4 {
 	background-color: #111;
 	box-shadow: none; }
 
-.contact .btn-success {
+.btn-success {
 	background-color: #d0d0d0;
 	color: #000; }
 
-.contact .btn-success:hover {
-	background-color: #fff; }
+.btn-success:hover {
+	background-color: #fff;
+	color: #000; }
 
-.contact .btn-success:focus {
-	box-shadow: none !important; }
+.btn-success:focus {
+	box-shadow: none !important;
+	color: #000; }
 
-.contact .btn-success:active {
+.btn-success:active {
 	color: #fff !important;
 	background-color: #222 !important;
 	border-color: #fff !important; }
@@ -135,8 +137,9 @@ footer hr {
 
 th, td {border: 1px solid rgba(255,255,255,.3);}
 
-.box-popup {background: rgba(0, 0, 0, 0.8);}
-.box-popup > .box-popup-container {background: #1e1e13;  border-color: #fff;}
+.box-popup, .big-box-popup {background: rgba(0, 0, 0, 0.8);}
+.box-popup > .box-popup-container, 
+.big-box-popup > .box-popup-container {background: #1e1e13;  border-color: #fff;}
 
 .ss-button-container {background: #000; border: 1px solid #fff;}
 .ss-dowloading {background: rgba(0,0,0,.85);}

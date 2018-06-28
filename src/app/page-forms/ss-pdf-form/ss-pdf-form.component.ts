@@ -43,7 +43,7 @@ export class SsPdfFormComponent implements OnInit, OnDestroy {
   private signatureNames: Array<string> = [];
   private signatures = {};
 
-  private loadForm: SubmittedForm = null;
+  public loadForm: SubmittedForm = null;
   private checkboxValue = {};
 
   readonly dpiRatio = 96 / 72;  
@@ -59,7 +59,12 @@ export class SsPdfFormComponent implements OnInit, OnDestroy {
   private processing = false;
   public page = 'Form';
   public saving = false;
-  public deleting = false;  
+  public deleting = false;
+
+  // Admin
+  public approving = false;
+  public notApproving = false;
+  public adminDeleting = false;
 
   @ViewChild('content') content: ElementRef;
 
@@ -89,7 +94,7 @@ export class SsPdfFormComponent implements OnInit, OnDestroy {
     d3.select('body').classed('grey-body', true);
   
     // Load form
-    this.loadForm = Object.assign({}, this._form.getSubmittedForm) as SubmittedForm;    
+    this.loadForm = Object.assign({}, this._form.getSubmittedForm) as SubmittedForm;
     this.routerSubscription = this._router.params.subscribe(params=>{
       if (params.accessCode!==undefined) {
         this.accessCode = params.accessCode;
@@ -120,7 +125,7 @@ export class SsPdfFormComponent implements OnInit, OnDestroy {
     }.bind(this));
   }
   yourSubmitted(formId) {
-    if (this.loadForm!==null && this.loadForm._id===formId) return true;
+    if (this.loadForm!==null && this.loadForm._id===formId && !this.bypass) return true;
     else return false;
   }
 
@@ -199,6 +204,12 @@ export class SsPdfFormComponent implements OnInit, OnDestroy {
           imageSize = image.node().getBoundingClientRect();
       image.style('top', ((profileSize.height - imageSize.height)/2)+'px');
     }
+  }
+  public adminViewMode() {
+    if (this.loadForm!==null) {
+      if (this.loadForm.status!=='Approved' && this.loadForm.status!=='Not approved') return 'admin-view-mode1';
+      else return 'admin-view-mode2';
+    } else return '';
   }
 
   // General input process
@@ -328,64 +339,80 @@ export class SsPdfFormComponent implements OnInit, OnDestroy {
   }
   userEditSubmittedForm(values, evidences=undefined) {
     if (evidences===undefined) {
-      this._form.editSubmittedForm(this._form.getSubmittedForm._id, values)
-        .then(result => {
-          this.processing = false;
-          if (result.status) this.page = 'Edited ok';
-          else this.page = 'Edited failed';
-        });
+      this._form.editSubmittedForm(this._form.getSubmittedForm._id, values).then(result => {
+        this.processing = false;
+        if (result.status) this.page = 'Edited ok';
+        else this.page = 'Edited failed';
+      });
     } else {
-      this._form.editSubmittedForm(this._form.getSubmittedForm._id, values, evidences)
-        .then(result => {
-          this.processing = false;
-          if (result.status) this.page = 'Edited ok';
-          else this.page = 'Edited failed';
-        });
+      this._form.editSubmittedForm(this._form.getSubmittedForm._id, values, evidences).then(result => {
+        this.processing = false;
+        if (result.status) this.page = 'Edited ok';
+        else this.page = 'Edited failed';
+      });
     }
   }
   adminEditSubmittedForm(values) {
-    this._form.editSubmittedForm(this._form.getSubmittedForm._id, values)
-      .then(result => {
-        if (result.status) {
-          this.loadForm.formValue = values;
-          this.adminSetSubmittedFormStatus('Approved');
-        } else {
-          this.bypass = true;
-          this.processing = false;
-          this.page = 'Admin edited failed';
-        }
-      });
-  }
-  public adminSetSubmittedFormStatus(status) {
-    if (this._user.getUser().level >= 7) {
-      const approver = Object.assign({}, this._user.getUser());
-      this._form.setSubmittedFormStatus(this.loadForm, status, approver).then(result => {
+    this._form.editSubmittedForm(this._form.getSubmittedForm._id, values).then(result => {
+      if (result.status) {
+        this.loadForm.formValue = values;
+        this.processing = false;
+        this.adminSetSubmittedFormStatus('Approved');
+      } else {
         this.bypass = true;
-        this.processing = false;        
-          
-        if (result.status) {
-          this._socketio.submittedFormStatusChange(this.loadForm);
-          this.router.navigate(['/admin-panel/submitted-forms']);
-        } else this.page = 'Admin set status failed';
+        this.processing = false;
+        this.page = 'Admin edited failed';
+      }
+    });
+  }
+  public userDeleteSubmittedForm() {
+    if (this.loadForm!==null && !this.processing) {
+      this.processing = true;
+      this._form.deleteSubmittedForm(this._user.getUser()._id, this.loadForm).then(result => {
+        this.processing = false;
+        if (result.status) this.page = 'Deleted ok';
+        else this.page = 'Deleted failed';
+        this.loadForm = null;
+        this.deleting = false;
       });
-    } else {
-      this._form.setMode();
-      this.router.navigate(['/']);
     }
   }
-  public deleteSubmittedForm() {
-    // if (this.userinfoService.getUserinfo().level >= 7) {
-    //   this.formService.deleteSubmittedForm(this.loadForm.userId, this.loadForm).then(result => {
-    //     if (result.status) {
-    //       this.bypass = true;
-    //       this.socketioService.deletedUserForm(this.loadForm);
-    //       this.router.navigate(['/admin-panel/submitted-forms']);
-    //     }
-    //   });
-    // } else {
-    //   this.formService.setMode();
-    //   this.router.navigate(['/']);
-    // }
+  public adminDeleteSubmittedForm() {
+    if (!this.processing) {
+      this.processing = true;
+      if (this._user.getUser().level >= 7) {
+        this.bypass = true;
+        this._form.deleteSubmittedForm(this.loadForm.userId, this.loadForm).then(result => {
+          this.processing = false;
+          this.adminDeleting = false;
+            
+          if (result.status) this.page = 'Admin deleted ok';
+          else this.page = 'Admin deleted failed';
+        });
+      } else {
+        this._form.setMode();
+        this.router.navigate(['/']);
+      }
+    }
+  }
+  public adminSetSubmittedFormStatus(status) {
+    if (!this.processing) {
+      this.processing = true;
+      if (this._user.getUser().level >= 7) {
+        this.bypass = true;        
+        let approver = Object.assign({}, this._user.getUser()) as User;
+        this._form.setSubmittedFormStatus(this.loadForm, status, approver).then(result => {
+          this.processing = false;
+          this.approving = false; this.notApproving = false;
+            
+          if (result.status) this.page = 'Admin set status ok';
+          else this.page = 'Admin set status failed';
+        });
+      } else {
+        this._form.setMode();
+        this.router.navigate(['/']);
+      }
+    }
   }
   public downloadPDF() {
     if (!this.saving) {
@@ -425,10 +452,14 @@ export class SsPdfFormComponent implements OnInit, OnDestroy {
       });
     }
   }
-
   public adminRedirect(link) {
-    this.bypass = true;
-    this.router.navigate(['/']);
+    if (this._user.getUser().level >= 7) {
+      this.bypass = true;
+      this.router.navigate([link]);
+    } else {
+      this._form.setMode();
+      this.router.navigate(['/']);
+    }
   }
 
   ngOnDestroy() {

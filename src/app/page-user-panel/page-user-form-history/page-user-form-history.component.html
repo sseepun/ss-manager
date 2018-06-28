@@ -1,6 +1,4 @@
-<app-table-search [type]="2" [criteria]="options" [selected]="criteria" 
-(criteriaChange)="criteriaChange($event)"></app-table-search>
-
+<app-table-search [type]="2" [criteria]="options" [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-table-search>
 <div class="row form-container">
   <div class="table-container"><table><tbody>
     <tr>
@@ -21,7 +19,7 @@
         <td *ngIf="_t.getLanguage!=='TH'" class="col-left">{{form.form.nameEN}}</td>
         <td>{{dateFromObjectId(form._id)}}</td>
         <td [ngClass]="{'danger':form.status=='Not approved', 'warning':form.status=='Pending', 'primary':form.status=='Approved'}">
-          {{form.status}}
+          <strong>{{form.status}}</strong>
         </td>
 
         <!-- Pending forms -->
@@ -39,7 +37,6 @@
     </ng-container>
   </tbody></table></div>
 </div>
-
 <app-pagination [pagination]="pagination" [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-pagination>
 
 <div *ngIf="selectedDeleteForm!==null" class="box-popup">
