@@ -1,21 +1,31 @@
 <div *ngIf="type===1" class="row table-criteria-container md-border-top">
   <div class="col-md-5 col-lg-4 table-limit table-criteria">
     {{_t.translate('Show per page')}}
-    <select class="form-control no-transition" (change)="limitChange($event.target.value)" [ngStyle]="limitStyle()">
+    <!-- <select class="form-control no-transition" (change)="limitChange($event.target.value)" [ngStyle]="limitStyle()">
       <ng-container *ngFor="let limit of criteria.limit;">
         <option *ngIf="limit===selected.limit" [value]="limit" selected="selected">{{limit}}</option>
         <option *ngIf="limit!==selected.limit" [value]="limit">{{limit}}</option>
       </ng-container>
-    </select>
+    </select> -->
+    <sui-select class="selection form-control no-transition" [ngModel]="selected.limit"
+    (ngModelChange)="limitChange($event)" [ngStyle]="limitStyle()">
+      <sui-select-option *ngFor="let limit of criteria.limit;" [value]="limit">
+      </sui-select-option>
+    </sui-select>
   </div>
   <div class="col-md-7 col-lg-4 table-sort table-criteria">
     {{_t.translate('Sort by')}}
-    <select class="form-control no-transition" (change)="sortChange($event.target.value)" [ngStyle]="sortStyle()">
+    <!-- <select class="form-control no-transition" (change)="sortChange($event.target.value)" [ngStyle]="sortStyle()">
       <ng-container *ngFor="let sort of criteria.sort;">
         <option *ngIf="sort===selected.sort" [value]="sort" selected="selected">{{sort}}</option>
         <option *ngIf="sort!==selected.sort" [value]="sort">{{sort}}</option>
       </ng-container>
-    </select>
+    </select> -->
+    <sui-select class="selection form-control no-transition" [ngModel]="selected.sort"
+    (ngModelChange)="sortChange($event)" [ngStyle]="sortStyle()">
+      <sui-select-option *ngFor="let sort of criteria.sort;" [value]="sort">
+      </sui-select-option>
+    </sui-select>
   </div>
   <div class="col-md-12 col-lg-4 table-search table-criteria">
     <input #keyword class="form-control no-transition" type="text" (keyup.enter)="searchChange(keyword.value)" [ngStyle]="searchStyle()"
@@ -27,20 +37,30 @@
 <div *ngIf="type===2" class="row table-criteria-container md-border-top">
   <div class="col-md-5 col-lg-5 table-limit table-criteria">
     {{_t.translate('Show per page')}}
-    <select class="form-control no-transition" (change)="limitChange($event.target.value)" [ngStyle]="limitStyle()">
+    <!-- <select class="form-control no-transition" (change)="limitChange($event.target.value)" [ngStyle]="limitStyle()">
       <ng-container *ngFor="let limit of criteria.limit;">
         <option *ngIf="limit===selected.limit" [value]="limit" selected="selected">{{limit}}</option>
         <option *ngIf="limit!==selected.limit" [value]="limit">{{limit}}</option>
       </ng-container>
-    </select>
+    </select> -->
+    <sui-select class="selection form-control no-transition" [ngModel]="selected.limit"
+    (ngModelChange)="limitChange($event)" [ngStyle]="limitStyle()">
+      <sui-select-option *ngFor="let limit of criteria.limit;" [value]="limit">
+      </sui-select-option>
+    </sui-select>
   </div>
   <div class="col-md-7 col-lg-7 table-sort table-criteria">
     {{_t.translate('Sort by')}}
-    <select class="form-control no-transition" (change)="sortChange($event.target.value)" [ngStyle]="sortStyle()">
+    <!-- <select class="form-control no-transition" (change)="sortChange($event.target.value)" [ngStyle]="sortStyle()">
       <ng-container *ngFor="let sort of criteria.sort;">
         <option *ngIf="sort===selected.sort" [value]="sort" selected="selected">{{sort}}</option>
         <option *ngIf="sort!==selected.sort" [value]="sort">{{sort}}</option>
       </ng-container>
-    </select>
+    </select> -->
+    <sui-select class="selection form-control no-transition" [ngModel]="selected.sort"
+    (ngModelChange)="sortChange($event)" [ngStyle]="sortStyle()">
+      <sui-select-option *ngFor="let sort of criteria.sort;" [value]="sort">
+      </sui-select-option>
+    </sui-select>
   </div>
 </div>

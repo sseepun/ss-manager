@@ -30,7 +30,7 @@ export class PageAdminSubmittedFormsComponent implements OnInit {
   public selectedForm: SSForm = null;
 
   public tableOptions = {
-    limit: [1, 10, 25, 50, 100],
+    limit: [10, 25, 50, 100],
     sort: [
       'None', 'Status increasing', 'Status decreasing', 
       'Submitted date increasing', 'Submitted date decreasing'
@@ -63,7 +63,7 @@ export class PageAdminSubmittedFormsComponent implements OnInit {
 
   ngOnInit() {
     // Subscription
-    this.getFormsSubscription = this._form.observeAdminForms().subscribe(result => {
+    this.getFormsSubscription = this._form.observeAdminActiveForms().subscribe(result => {
       if (result.status) {
         this.forms = result.data as Array<SSForm>;
         this.criteria.total = result.totalForms;

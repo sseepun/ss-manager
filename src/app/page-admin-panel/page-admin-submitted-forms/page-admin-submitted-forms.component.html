@@ -27,7 +27,7 @@
 
 <!-- Submitted form table -->
 <ng-container *ngIf="selectedForm!==null">
-  <div class="row" class="form-table-btn-container">
+  <div class="row" class="form-table-btn-container md-border-top md-space-top">
     <input class="btn btn-success" type="button" [value]="_t.translate('Go back')" (click)="backToFormPage()">
   </div>
   <h2 *ngIf="_t.getLanguage==='TH'" class="form-table-header">{{selectedForm.nameTH}}</h2>

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { ipHost, testing } from '../globals';
 
+import { JsonResponse } from '../schemas/json-response';
+
 @Injectable()
 export class FileuploadService {
 
@@ -56,7 +58,7 @@ export class FileuploadService {
       })
       .catch(err => null);
   }
-  removeMainFormPreview(previewPath) {
+  removeMainFormPreview(previewPath: String): Promise<JsonResponse> {
     let url = this.apiUrl + '/removemainformpreview',
         input = { previewPath: previewPath };
     return this.http.post(url, JSON.stringify({ 'input': input }), { headers: this.headers })
@@ -64,9 +66,9 @@ export class FileuploadService {
       .then(response => {
         const result = response.json();
         if (testing) console.log(result.message);
-        return result;
+        return result as JsonResponse;
       })
-      .catch(err => null);
+      .catch(err=>{return {status: false, message: err, data: null} as JsonResponse});
   }
 
   uploadFormEvidences(evidenceForm, evidenceNumber) {

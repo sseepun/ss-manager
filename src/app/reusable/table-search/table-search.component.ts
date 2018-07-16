@@ -10,7 +10,7 @@ export class TableSearchComponent implements OnInit {
 
   @Input() type = 1;
   @Input() criteria = {
-    limit: [1, 10, 25, 50, 100],
+    limit: [10, 25, 50, 100],
     sort: [
       'None', 'Name increasing', 'Name decreasing', 'Owner increasing', 'Owner decreasing', 
       'Created date increasing', 'Created date decreasing'

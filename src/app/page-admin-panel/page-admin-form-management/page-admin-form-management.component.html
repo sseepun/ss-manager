@@ -1,1 +1,160 @@
-Hello
+<ng-container *ngIf="page==='Table'">
+    <div class="row" class="form-table-btn-container md-border-top md-space-top">
+      <input class="btn btn-success" type="button" [value]="_t.translate('Create a form')" (click)="accessForm(null, 'Create')">
+    </div>
+  
+    <app-table-search [criteria]="options" [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-table-search>
+    <div class="row form-container">
+      <div class="table-container"><table><tbody>
+        <tr>
+          <th width="36%">{{_t.translate('Form Name')}}</th>
+          <th width="18%">{{_t.translate('Require Evidence')}}</th>
+          <th width="15%">{{_t.translate('Created Date')}}</th>
+          <th width="15%">{{_t.translate('Status')}}</th>
+          <th width="16%">{{_t.translate('Actions')}}</th>
+        </tr>
+        <tr *ngIf="forms===null"><td colspan="5">
+          {{_t.translate('Loading forms')}}...
+        </td></tr>
+        <tr *ngIf="forms!==null && forms.length==0"><td colspan="5">
+          {{_t.translate('No forms found.')}}
+        </td></tr>
+        <ng-container *ngIf="forms!==null && forms.length>0">
+          <tr *ngFor="let form of forms;">
+            <td *ngIf="_t.getLanguage==='TH'" class="col-left">{{form.nameTH}}</td>
+            <td *ngIf="_t.getLanguage!=='TH'" class="col-left">{{form.nameEN}}</td>
+            <td>{{requireEvidence(form.requireEvidence)}}</td>
+            <td>{{dateFromObjectId(form._id)}}</td>
+            <td [ngClass]="{'danger':form.status=='Inactive', 'primary':form.status=='Active'}">
+              <strong>{{form.status}}</strong>
+            </td>
+            <td>
+              <i *ngIf="form.status!=='Active'" class="far fa-check-circle success" title="Set active"
+                (click)="settingFormActive(form)">&nbsp;</i>
+              <i *ngIf="form.status!=='Inactive'" class="far fa-times-circle danger" title="Set inactive"
+                (click)="settingFormInactive(form)">&nbsp;</i>
+              <i class="far fa-address-book primary" title="View" (click)="accessForm(form, 'View')"></i>&nbsp;
+              <i class="fas fa-edit warning" title="Edit" (click)="accessForm(form, 'Edit')"></i>&nbsp;
+              <i class="far fa-trash-alt danger" title="Delete" (click)="deletingForm(form)"></i>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody></table></div>
+    </div>
+    <app-pagination [pagination]="pagination" [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-pagination>
+</ng-container>
+<!-- Set active -->
+<div *ngIf="setActive && selectedForm!==null" class="box-popup">
+    <div class="box-popup-container primary-border">
+        <h2 class="primary-color">{{_t.translate('Do you want to set this form active?')}}</h2>
+        <h4 *ngIf="_t.getLanguage==='TH'"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>
+        <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>
+        <div class="box-popup-btn-container">
+            <input class="btn btn-primary" type="button" [value]="_t.translate('Set active')"
+                (click)="setFormStatus(selectedForm, 'Active')">
+            <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+                (click)="setActive=false; selectedForm=null;">
+        </div>
+    </div>
+</div>
+<div *ngIf="setActiveNotification===1" class="notification-container">
+    <div class="notification primary-bg">
+        {{_t.translate('The form has been set active successfully!')}}
+        <i class="far fa-times-circle notification-close" (click)="setActiveNotification=0;"></i>
+    </div>
+</div>
+<div *ngIf="setActiveNotification===-1" class="notification-container">
+    <div class="notification warning-bg">
+        {{_t.translate('Failed to set the form active.')}}
+        <i class="far fa-times-circle notification-close" (click)="setActiveNotification=0;"></i>
+    </div>
+</div>
+<!-- Set inactive -->
+<div *ngIf="setInactive && selectedForm!==null" class="box-popup">
+    <div class="box-popup-container danger-border">
+        <h2 class="danger-color">{{_t.translate('Do you want to set this form inactive?')}}</h2>
+        <h4 *ngIf="_t.getLanguage==='TH'"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>
+        <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>
+        <div class="box-popup-btn-container">
+            <input class="btn btn-danger" type="button" [value]="_t.translate('Set inactive')"
+                (click)="setFormStatus(selectedForm, 'Inactive')">
+            <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+                (click)="setInactive=false; selectedForm=null;">
+        </div>
+    </div>
+</div>
+<div *ngIf="setInactiveNotification===1" class="notification-container">
+    <div class="notification danger-bg">
+        {{_t.translate('The form has been set inactive successfully!')}}
+        <i class="far fa-times-circle notification-close" (click)="setInactiveNotification=0;"></i>
+    </div>
+</div>
+<div *ngIf="setInactiveNotification===-1" class="notification-container">
+    <div class="notification warning-bg">
+        {{_t.translate('Failed to set the form inactive.')}}
+        <i class="far fa-times-circle notification-close" (click)="setInactiveNotification=0;"></i>
+    </div>
+</div>
+<!-- Deleting -->
+<div *ngIf="deleting && selectedForm!==null" class="box-popup">
+    <div class="box-popup-container danger-border">
+        <h2 class="danger-color">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>
+        <h4 *ngIf="_t.getLanguage==='TH'"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>
+        <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>
+        <div class="box-popup-btn-container">
+            <input class="btn btn-danger" type="button" [value]="_t.translate('Delete this form')"
+                (click)="deleteForm(selectedForm)">
+            <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+                (click)="deleting=false; selectedForm=null;">
+        </div>
+    </div>
+</div>
+<div *ngIf="deletedNotification===1" class="notification-container">
+    <div class="notification danger-bg">
+        {{_t.translate('The form has been deleted successfully!')}}
+        <i class="far fa-times-circle notification-close" (click)="deletedNotification=0;"></i>
+    </div>
+</div>
+<div *ngIf="deletedNotification===-1" class="notification-container">
+    <div class="notification warning-bg">
+        {{_t.translate('Failed to delete the form.')}}
+        <i class="far fa-times-circle notification-close" (click)="deletedNotification=0;"></i>
+    </div>
+</div>
+
+
+<!-- View form -->
+<ng-container *ngIf="page==='View' && selectedForm!==null">
+    <div class="row" class="form-table-btn-container md-border-top md-space-top">
+      <input class="btn btn-success" type="button" [value]="_t.translate('Go back')" (click)="accessForm(null, 'Table')">
+    </div>
+    <app-form-actions [type]="page" [form]="selectedForm"></app-form-actions>
+</ng-container>
+
+<!-- Edit form -->
+<ng-container *ngIf="page==='Edit' && selectedForm!==null">
+    <div class="row" class="form-table-btn-container md-border-top md-space-top">
+      <input class="btn btn-success" type="button" [value]="_t.translate('Go back')" (click)="accessForm(null, 'Table')">
+    </div>
+    <app-form-actions [type]="page" [form]="selectedForm" (formEdited)="formEdited($event)"></app-form-actions>
+</ng-container>
+<div *ngIf="edited===1" class="notification-container">
+    <div class="notification primary-bg">
+        {{_t.translate('The form has been edited successfully.')}}
+        <i class="far fa-times-circle notification-close" (click)="edited=0;"></i>
+    </div>
+</div>
+
+<!-- Create form -->
+<ng-container *ngIf="page==='Create' && selectedForm===null">
+    <div class="row" class="form-table-btn-container md-border-top md-space-top">
+      <input class="btn btn-success" type="button" [value]="_t.translate('Go back')" (click)="accessForm(null, 'Table')">
+    </div>
+    <app-form-actions [type]="page" [form]="selectedForm" (formCreated)="formCreated($event)"></app-form-actions>
+</ng-container>
+<div *ngIf="created===1" class="notification-container">
+    <div class="notification primary-bg">
+        {{_t.translate('The form has been created successfully.')}}
+        <i class="far fa-times-circle notification-close" (click)="created=0;"></i>
+    </div>
+</div>

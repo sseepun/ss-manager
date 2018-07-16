@@ -1,0 +1,235 @@
+<!-- Create -->
+<div class="form-actions-container" *ngIf="type==='Create' && formCategory!==null">
+  <h2 class="form-table-header">{{_t.translate('Create form')}}</h2>
+  <form #createGovForm="ngForm" (ngSubmit)="adminCreateForm(createGovForm)" ngNativeValidate>
+    <div class="row">
+      <div class="col-md-6">
+        {{_t.translate('Thai name')}} <span class="danger-color">*</span>
+        <div class="form-group">
+          <input class="form-control" type="text" name="nameTH" ngModel required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('English name')}} <span class="danger-color">*</span>
+        <div class="form-group">
+          <input class="form-control" type="text" name="nameEN" ngModel required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form owner')}}
+        <div class="form-group">
+          <input class="form-control" type="text" name="owner" ngModel>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Require evidences')}} <span class="danger-color">*</span>
+        <div class="form-group">
+          <sui-select class="selection form-control no-transition" [ngModel]="'No'" ngModel required
+          name="requireEvidence">
+            <sui-select-option *ngFor="let option of ['No', 'Yes']" [value]="option"></sui-select-option>
+          </sui-select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form PDF')}} (<span class="danger-color">*{{_t.translate('cannot be changed')}}</span>)
+        <div class="form-group">
+          <input class="form-control" name="pdfForm" type="file" (change)="choosePdfForm($event)" accept="application/pdf">
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form category')}}
+        <div class="form-group">
+          <ng-container *ngIf="_t.getLanguage=='TH'">
+            <sui-select class="selection form-control no-transition" ngModel name="category">
+              <sui-select-option *ngFor="let option of formCategory" [value]="option.categoryTH"></sui-select-option>
+            </sui-select>
+          </ng-container>
+          <ng-container *ngIf="_t.getLanguage!='TH'">
+            <sui-select class="selection form-control no-transition" ngModel name="category">
+              <sui-select-option *ngFor="let option of formCategory" [value]="option.categoryEN"></sui-select-option>
+            </sui-select>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form preview')}}
+        <div class="form-group">
+          <input class="form-control" name="previewUrl" type="file" (change)="choosePdfPreview($event)" accept="image/*">
+        </div>
+      </div>
+
+      <div class="delimeter"></div>
+      <div class="col-md-12 text-center">
+        <button class="btn btn-success" type="submit">{{_t.translate('Create a form')}}</button>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<!-- View -->
+<div class="form-actions-container" *ngIf="type==='View' && form!==null">
+  <h2 class="form-table-header">{{_t.translate('View form')}}</h2>
+  <div class="row">
+    <div class="row">
+      <div class="col-md-6">
+        {{_t.translate('Thai name')}}
+        <div class="form-group">
+          <input class="form-control" type="text" name="nameTH" [value]="form.nameTH" disabled="disabled">
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('English name')}}
+        <div class="form-group">
+          <input class="form-control" type="text" name="nameEN" [value]="form.nameEN" disabled="disabled">
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form owner')}}
+        <div class="form-group">
+          <input class="form-control" type="text" name="owner" [value]="displayValue(form.owner)" disabled="disabled">
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Require evidences')}}
+        <div class="form-group">
+          <input class="form-control" type="text" name="requireEvidence" [value]="displayValue(form.requireEvidence)" disabled="disabled">
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form PDF')}}
+        <div class="form-group">
+          <input class="form-control" name="pdfForm" type="text" [value]="form.pdfForm" disabled="disabled">
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form category')}}
+        <div class="form-group">
+          <input class="form-control" type="text" name="category" [value]="displayFormCategory()" disabled="disabled">
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form preview')}}
+        <div class="delimeter-sm"></div>
+        <img class="form-preview-display" [src]="displayFormPreview()">
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Edit -->
+<div class="form-actions-container" *ngIf="type==='Edit' && form!==null">
+  <h2 class="form-table-header">{{_t.translate('Edit form')}}</h2>
+  <form #editGovForm="ngForm" (ngSubmit)="adminEditForm(editGovForm)" ngNativeValidate>
+    <div class="row">
+      <div class="col-md-6">
+        {{_t.translate('Thai name')}} <span class="danger-color">*</span>
+        <div class="form-group">
+          <input class="form-control" type="text" name="nameTH" [ngModel]="form.nameTH" ngModel required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('English name')}} <span class="danger-color">*</span>
+        <div class="form-group">
+          <input class="form-control" type="text" name="nameEN" [ngModel]="form.nameEN" ngModel required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form owner')}}
+        <div class="form-group">
+          <input class="form-control" type="text" name="owner" [ngModel]="defaultValue(form.owner)" ngModel>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Require evidences')}} <span class="danger-color">*</span>
+        <div class="form-group">
+          <sui-select class="selection form-control no-transition" [ngModel]="defaultValue(form.requireEvidence)"
+          ngModel required name="requireEvidence">
+            <sui-select-option *ngFor="let option of ['No', 'Yes']" [value]="option"></sui-select-option>
+          </sui-select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form PDF')}} (<span class="danger-color">*{{_t.translate('cannot be changed')}}</span>)
+        <div class="form-group">
+          <input class="form-control" name="pdfForm" type="text" [value]="form.pdfForm" disabled="disabled">
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form category')}}
+        <div class="form-group">
+          <ng-container *ngIf="_t.getLanguage=='TH'">
+            <sui-select class="selection form-control no-transition" [ngModel]="defaultFormCategory()" ngModel name="category">
+              <sui-select-option *ngFor="let option of formCategory" [value]="option.categoryTH"></sui-select-option>
+            </sui-select>
+          </ng-container>
+          <ng-container *ngIf="_t.getLanguage!='TH'">
+            <sui-select class="selection form-control no-transition" [ngModel]="defaultFormCategory()" ngModel name="category">
+              <sui-select-option *ngFor="let option of formCategory" [value]="option.categoryEN"></sui-select-option>
+            </sui-select>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('Form preview')}}
+        <ng-container *ngIf="form.previewUrl!==undefined && form.previewUrl!==null && form.previewUrl!==''">
+          <i class="far fa-trash-alt danger form-preview-delete" title="Delete form preview" (click)="previewDeleting=true;"></i>
+          <div class="delimeter-sm"></div>
+          <img class="form-preview-display" [src]="displayFormPreview()">
+        </ng-container>
+        <div class="form-group" *ngIf="form.previewUrl===undefined || form.previewUrl===null || form.previewUrl===''">
+          <input class="form-control" name="previewUrl" type="file" (change)="choosePdfPreview($event)" accept="image/*">            
+        </div>
+      </div>
+
+      <div class="delimeter"></div>
+      <div class="col-md-12 text-center">
+        <button class="btn btn-success" type="submit">{{_t.translate('Edit form')}}</button>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<!-- Form preview deleting -->
+<div *ngIf="previewDeleting" class="box-popup">
+  <div class="box-popup-container danger-border">
+    <h2 class="danger-color">{{_t.translate('Do you want to delete this form preview?')}}</h2>
+    <div class="box-popup-btn-container">
+      <input class="btn btn-danger" type="button" [value]="_t.translate('Delete form preview')" (click)="deleteFormPreview()">
+      <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')" (click)="previewDeleting=false;">
+    </div>
+  </div>
+</div>
+<div *ngIf="previewDeleted===1" class="notification-container">
+  <div class="notification danger-bg">
+    {{_t.translate('The form preview has been deleted successfully!')}}
+    <i class="far fa-times-circle notification-close" (click)="previewDeleted=0;"></i>
+  </div>
+</div>
+<div *ngIf="previewDeleted===-1" class="notification-container">
+  <div class="notification warning-bg">
+    {{_t.translate('Failed to delete the form preview.')}}
+    <i class="far fa-times-circle notification-close" (click)="previewDeleted=0;"></i>
+  </div>
+</div>
+<!-- Notification -->
+<div *ngIf="pdfMissing===1 && files.pdfForm===null" class="notification-container">
+  <div class="notification warning-bg">
+    {{_t.translate('Please select form pdf file.')}}
+    <i class="far fa-times-circle notification-close" (click)="pdfMissing=0;"></i>
+  </div>
+</div>
+<div *ngIf="failed===1" class="notification-container">
+  <div class="notification warning-bg">
+    {{_t.translate('Sorry. This form cannot be created at this time. Please try again later.')}}
+    <i class="far fa-times-circle notification-close" (click)="failed=0;"></i>
+  </div>
+</div>
+<div *ngIf="editFailed===1" class="notification-container">
+  <div class="notification warning-bg">
+    {{_t.translate('Sorry. This form cannot be edited at this time. Please try again later.')}}
+    <i class="far fa-times-circle notification-close" (click)="editFailed=0;"></i>
+  </div>
+</div>

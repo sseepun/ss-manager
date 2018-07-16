@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { SuiModule } from 'ng2-semantic-ui';
 
 // Routing Modules
 import { PageUserPanelRoutingModule } from './page-user-panel/page-user-panel-routing.module';
@@ -47,6 +48,7 @@ import { PageAdminSubmittedFormsComponent } from './page-admin-panel/page-admin-
 import { PageAdminFormCategoryComponent } from './page-admin-panel/page-admin-form-category/page-admin-form-category.component';
 import { PageAdminUserManagementComponent } from './page-admin-panel/page-admin-user-management/page-admin-user-management.component';
 import { PageAdminFormManagementComponent } from './page-admin-panel/page-admin-form-management/page-admin-form-management.component';
+import { FormActionsComponent } from './reusable/form-actions/form-actions.component';
 
 
 @NgModule({
@@ -75,7 +77,8 @@ import { PageAdminFormManagementComponent } from './page-admin-panel/page-admin-
     PageAdminSubmittedFormsComponent,
     PageAdminFormCategoryComponent,
     PageAdminUserManagementComponent,
-    PageAdminFormManagementComponent
+    PageAdminFormManagementComponent,
+    FormActionsComponent
   ],
   imports: [
     BrowserModule,
@@ -84,7 +87,8 @@ import { PageAdminFormManagementComponent } from './page-admin-panel/page-admin-
     PdfViewerModule,
     PageUserPanelRoutingModule,
     PageAdminPanelRoutingModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SuiModule
   ],
   providers: [
     AdminService,

@@ -81,12 +81,14 @@ section h2, section h4 {
 	color: #f7ca18; }
 
 .form-control {
-	background-color: #111;
+	background-color: rgb(44, 44, 44);
 	color: #e0e0e0; }
 
 .form-control:focus {
-	background-color: #111;
+	background-color: rgb(39, 39, 39);
+	color: #e0e0e0;
 	box-shadow: none; }
+.form-control.active {color: #686868;}
 
 .btn-success {
 	background-color: #d0d0d0;
@@ -138,11 +140,19 @@ footer hr {
 th, td {border: 1px solid rgba(255,255,255,.3);}
 
 .box-popup, .big-box-popup {background: rgba(0, 0, 0, 0.8);}
-.box-popup > .box-popup-container, 
+.box-popup .box-popup-container, 
 .big-box-popup > .box-popup-container {background: #1e1e13;  border-color: #fff;}
 
 .ss-button-container {background: #000; border: 1px solid #fff;}
 .ss-dowloading {background: rgba(0,0,0,.85);}
+
+.ui.dropdown .menu {background: rgb(39, 39, 39);}
+.ui.selection.dropdown .menu > .item {color: #e0e0e0;}
+.ui.selection.dropdown .menu > .item:hover {background: #111;}
+
+.form-actions-container {background: rgba(255,255,255,.01);}
+.form-control:disabled, .form-control[readonly] {background: rgba(255,255,255,.02);}
+.form-preview-display {border-color: rgba(255,255,255,.2);}
 
 /*========== End Edit Style ==========*/
 /*========== Start Responsive Style ==========*/

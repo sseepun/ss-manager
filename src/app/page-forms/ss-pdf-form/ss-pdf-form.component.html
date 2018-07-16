@@ -244,7 +244,8 @@
                 [ngModel]="default(loadForm.formValue[input.name])" [value]="input.value"
                 [ngStyle]="inputPosition(input)" ngModel disabled>
               <div *ngIf="input.type=='checkbox' && loadForm.formValue[input.name]"
-                class="ss-form-input checkbox-yes" [ngStyle]="inputPosition(input)"><div></div>
+                class="ss-form-input checkbox-yes" [ngStyle]="inputPosition(input)">
+                  <i class="fa fa-check" aria-hidden="true"></i>
               </div>
               <div *ngIf="input.type=='checkbox' && !loadForm.formValue[input.name]"
                 class="ss-form-input checkbox-no" [ngStyle]="inputPosition(input)"></div>

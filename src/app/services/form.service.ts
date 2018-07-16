@@ -23,9 +23,9 @@ export class FormService {
   private subjectSubmittedForms = new Subject<any>();
   private subjectPendingFormNumber = new Subject<any>();
 
+  private subjectAdminSubmittedForms = new Subject<any>();  
+  private subjectAdminActiveForms = new Subject<any>();
   private subjectAdminForms = new Subject<any>();
-  private subjectAdminSubmittedForms = new Subject<any>();
-  private subjectAdminGovForms = new Subject<any>();
 
   private mode = 'New'; // New, Edit, View, ByPass (Admin)
   private role = 'User'; // User, Admin  
@@ -178,10 +178,10 @@ export class FormService {
       .then(response=> {
         const result = response.json();
         if (testing) console.log(result.message);
-        this.subjectAdminForms.next(result as JsonResponse);
+        this.subjectAdminActiveForms.next(result as JsonResponse);
       })
       .catch(err=> {
-        this.subjectAdminForms.next({status: false, message: err, data: null} as JsonResponse);
+        this.subjectAdminActiveForms.next({status: false, message: err, data: null} as JsonResponse);
       });
   }
   adminGetForms(criteria): Promise<void> {
@@ -194,10 +194,10 @@ export class FormService {
       .then(response=> {
         const result = response.json();
         if (testing) console.log(result.message);
-        this.subjectAdminGovForms.next(result as JsonResponse);
+        this.subjectAdminForms.next(result as JsonResponse);
       })
       .catch(err=> {
-        this.subjectAdminGovForms.next({status: false, message: err, data: null} as JsonResponse);
+        this.subjectAdminForms.next({status: false, message: err, data: null} as JsonResponse);
       });
   }
   adminGetSubmittedForms(form:SSForm, criteria) {
@@ -263,6 +263,7 @@ export class FormService {
       .then(response => {
         const result = response.json();
         if (testing) console.log(result.message);
+        if (result.status) this._socketio.deleteForm(form);
         return result as JsonResponse;
       })
       .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
@@ -310,7 +311,7 @@ export class FormService {
   observeSubmittedForms(): Observable<any> {return this.subjectSubmittedForms.asObservable(); }
   observePendingFormNumber(): Observable<any> {return this.subjectPendingFormNumber.asObservable(); }
 
-  observeAdminForms(): Observable<any> {return this.subjectAdminForms.asObservable(); }
-  observeAdminSubmittedForms(): Observable<any> {return this.subjectAdminSubmittedForms.asObservable(); }
-  observeAdminGovForms(): Observable<any> {return this.subjectAdminGovForms.asObservable(); }
+  observeAdminSubmittedForms(): Observable<any> {return this.subjectAdminSubmittedForms.asObservable(); }  
+  observeAdminActiveForms(): Observable<any> {return this.subjectAdminActiveForms.asObservable(); }
+  observeAdminForms(): Observable<any> {return this.subjectAdminForms.asObservable(); }  
 }

@@ -36,7 +36,7 @@ nav {z-index: 1000;}
 }
 .form-container {margin-bottom: 30px;}
 .form-container h2 {width: 100%;}
-.form-selection {padding: 12px; position: relative; pointer-events: all; cursor: pointer;}
+.form-selection {padding: 12px; position: relative; pointer-events: all; cursor: pointer; border-radius: 5px;}
 .form-selection img {width: 100%; height: 11.5vw;}
 .form-selection .form-cover {
     position: absolute; top: 12px; background: rgba(0,0,0,0); opacity: 0;
@@ -82,6 +82,17 @@ th {font-size: 15px;}
     color: #fff; font-weight: 600; text-align: center; padding: 4px 0;
 }
 
+.form-actions-container {
+    padding: 25px 45px; width: 100%; overflow: hidden; border: 1px solid; border-radius: 5px;
+}
+input[type=file] {padding: 3.1px;}
+.form-preview-display {display: block; width: 225px; height: auto; border-radius: 5px; border: 1px solid;}
+.form-preview-delete {
+    display: inline-block; font-size: 16px !important; cursor: pointer;
+    font-weight: 600; margin: 0 0 0 6px !important;
+}
+
+
 /* START: SS-PDF */
 .ng2-pdf-viewer-container {overflow: hidden !important;}
 .ss-pdf-section {padding: 2rem 0;}
@@ -115,6 +126,9 @@ th {font-size: 15px;}
 .ss-result-button-container {text-align: center;}
 .ss-result-button-container .btn {margin: 0 2px; min-width: 180px;}
 
+.checkbox-no, .checkbox-yes {background: none;}
+.checkbox-yes > i {position: absolute; top: 1px; left: 2px; font-size: 15px;}
+
 .ss-dowloading {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; text-align: center;
     transition: .6s opacity; opacity: 1; z-index: 850; padding-top: 53vh;
@@ -123,32 +137,38 @@ th {font-size: 15px;}
 .ss-dowloading h2 {font-family: 'Passion One', sans-serif;}
 /* END: SS-PDF */
 
+
 /* START: Popup box */
 .box-popup, .big-box-popup {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%; text-align: center; min-height: 300px;
 }
 .big-box-popup {position: fixed; width: 100vw; height: 100vh; z-index: 800;}
 
-.box-popup > .box-popup-container, .big-box-popup > .box-popup-container {
-    display: block; margin: 40px auto; width: 70%; padding: 10px; border-radius: 10px;
+.box-popup .box-popup-container, .big-box-popup > .box-popup-container {
+    display: block; margin: 40px auto; width: 70%; border-radius: 10px;
     min-height: 120px; position: relative; border: 4px solid; padding: 20px 20px;
     -webkit-animation: animation 1000ms linear both;
 	animation: animation 1000ms linear both;
 }
+.box-popup .box-popup-container {
+    position: fixed; width: calc((100vw - 120px) * 3 / 4 - 200px); margin: 40px 100px;
+}
+
 .big-box-popup > .box-popup-container {margin-top: calc(70px + 20vh);}
-.box-popup > .box-popup-container > h2,
+.box-popup .box-popup-container > h2,
 .big-box-popup > .box-popup-container > h2 {margin: 0 0 20px 0; font-size: 28px;}
-.box-popup > .box-popup-container > h4,
+.box-popup .box-popup-container > h4,
 .big-box-popup > .box-popup-container > h4 {font-size: 20px; font-weight: 300; text-align: left;}
-.box-popup > .box-popup-container > h4 > strong,
+.box-popup .box-popup-container > h4 > strong,
 .bigbox-popup > .box-popup-container > h4 > strong {font-weight: 600;}
-.box-popup > .box-popup-container > .box-popup-btn-container,
+.box-popup .box-popup-container > .box-popup-btn-container,
 .big-box-popup > .box-popup-container > .box-popup-btn-container {margin-top: 20px;}
-.box-popup > .box-popup-container > .box-popup-btn-container > input,
+.box-popup .box-popup-container > .box-popup-btn-container > input,
 .big-box-popup > .box-popup-container > .box-popup-btn-container > input {
     margin: 5px 3px 0 3px; min-width: 120px;
 }
 /* END: Popup box */
+
 
 /* START: Notification */
 .notification-container {
@@ -164,6 +184,7 @@ th {font-size: 15px;}
 .notification-close {position: absolute; top: 4px; right: 5px; cursor: pointer; transition: .3s all;}
 .notification-close:hover {opacity: .6;}
 /* END: Notification */
+
 
 /* START: Utility style */
 strong, .strong {font-weight: 600;}
@@ -183,9 +204,17 @@ strong, .strong {font-weight: 600;}
 .danger-bg {background: #dc3545 !important;}
 .danger-border {border-color: #c82333 !important;}
 
+.separator {clear: both; width: 100%; height: 1px;}
+.delimeter-sm {clear: both; width: 100%; height: 10px;}
+.delimeter {clear: both; width: 100%; height: 15px;}
+.delimeter-md {clear: both; width: 100%; height: 20px;}
+.delimeter-lg {clear: both; width: 100%; height: 25px;}
+.delimeter-xl {clear: both; width: 100%; height: 30px;}
+
 .error-box {min-height: 40px; margin-top: -8px; color: #dc3545;}
 .error-message {min-height: 24px; color: #dc3545;}
 /* END: Utility style */
+
 
 /* START: Animation */
 @-webkit-keyframes animation { 
@@ -247,13 +276,13 @@ strong, .strong {font-weight: 600;}
 /* END: Animation */
 
 @media (max-width: 1199.98px) {
-    .box-popup > .box-popup-container {width: 80%;}
+    .box-popup .box-popup-container {width: calc((100vw - 120px) * 3 / 4 - 160px); margin: 40px 80px;}
 }
 
 @media (max-width: 991.98px) {
     .content-section .container {max-width: calc(100vw - 60px) !important;}
     .form-selection img, .form-selection img, .form-selection .form-cover {height: 15.5vw;}
-    .box-popup > .box-popup-container {width: 90%;}
+    .box-popup .box-popup-container {width: calc((100vw - 60px) * 2 / 3 - 80px); margin: 40px 40px;}
 }
 
 @media (max-width: 767.98px) {
@@ -270,19 +299,24 @@ strong, .strong {font-weight: 600;}
     .table-criteria-container {margin: 5px 0 20px 0; padding: 20px 0 0 0;}
     .form-selection img, .form-selection img, .form-selection .form-cover {height: 23vw;}
 
-    .box-popup > .box-popup-container {padding: 15px;}
-    .box-popup > .box-popup-container > h2 {font-size: 24px; line-height: 28px;}
-    .box-popup > .box-popup-container > h4 {font-size: 18px;}
+    .box-popup .box-popup-container {padding: 15px;}
+    .box-popup .box-popup-container > h2 {font-size: 24px; line-height: 28px;}
+    .box-popup .box-popup-container > h4 {font-size: 18px;}
+    .box-popup .box-popup-container {width: calc((100vw - 60px) - 120px); margin: 30px 60px;}
+
+    .md-space-top {padding-top: 25px; margin-top: 5px;}
 }
 
 @media (max-width: 650.98px) {
     .list-item {width: 50%;}
+    .box-popup .box-popup-container {width: calc((100vw - 60px) - 90px); margin: 30px 45px;}
 }
 
 @media (max-width: 575.98px) {
     .header-space {height: 46px;}
     .header-space.sticky {height: 41px;}
     .form-selection img, .form-selection img, .form-selection .form-cover {height: 48vw;}
+    .box-popup .box-popup-container {width: calc((100vw - 60px) - 60px); margin: 30px 30px;}
 }
 
 @media (max-width: 450.98px) {
