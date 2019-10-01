@@ -66,6 +66,10 @@ db.createCollection("userDetail", {
           bsonType: "string",
           description: "must be a string and is not required"
         },
+        gender: {
+          enum: ['Male', 'Female', 'Other'],
+          description: "can only be one of the enum values and is required"
+        },
         phone: {
           bsonType: "string",
           description: "must be a string and is not required"
@@ -82,7 +86,15 @@ db.createCollection("userDetail", {
           bsonType: "string",
           description: "must be a string and is not required"
         },
+        schoolAddress: {
+          bsonType: "string",
+          description: "must be a string and is not required"
+        },
         workplace: {
+          bsonType: "string",
+          description: "must be a string and is not required"
+        },
+        workplaceAddress: {
           bsonType: "string",
           description: "must be a string and is not required"
         },

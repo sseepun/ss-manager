@@ -100,7 +100,10 @@ export class SsPdfFormComponent implements OnInit, OnDestroy {
         this.accessCode = params.accessCode;
 
         this._form.getFormDetail(this.accessCode)
-          .then(result => {if (result.status) this.form = result.data as SSForm;});
+          .then(result => {
+            if (result.status) this.form = result.data as SSForm;
+            console.log(this.form);
+          });
 
         if (this._form.getRole==='User' || this.loadForm===null) {
           let user = Object.assign({}, this._user.getUser()) as User;

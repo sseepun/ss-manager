@@ -1,0 +1,73 @@
+<div *ngIf="userDetail!==null" class="profile-img-container fade-in">
+    <div class="profile-img-left">
+        <div class="profile-img-wrapper">
+            <img [src]="userProfileImage" alt="Profile image not available">
+        </div>
+        <div class="profile-choice-wrapper">
+            <div class="profile-choice" [ngClass]="{'active':page=='Basic Detail'}"
+            (click)="page='Basic Detail'">{{_t.translate('Basic Detail')}}</div>
+            <div class="profile-choice" [ngClass]="{'active':page=='Education'}"
+            (click)="page='Education'">{{_t.translate('Education')}}</div>
+            <div class="profile-choice" [ngClass]="{'active':page=='Workplace'}"
+            (click)="page='Workplace'">{{_t.translate('Workplace')}}</div>
+            <div class="profile-choice" [ngClass]="{'active':page=='Security'}"
+            (click)="page='Security'">{{_t.translate('Security')}}</div>
+        </div>
+    </div>
+    <div class="profile-img-right">
+
+        <!-- Basic Information -->
+        <div class="row fade-in" *ngIf="page=='Basic Detail'">
+            <div class="col">
+                <div class="input-label">{{_t.translate('Username')}}:</div>
+                <input type="text" class="form-control" [value]="userDetail.username" disabled="disabled">
+            </div>
+            <div class="separator"></div>
+            <div class="col-lg-6">
+                <div class="input-label">{{_t.translate('First Name')}}:</div>
+                <input type="text" class="form-control" [value]="userDetail.firstname" disabled="disabled">
+            </div>
+            <div class="col-lg-6">
+                <div class="input-label">{{_t.translate('Last Name')}}:</div>
+                <input type="text" class="form-control" [value]="userDetail.lastname" disabled="disabled">
+            </div>
+            <div class="separator"></div>
+            <div class="col-lg-6">
+                <div class="input-label">{{_t.translate('Position')}}:</div>
+                <input type="text" class="form-control" [value]="defaultValue(userDetail.position)" disabled="disabled">
+            </div>
+            <div class="col-lg-6">
+                <div class="input-label">{{_t.translate('Gender')}}:</div>
+                <input type="text" class="form-control" [value]="defaultValue(userDetail.gender, 'N/A')" disabled="disabled">
+            </div>
+            <div class="separator"></div>
+            <div class="col">
+                <div class="input-label">{{_t.translate('About Me')}}:</div>
+                <div class="fake-form-control">{{defaultValue(userDetail.about, 'N/A')}}</div>
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="row fade-in" *ngIf="page=='Education'">
+            <div class="col-lg-6">
+                <div class="input-label">{{_t.translate('Education')}}:</div>
+                <input type="text" class="form-control" [value]="defaultValue(userDetail.education)" disabled="disabled">
+            </div>
+            <div class="col-lg-6">
+                <div class="input-label">{{_t.translate('Major')}}:</div>
+                <input type="text" class="form-control" [value]="defaultValue(userDetail.major)" disabled="disabled">
+            </div>
+            <div class="separator"></div>
+            <div class="col">
+                <div class="input-label">{{_t.translate('School/University')}}:</div>
+                <input type="text" class="form-control" [value]="defaultValue(userDetail.school)" disabled="disabled">
+            </div>
+            <div class="separator"></div>
+            <div class="col">
+                <div class="input-label">{{_t.translate('School/University Address')}}:</div>
+                <div class="fake-form-control">{{defaultValue(userDetail.schoolAddress, 'N/A')}}</div>
+            </div>
+        </div>
+
+    </div>
+</div>

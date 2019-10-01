@@ -154,6 +154,11 @@ th, td {border: 1px solid rgba(255,255,255,.3);}
 .form-control:disabled, .form-control[readonly] {background: rgba(255,255,255,.02);}
 .form-preview-display {border-color: rgba(255,255,255,.2);}
 
+.input-label {color: #808080;}
+.fake-form-control {color: #ffffff; background: rgba(255,255,255,.02);}
+
+.profile-choice-wrapper > .profile-choice {background: #111111;}
+
 /*========== End Edit Style ==========*/
 /*========== Start Responsive Style ==========*/
 

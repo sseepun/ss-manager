@@ -146,7 +146,7 @@ var AppComponent = /** @class */ (function () {
         this._socketio.getSocket().on('announce-account-status', function (userId) {
             if (this.yourAccount(userId)) {
                 this._user.update();
-                this.router.navigate(['/check-status']);
+                this.router.navigate(['/status']);
             }
         }.bind(this));
         this._socketio.getSocket().on('announce-account-delete', function (userId) {
@@ -246,7 +246,6 @@ var ss_pdf_form_component_1 = __webpack_require__("./src/app/page-forms/ss-pdf-f
 var page_user_profile_component_1 = __webpack_require__("./src/app/page-user-panel/page-user-profile/page-user-profile.component.ts");
 var page_user_form_history_component_1 = __webpack_require__("./src/app/page-user-panel/page-user-form-history/page-user-form-history.component.ts");
 var page_user_setting_component_1 = __webpack_require__("./src/app/page-user-panel/page-user-setting/page-user-setting.component.ts");
-var user_profile_component_1 = __webpack_require__("./src/app/reusable/user-profile/user-profile.component.ts");
 var form_result_component_1 = __webpack_require__("./src/app/reusable/form-result/form-result.component.ts");
 var page_admin_statistics_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-statistics/page-admin-statistics.component.ts");
 var page_admin_submitted_forms_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-submitted-forms/page-admin-submitted-forms.component.ts");
@@ -254,6 +253,8 @@ var page_admin_form_category_component_1 = __webpack_require__("./src/app/page-a
 var page_admin_user_management_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-user-management/page-admin-user-management.component.ts");
 var page_admin_form_management_component_1 = __webpack_require__("./src/app/page-admin-panel/page-admin-form-management/page-admin-form-management.component.ts");
 var form_actions_component_1 = __webpack_require__("./src/app/reusable/form-actions/form-actions.component.ts");
+var form_category_actions_component_1 = __webpack_require__("./src/app/reusable/form-category-actions/form-category-actions.component.ts");
+var user_profile_template_component_1 = __webpack_require__("./src/app/reusable/user-profile-template/user-profile-template.component.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -278,14 +279,15 @@ var AppModule = /** @class */ (function () {
                 page_user_profile_component_1.PageUserProfileComponent,
                 page_user_form_history_component_1.PageUserFormHistoryComponent,
                 page_user_setting_component_1.PageUserSettingComponent,
-                user_profile_component_1.UserProfileComponent,
                 form_result_component_1.FormResultComponent,
                 page_admin_statistics_component_1.PageAdminStatisticsComponent,
                 page_admin_submitted_forms_component_1.PageAdminSubmittedFormsComponent,
                 page_admin_form_category_component_1.PageAdminFormCategoryComponent,
                 page_admin_user_management_component_1.PageAdminUserManagementComponent,
                 page_admin_form_management_component_1.PageAdminFormManagementComponent,
-                form_actions_component_1.FormActionsComponent
+                form_actions_component_1.FormActionsComponent,
+                form_category_actions_component_1.FormCategoryActionsComponent,
+                user_profile_template_component_1.UserProfileTemplateComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,
@@ -369,6 +371,7 @@ exports.Translate_EN_TH = {
     'e-mail address': 'ที่อยู่อีเมล',
     'first name': 'ชื่อจริง',
     'last name': 'นามสกุล',
+    'level': 'ระดับ',
     'used for singing in': 'ใช้ในการเข้าสู่ระบบ',
     '5 letters minimum': 'อย่างต่ำ 5 ตัวอักษร',
     'confirm password': 'ยืนยันรหัสผ่าน',
@@ -461,7 +464,30 @@ exports.Translate_EN_TH = {
     'delete form preview': 'ลบแบบฟอร์มตัวอย่าง',
     'the form preview has been deleted successfully!': 'แบบฟอร์มตัวอย่างได้ถูกลบเรียบร้อยเเล้ว',
     'failed to delete the form preview.': 'เกิดข้อผิดพลาดในการลบแบบฟอร์มตัวอย่าง',
-    'sorry. this form cannot be edited at this time. please try again later.': 'ขอโทษครับ ระบบไม่สามารถแก้ไขแบบฟอร์มได้ในขณะนี้ กรุณาลองใหม่อีกครั้งในภายหลัง'
+    'sorry. this form cannot be edited at this time. please try again later.': 'ขอโทษครับ ระบบไม่สามารถแก้ไขแบบฟอร์มได้ในขณะนี้ กรุณาลองใหม่อีกครั้งในภายหลัง',
+    'create a form category': 'สร้างประเภทของเเบบฟอร์ม',
+    'thai category name': 'ประเภทแบบฟอร์มภาษาไทย',
+    'english category name': 'ประเภทแบบฟอร์มภาษาอังกฤษ',
+    'loading form category': 'กำลังค้นหาประเภทของเเบบฟอร์ม',
+    'no form category found.': 'ไม่พบประเภทของเเบบฟอร์ม',
+    'do you want to delete this form category?': 'คุณต้องการที่จะลบประเภทของแบบฟอร์มนี้หรือไม่',
+    'delete this form category': 'ลบประเภทแบบฟอร์ม',
+    'the form category has been deleted successfully!': 'ประเภทของแบบฟอร์มถูกลบเรียบร้อยเเล้ว',
+    'failed to delete the form category.': 'เกิดข้อผิดพลาดในการลบประเภทของแบบฟอร์ม',
+    'the form category has been created successfully!': 'ประเภทของแบบฟอร์มถูกสร้างเรียบร้อยเเล้ว',
+    'failed to create the form category.': 'เกิดข้อผิดพลาดในการสร้างประเภทของแบบฟอร์ม',
+    'do you want to ban this user?': 'คุณต้องการที่จะแบนผู้ใช้งานนี้หรือไม่',
+    'ban this user': 'แบนผู้ใช้งานนี้',
+    'the user has been banned successfully!': 'ผู้ใช้งานนี้ถูกแบนเรียบร้อยเเล้ว',
+    'failed to ban the user.': 'เกิดข้อผิดพลาดในการแบนผู้ใช้งาน',
+    'do you want to set this user active?': 'คุณต้องการที่จะยืนยันผู้ใช้งานนี้หรือไม่',
+    'set this user active': 'ยืนยันผู้ใช้งานนี้',
+    'the user has been set active successfully!': 'ผู้ใช้งานนี้ถูกยืนยันเรียบร้อยเเล้ว',
+    'failed to set the user active.': 'เกิดข้อผิดพลาดในการยืนยันผู้ใช้งาน',
+    'do you want to delete this user?': 'คุณต้องการที่จะลบผู้ใช้งานนี้หรือไม่',
+    'delete this user': 'ลบผู้ใช้งานนี้',
+    'the user has been deleted successfully!': 'ผู้ใช้งานนี้ถูกลบเรียบร้อยเเล้ว',
+    'failed to delete the user.': 'เกิดข้อผิดพลาดในการลบผู้ใช้งาน'
 };
 
 
@@ -702,7 +728,7 @@ module.exports = ""
 /***/ "./src/app/page-admin-panel/page-admin-form-category/page-admin-form-category.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  page-admin-form-category works!\n</p>\n"
+module.exports = "<ng-container *ngIf=\"page==='Table'\">\n  <div class=\"row\" class=\"form-table-btn-container md-border-top md-space-top\">\n    <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Create a form category')\"\n    (click)=\"accessFormCategory(null, 'Create')\">\n  </div>\n\n  <app-table-search [criteria]=\"options\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-table-search>\n  <div class=\"row form-container fade-in\">\n    <div class=\"table-container\"><table><tbody>\n      <tr>\n        <th width=\"35%\">{{_t.translate('Thai Category Name')}}</th>\n        <th width=\"35%\">{{_t.translate('English Category Name')}}</th>\n        <th width=\"15%\">{{_t.translate('Created Date')}}</th>\n        <th width=\"15%\">{{_t.translate('Actions')}}</th>\n      </tr>\n      <tr *ngIf=\"formCategory===null\"><td colspan=\"5\">\n        {{_t.translate('Loading form category')}}...\n      </td></tr>\n      <tr *ngIf=\"formCategory!==null && formCategory.length==0\"><td colspan=\"5\">\n        {{_t.translate('No form category found.')}}\n      </td></tr>\n      <ng-container *ngIf=\"formCategory!==null && formCategory.length>0\">\n        <tr *ngFor=\"let category of formCategory;\">\n          <td class=\"col-left\">{{category.categoryTH}}</td>\n          <td class=\"col-left\">{{category.categoryEN}}</td>\n          <td>{{dateFromObjectId(category._id)}}</td>\n          <td>\n            <i class=\"far fa-trash-alt danger\" title=\"Delete\" (click)=\"deletingFormCategory(category)\"></i>\n          </td>\n        </tr>\n      </ng-container>\n    </tbody></table></div>\n  </div>\n  <app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>\n</ng-container>\n\n<!-- Create process -->\n<ng-container *ngIf=\"page==='Create' && selectedCategory===null\">\n  <div class=\"row\" class=\"form-table-btn-container md-border-top md-space-top\">\n    <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Go back')\"\n    (click)=\"accessFormCategory(null, 'Table')\">\n  </div>\n  <app-form-category-actions [type]=\"page\" (formCategoryCreated)=\"createFormCategory($event)\"></app-form-category-actions>\n</ng-container>\n<div *ngIf=\"created===1\" class=\"notification-container\">\n    <div class=\"notification primary-bg\">\n        {{_t.translate('The form category has been created successfully!')}}\n        <i class=\"far fa-times-circle notification-close\" (click)=\"created=0;\"></i>\n    </div>\n</div>\n\n<!-- Deleting process -->\n<div *ngIf=\"deleting && selectedCategory!==null\" class=\"box-popup\">\n  <div class=\"box-popup-container danger-border\">\n    <h2 class=\"danger-color\">{{_t.translate('Do you want to delete this form category?')}}</h2>\n    <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>ประเภทแบบฟอร์ม:</strong> {{selectedCategory.categoryTH}}</h4>\n    <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form category:</strong> {{selectedCategory.categoryEN}}</h4>\n    <div class=\"box-popup-btn-container\">\n        <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete this form category')\"\n          (click)=\"deleteFormCategory()\">\n        <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n          (click)=\"deleting=false; selectedCategory=null;\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"deleted===1\" class=\"notification-container\">\n  <div class=\"notification danger-bg\">\n    {{_t.translate('The form category has been deleted successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"deleted=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"deleted===-1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Failed to delete the form category.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"deleted=0;\"></i>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -711,6 +737,14 @@ module.exports = "<p>\n  page-admin-form-category works!\n</p>\n"
 
 "use strict";
 
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -722,10 +756,89 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var form_service_1 = __webpack_require__("./src/app/services/form.service.ts");
+var translation_service_1 = __webpack_require__("./src/app/services/translation.service.ts");
 var PageAdminFormCategoryComponent = /** @class */ (function () {
-    function PageAdminFormCategoryComponent() {
+    function PageAdminFormCategoryComponent(_form, _t) {
+        this._form = _form;
+        this._t = _t;
+        this.options = {
+            limit: [10, 25, 50, 100],
+            sort: ['None', 'Created date increasing', 'Created date decreasing']
+        };
+        this.pagination = [];
+        this.criteria = {
+            page: 0, start: 0, limit: 25, total: 0,
+            sort: 'None', search: '', category: 'None'
+        };
+        this.formCategory = null;
+        this.page = 'Table';
+        this.selectedCategory = null;
+        this.processing = false;
+        this.deleting = false;
+        this.deleted = 0;
+        this.created = 0;
     }
     PageAdminFormCategoryComponent.prototype.ngOnInit = function () {
+        this.refreshFormCategory();
+    };
+    PageAdminFormCategoryComponent.prototype.refreshFormCategory = function () {
+        var _this = this;
+        this._form.getFormCategory(this.criteria).then(function (result) {
+            if (result.status) {
+                _this.formCategory = result.data;
+                _this.criteria.total = result.total;
+                _this.pagination = [];
+                var count = 0;
+                while (count * _this.criteria.limit < _this.criteria.total) {
+                    _this.pagination.push(count);
+                    count += 1;
+                }
+            }
+        });
+    };
+    PageAdminFormCategoryComponent.prototype.criteriaChange = function (selected) {
+        this.criteria = __assign({}, this.criteria, selected);
+        this.refreshFormCategory();
+    };
+    PageAdminFormCategoryComponent.prototype.dateFromObjectId = function (objectId) {
+        var date = new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+        return date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear();
+    };
+    PageAdminFormCategoryComponent.prototype.accessFormCategory = function (formCategory, page) {
+        this.selectedCategory = formCategory;
+        this.deleting = false;
+        this.deleted = 0;
+        this.created = 0;
+        this.page = page;
+    };
+    PageAdminFormCategoryComponent.prototype.deletingFormCategory = function (formCategory) {
+        this.selectedCategory = formCategory;
+        this.deleting = true;
+        this.deleted = 0;
+        this.created = 0;
+    };
+    PageAdminFormCategoryComponent.prototype.deleteFormCategory = function () {
+        var _this = this;
+        if (!this.processing && this.selectedCategory !== null) {
+            this.processing = true;
+            this._form.deleteFormCategory(this.selectedCategory).then(function (result) {
+                _this.processing = false;
+                _this.page = 'Table';
+                _this.selectedCategory = null;
+                _this.refreshFormCategory();
+                if (result.status)
+                    _this.deleted = 1;
+                else
+                    _this.deleted = -1;
+            });
+        }
+    };
+    PageAdminFormCategoryComponent.prototype.createFormCategory = function (result) {
+        this.page = 'Table';
+        this.selectedCategory = null;
+        this.created = 1;
+        this.refreshFormCategory();
     };
     PageAdminFormCategoryComponent = __decorate([
         core_1.Component({
@@ -733,7 +846,8 @@ var PageAdminFormCategoryComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/page-admin-panel/page-admin-form-category/page-admin-form-category.component.html"),
             styles: [__webpack_require__("./src/app/page-admin-panel/page-admin-form-category/page-admin-form-category.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [form_service_1.FormService,
+            translation_service_1.TranslationService])
     ], PageAdminFormCategoryComponent);
     return PageAdminFormCategoryComponent;
 }());
@@ -752,7 +866,7 @@ module.exports = ""
 /***/ "./src/app/page-admin-panel/page-admin-form-management/page-admin-form-management.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngIf=\"page==='Table'\">\r\n    <div class=\"row\" class=\"form-table-btn-container md-border-top md-space-top\">\r\n      <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Create a form')\" (click)=\"accessForm(null, 'Create')\">\r\n    </div>\r\n  \r\n    <app-table-search [criteria]=\"options\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-table-search>\r\n    <div class=\"row form-container\">\r\n      <div class=\"table-container\"><table><tbody>\r\n        <tr>\r\n          <th width=\"36%\">{{_t.translate('Form Name')}}</th>\r\n          <th width=\"18%\">{{_t.translate('Require Evidence')}}</th>\r\n          <th width=\"15%\">{{_t.translate('Created Date')}}</th>\r\n          <th width=\"15%\">{{_t.translate('Status')}}</th>\r\n          <th width=\"16%\">{{_t.translate('Actions')}}</th>\r\n        </tr>\r\n        <tr *ngIf=\"forms===null\"><td colspan=\"5\">\r\n          {{_t.translate('Loading forms')}}...\r\n        </td></tr>\r\n        <tr *ngIf=\"forms!==null && forms.length==0\"><td colspan=\"5\">\r\n          {{_t.translate('No forms found.')}}\r\n        </td></tr>\r\n        <ng-container *ngIf=\"forms!==null && forms.length>0\">\r\n          <tr *ngFor=\"let form of forms;\">\r\n            <td *ngIf=\"_t.getLanguage==='TH'\" class=\"col-left\">{{form.nameTH}}</td>\r\n            <td *ngIf=\"_t.getLanguage!=='TH'\" class=\"col-left\">{{form.nameEN}}</td>\r\n            <td>{{requireEvidence(form.requireEvidence)}}</td>\r\n            <td>{{dateFromObjectId(form._id)}}</td>\r\n            <td [ngClass]=\"{'danger':form.status=='Inactive', 'primary':form.status=='Active'}\">\r\n              <strong>{{form.status}}</strong>\r\n            </td>\r\n            <td>\r\n              <i *ngIf=\"form.status!=='Active'\" class=\"far fa-check-circle success\" title=\"Set active\"\r\n                (click)=\"settingFormActive(form)\">&nbsp;</i>\r\n              <i *ngIf=\"form.status!=='Inactive'\" class=\"far fa-times-circle danger\" title=\"Set inactive\"\r\n                (click)=\"settingFormInactive(form)\">&nbsp;</i>\r\n              <i class=\"far fa-address-book primary\" title=\"View\" (click)=\"accessForm(form, 'View')\"></i>&nbsp;\r\n              <i class=\"fas fa-edit warning\" title=\"Edit\" (click)=\"accessForm(form, 'Edit')\"></i>&nbsp;\r\n              <i class=\"far fa-trash-alt danger\" title=\"Delete\" (click)=\"deletingForm(form)\"></i>\r\n            </td>\r\n          </tr>\r\n        </ng-container>\r\n      </tbody></table></div>\r\n    </div>\r\n    <app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>\r\n</ng-container>\r\n<!-- Set active -->\r\n<div *ngIf=\"setActive && selectedForm!==null\" class=\"box-popup\">\r\n    <div class=\"box-popup-container primary-border\">\r\n        <h2 class=\"primary-color\">{{_t.translate('Do you want to set this form active?')}}</h2>\r\n        <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\r\n        <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\r\n        <div class=\"box-popup-btn-container\">\r\n            <input class=\"btn btn-primary\" type=\"button\" [value]=\"_t.translate('Set active')\"\r\n                (click)=\"setFormStatus(selectedForm, 'Active')\">\r\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\r\n                (click)=\"setActive=false; selectedForm=null;\">\r\n        </div>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"setActiveNotification===1\" class=\"notification-container\">\r\n    <div class=\"notification primary-bg\">\r\n        {{_t.translate('The form has been set active successfully!')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setActiveNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"setActiveNotification===-1\" class=\"notification-container\">\r\n    <div class=\"notification warning-bg\">\r\n        {{_t.translate('Failed to set the form active.')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setActiveNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n<!-- Set inactive -->\r\n<div *ngIf=\"setInactive && selectedForm!==null\" class=\"box-popup\">\r\n    <div class=\"box-popup-container danger-border\">\r\n        <h2 class=\"danger-color\">{{_t.translate('Do you want to set this form inactive?')}}</h2>\r\n        <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\r\n        <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\r\n        <div class=\"box-popup-btn-container\">\r\n            <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Set inactive')\"\r\n                (click)=\"setFormStatus(selectedForm, 'Inactive')\">\r\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\r\n                (click)=\"setInactive=false; selectedForm=null;\">\r\n        </div>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"setInactiveNotification===1\" class=\"notification-container\">\r\n    <div class=\"notification danger-bg\">\r\n        {{_t.translate('The form has been set inactive successfully!')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setInactiveNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"setInactiveNotification===-1\" class=\"notification-container\">\r\n    <div class=\"notification warning-bg\">\r\n        {{_t.translate('Failed to set the form inactive.')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setInactiveNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n<!-- Deleting -->\r\n<div *ngIf=\"deleting && selectedForm!==null\" class=\"box-popup\">\r\n    <div class=\"box-popup-container danger-border\">\r\n        <h2 class=\"danger-color\">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>\r\n        <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\r\n        <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\r\n        <div class=\"box-popup-btn-container\">\r\n            <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\r\n                (click)=\"deleteForm(selectedForm)\">\r\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\r\n                (click)=\"deleting=false; selectedForm=null;\">\r\n        </div>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"deletedNotification===1\" class=\"notification-container\">\r\n    <div class=\"notification danger-bg\">\r\n        {{_t.translate('The form has been deleted successfully!')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"deletedNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"deletedNotification===-1\" class=\"notification-container\">\r\n    <div class=\"notification warning-bg\">\r\n        {{_t.translate('Failed to delete the form.')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"deletedNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n\r\n\r\n<!-- View form -->\r\n<ng-container *ngIf=\"page==='View' && selectedForm!==null\">\r\n    <div class=\"row\" class=\"form-table-btn-container md-border-top md-space-top\">\r\n      <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Go back')\" (click)=\"accessForm(null, 'Table')\">\r\n    </div>\r\n    <app-form-actions [type]=\"page\" [form]=\"selectedForm\"></app-form-actions>\r\n</ng-container>\r\n\r\n<!-- Edit form -->\r\n<ng-container *ngIf=\"page==='Edit' && selectedForm!==null\">\r\n    <div class=\"row\" class=\"form-table-btn-container md-border-top md-space-top\">\r\n      <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Go back')\" (click)=\"accessForm(null, 'Table')\">\r\n    </div>\r\n    <app-form-actions [type]=\"page\" [form]=\"selectedForm\" (formEdited)=\"formEdited($event)\"></app-form-actions>\r\n</ng-container>\r\n<div *ngIf=\"edited===1\" class=\"notification-container\">\r\n    <div class=\"notification primary-bg\">\r\n        {{_t.translate('The form has been edited successfully.')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"edited=0;\"></i>\r\n    </div>\r\n</div>\r\n\r\n<!-- Create form -->\r\n<ng-container *ngIf=\"page==='Create' && selectedForm===null\">\r\n    <div class=\"row\" class=\"form-table-btn-container md-border-top md-space-top\">\r\n      <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Go back')\" (click)=\"accessForm(null, 'Table')\">\r\n    </div>\r\n    <app-form-actions [type]=\"page\" [form]=\"selectedForm\" (formCreated)=\"formCreated($event)\"></app-form-actions>\r\n</ng-container>\r\n<div *ngIf=\"created===1\" class=\"notification-container\">\r\n    <div class=\"notification primary-bg\">\r\n        {{_t.translate('The form has been created successfully.')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"created=0;\"></i>\r\n    </div>\r\n</div>"
+module.exports = "<ng-container *ngIf=\"page==='Table'\">\r\n    <div class=\"row\" class=\"form-table-btn-container md-border-top md-space-top\">\r\n      <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Create a form')\" (click)=\"accessForm(null, 'Create')\">\r\n    </div>\r\n  \r\n    <app-table-search [criteria]=\"options\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-table-search>\r\n    <div class=\"row fade-in form-container\">\r\n      <div class=\"table-container\"><table><tbody>\r\n        <tr>\r\n          <th width=\"36%\">{{_t.translate('Form Name')}}</th>\r\n          <th width=\"18%\">{{_t.translate('Require Evidence')}}</th>\r\n          <th width=\"15%\">{{_t.translate('Created Date')}}</th>\r\n          <th width=\"15%\">{{_t.translate('Status')}}</th>\r\n          <th width=\"16%\">{{_t.translate('Actions')}}</th>\r\n        </tr>\r\n        <tr *ngIf=\"forms===null\"><td colspan=\"5\" align=\"center\">\r\n          {{_t.translate('Loading forms')}}...\r\n        </td></tr>\r\n        <tr *ngIf=\"forms!==null && forms.length==0\"><td colspan=\"5\" align=\"center\">\r\n          {{_t.translate('No forms found.')}}\r\n        </td></tr>\r\n        <ng-container *ngIf=\"forms!==null && forms.length>0\">\r\n          <tr *ngFor=\"let form of forms;\">\r\n            <td *ngIf=\"_t.getLanguage==='TH'\" class=\"col-left\">{{form.nameTH}}</td>\r\n            <td *ngIf=\"_t.getLanguage!=='TH'\" class=\"col-left\">{{form.nameEN}}</td>\r\n            <td>{{requireEvidence(form.requireEvidence)}}</td>\r\n            <td>{{dateFromObjectId(form._id)}}</td>\r\n            <td [ngClass]=\"{'danger':form.status=='Inactive', 'primary':form.status=='Active'}\">\r\n              <strong>{{form.status}}</strong>\r\n            </td>\r\n            <td>\r\n              <i *ngIf=\"form.status!=='Active'\" class=\"far fa-check-circle success\" title=\"Set active\"\r\n                (click)=\"settingFormActive(form)\">&nbsp;</i>\r\n              <i *ngIf=\"form.status!=='Inactive'\" class=\"far fa-times-circle danger\" title=\"Set inactive\"\r\n                (click)=\"settingFormInactive(form)\">&nbsp;</i>\r\n              <i class=\"far fa-address-book primary\" title=\"View\" (click)=\"accessForm(form, 'View')\"></i>&nbsp;\r\n              <i class=\"fas fa-edit warning\" title=\"Edit\" (click)=\"accessForm(form, 'Edit')\"></i>&nbsp;\r\n              <i class=\"far fa-trash-alt danger\" title=\"Delete\" (click)=\"deletingForm(form)\"></i>\r\n            </td>\r\n          </tr>\r\n        </ng-container>\r\n      </tbody></table></div>\r\n    </div>\r\n    <app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>\r\n</ng-container>\r\n<!-- Set active -->\r\n<div *ngIf=\"setActive && selectedForm!==null\" class=\"box-popup\">\r\n    <div class=\"box-popup-container primary-border\">\r\n        <h2 class=\"primary-color\">{{_t.translate('Do you want to set this form active?')}}</h2>\r\n        <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\r\n        <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\r\n        <div class=\"box-popup-btn-container\">\r\n            <input class=\"btn btn-primary\" type=\"button\" [value]=\"_t.translate('Set active')\"\r\n                (click)=\"setFormStatus(selectedForm, 'Active')\">\r\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\r\n                (click)=\"setActive=false; selectedForm=null;\">\r\n        </div>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"setActiveNotification===1\" class=\"notification-container\">\r\n    <div class=\"notification primary-bg\">\r\n        {{_t.translate('The form has been set active successfully!')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setActiveNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"setActiveNotification===-1\" class=\"notification-container\">\r\n    <div class=\"notification warning-bg\">\r\n        {{_t.translate('Failed to set the form active.')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setActiveNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n<!-- Set inactive -->\r\n<div *ngIf=\"setInactive && selectedForm!==null\" class=\"box-popup\">\r\n    <div class=\"box-popup-container danger-border\">\r\n        <h2 class=\"danger-color\">{{_t.translate('Do you want to set this form inactive?')}}</h2>\r\n        <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\r\n        <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\r\n        <div class=\"box-popup-btn-container\">\r\n            <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Set inactive')\"\r\n                (click)=\"setFormStatus(selectedForm, 'Inactive')\">\r\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\r\n                (click)=\"setInactive=false; selectedForm=null;\">\r\n        </div>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"setInactiveNotification===1\" class=\"notification-container\">\r\n    <div class=\"notification danger-bg\">\r\n        {{_t.translate('The form has been set inactive successfully!')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setInactiveNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"setInactiveNotification===-1\" class=\"notification-container\">\r\n    <div class=\"notification warning-bg\">\r\n        {{_t.translate('Failed to set the form inactive.')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setInactiveNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n<!-- Deleting -->\r\n<div *ngIf=\"deleting && selectedForm!==null\" class=\"box-popup\">\r\n    <div class=\"box-popup-container danger-border\">\r\n        <h2 class=\"danger-color\">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>\r\n        <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\r\n        <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\r\n        <div class=\"box-popup-btn-container\">\r\n            <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\r\n                (click)=\"deleteForm(selectedForm)\">\r\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\r\n                (click)=\"deleting=false; selectedForm=null;\">\r\n        </div>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"deletedNotification===1\" class=\"notification-container\">\r\n    <div class=\"notification danger-bg\">\r\n        {{_t.translate('The form has been deleted successfully!')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"deletedNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n<div *ngIf=\"deletedNotification===-1\" class=\"notification-container\">\r\n    <div class=\"notification warning-bg\">\r\n        {{_t.translate('Failed to delete the form.')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"deletedNotification=0;\"></i>\r\n    </div>\r\n</div>\r\n\r\n\r\n<!-- View form -->\r\n<ng-container *ngIf=\"page==='View' && selectedForm!==null\">\r\n    <div class=\"row fade-in\" class=\"form-table-btn-container md-border-top md-space-top\">\r\n      <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Go back')\" (click)=\"accessForm(null, 'Table')\">\r\n    </div>\r\n    <app-form-actions [type]=\"page\" [form]=\"selectedForm\"></app-form-actions>\r\n</ng-container>\r\n\r\n<!-- Edit form -->\r\n<ng-container *ngIf=\"page==='Edit' && selectedForm!==null\">\r\n    <div class=\"row\" class=\"form-table-btn-container md-border-top md-space-top\">\r\n      <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Go back')\" (click)=\"accessForm(null, 'Table')\">\r\n    </div>\r\n    <app-form-actions [type]=\"page\" [form]=\"selectedForm\" (formEdited)=\"formEdited($event)\"></app-form-actions>\r\n</ng-container>\r\n<div *ngIf=\"edited===1\" class=\"notification-container\">\r\n    <div class=\"notification primary-bg\">\r\n        {{_t.translate('The form has been edited successfully.')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"edited=0;\"></i>\r\n    </div>\r\n</div>\r\n\r\n<!-- Create form -->\r\n<ng-container *ngIf=\"page==='Create' && selectedForm===null\">\r\n    <div class=\"row\" class=\"form-table-btn-container md-border-top md-space-top\">\r\n      <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Go back')\" (click)=\"accessForm(null, 'Table')\">\r\n    </div>\r\n    <app-form-actions [type]=\"page\" [form]=\"selectedForm\" (formCreated)=\"formCreated($event)\"></app-form-actions>\r\n</ng-container>\r\n<div *ngIf=\"created===1\" class=\"notification-container\">\r\n    <div class=\"notification primary-bg\">\r\n        {{_t.translate('The form has been created successfully.')}}\r\n        <i class=\"far fa-times-circle notification-close\" (click)=\"created=0;\"></i>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -1152,7 +1266,7 @@ module.exports = ""
 /***/ "./src/app/page-admin-panel/page-admin-submitted-forms/page-admin-submitted-forms.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Forms -->\n<ng-container *ngIf=\"selectedForm===null\">\n  <app-table-search [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-table-search>\n  <div class=\"row form-container\">\n    <h2 *ngIf=\"forms===null\" class=\"result-err-table-text\">{{_t.translate('Loading forms')}}...</h2>\n    <h2 *ngIf=\"forms!==null && forms.length==0\" class=\"result-err-table-text\">{{_t.translate('No forms available.')}}</h2>\n\n    <ng-container *ngIf=\"forms!==null && forms.length>0\">\n      <div *ngFor=\"let form of forms;\" class=\"col-sm-6 col-md-6 col-lg-4 form-selection-container\"\n      (click)=\"selectForm(form)\">\n        <div class=\"form-selection\">\n          <img class=\"form-img\" [src]=\"formPreview(form)\">\n          <div class=\"form-cover\"></div>\n          <h2 class=\"form-owner\">{{formOwner(form)}} Form</h2>\n          <div class=\"form-desc\">{{formName(form)}}</div>\n          <div class=\"form-date\">\n            {{_t.translate('Create date')}}: \n            <span>{{dateFromObjectId(form._id)}}</span>\n          </div>\n        </div>\n        <div *ngIf=\"form.pendingNumber>0\" class=\"form-pending-warning warning-bg\">{{form.pendingNumber}}</div>\n      </div>\n    </ng-container>\n  </div>\n  <app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>\n</ng-container>\n\n<!-- Submitted form table -->\n<ng-container *ngIf=\"selectedForm!==null\">\n  <div class=\"row\" class=\"form-table-btn-container md-border-top md-space-top\">\n    <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Go back')\" (click)=\"backToFormPage()\">\n  </div>\n  <h2 *ngIf=\"_t.getLanguage==='TH'\" class=\"form-table-header\">{{selectedForm.nameTH}}</h2>\n  <h2 *ngIf=\"_t.getLanguage!=='TH'\" class=\"form-table-header\">{{selectedForm.nameEN}}</h2>\n\n  <app-table-search [type]=\"2\" [criteria]=\"tableOptions\" [selected]=\"tableCriteria\" (criteriaChange)=\"tableCriteriaChange($event)\"></app-table-search>\n  <div class=\"row form-container\">\n    <div class=\"table-container\"><table><tbody>\n      <tr>\n        <th width=\"12%\">{{_t.translate('First Name')}}</th>\n        <th width=\"12%\">{{_t.translate('Last Name')}}</th>\n        <th width=\"20%\">{{_t.translate('E-mail Address')}}</th>\n        <th width=\"16%\">{{_t.translate('Submitted Date')}}</th>\n        <th width=\"12%\">{{_t.translate('Status')}}</th>\n        <th width=\"18%\">{{_t.translate('Actions')}}</th>\n      </tr>\n      <tr *ngIf=\"submittedForms===null\"><td colspan=\"6\">\n        {{_t.translate('Loading submitted forms')}}...\n      </td></tr>\n      <tr *ngIf=\"submittedForms!==null && submittedForms.length==0\"><td colspan=\"6\">\n        {{_t.translate('No submitted forms found.')}}\n      </td></tr>\n      <ng-container *ngIf=\"submittedForms!==null && submittedForms.length>0\">\n        <tr *ngFor=\"let submittedForm of submittedForms;\">\n          <td>{{submittedForm.firstname}}</td>\n          <td>{{submittedForm.lastname}}</td>\n          <td>{{submittedForm.email}}</td>\n          <td>{{dateFromObjectId(submittedForm._id)}}</td>\n          <td [ngClass]=\"{'danger':submittedForm.status=='Not approved', 'warning':submittedForm.status=='Pending', 'primary':submittedForm.status=='Approved'}\">\n            <strong>{{submittedForm.status}}</strong>\n          </td>\n          <td>\n            <i *ngIf=\"submittedForm.status!=='Approved'\" class=\"far fa-check-circle success\" title=\"Approve\"\n              (click)=\"approvingSubmittedForm(submittedForm)\">&nbsp;</i>\n            <i *ngIf=\"submittedForm.status!=='Not approved'\" class=\"far fa-times-circle danger\" title=\"Not approve\"\n              (click)=\"notApprovingSubmittedForm(submittedForm)\">&nbsp;</i>\n            <i class=\"far fa-address-book primary\" title=\"View\"\n              (click)=\"byPassSubmittedForm(submittedForm, 'ViewByPass')\"></i>&nbsp;\n            <i class=\"fas fa-edit warning\" title=\"Edit\"\n              (click)=\"byPassSubmittedForm(submittedForm, 'EditByPass')\"></i>&nbsp;\n            <i class=\"far fa-trash-alt danger\" title=\"Delete\" \n              (click)=\"deletingingSubmittedForm(submittedForm)\"></i>\n          </td>\n        </tr>\n      </ng-container>\n    </tbody></table></div>\n  </div>\n  <app-pagination [pagination]=\"pagination\" [selected]=\"tableCriteria\" (criteriaChange)=\"tableCriteriaChange($event)\"></app-pagination>\n</ng-container>\n\n<!-- Approving -->\n<div *ngIf=\"approving && selectedSubmittedForm!==null && selectedForm!==null\" class=\"box-popup\">\n  <div class=\"box-popup-container primary-border\">\n    <h2 class=\"primary-color\">{{_t.translate('Do you want to approve this submitted form?')}}</h2>\n    <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\n    <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\n    <h4>\n      <strong>{{_t.translate('Owner')}}:</strong>\n      {{selectedSubmittedForm.firstname + ' ' + selectedSubmittedForm.lastname}}\n    </h4>\n    <div class=\"box-popup-btn-container\">\n        <input class=\"btn btn-primary\" type=\"button\" [value]=\"_t.translate('Approve this form')\"\n          (click)=\"setSubmittedFormStatus(selectedSubmittedForm, 'Approved')\">\n        <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n          (click)=\"approving=false; selectedSubmittedForm=null;\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"approvedNotification===1\" class=\"notification-container\">\n  <div class=\"notification primary-bg\">\n    {{_t.translate('The submitted form has been approved successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"approvedNotification=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"approvedNotification===-1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Failed to approve the submitted form.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"approvedNotification=0;\"></i>\n  </div>\n</div>\n<!-- Not approving -->\n<div *ngIf=\"notApproving && selectedSubmittedForm!==null && selectedForm!==null\" class=\"box-popup\">\n  <div class=\"box-popup-container danger-border\">\n    <h2 class=\"danger-color\">{{_t.translate('Do you want to unapprove this submitted form?')}}</h2>\n    <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\n    <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\n    <h4>\n      <strong>{{_t.translate('Owner')}}:</strong>\n      {{selectedSubmittedForm.firstname + ' ' + selectedSubmittedForm.lastname}}\n    </h4>\n    <div class=\"box-popup-btn-container\">\n        <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Unapprove this form')\"\n          (click)=\"setSubmittedFormStatus(selectedSubmittedForm, 'Not approved')\">\n        <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n          (click)=\"approving=false; selectedSubmittedForm=null;\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"notApprovedNotification===1\" class=\"notification-container\">\n  <div class=\"notification danger-bg\">\n    {{_t.translate('The submitted form has been unapproved successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"notApprovedNotification=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"notApprovedNotification===-1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Failed to unapprove the submitted form.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"notApprovedNotification=0;\"></i>\n  </div>\n</div>\n<!-- Deleting -->\n<div *ngIf=\"deleting && selectedSubmittedForm!==null && selectedForm!==null\" class=\"box-popup\">\n  <div class=\"box-popup-container danger-border\">\n    <h2 class=\"danger-color\">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>\n    <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\n    <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\n    <h4>\n      <strong>{{_t.translate('Owner')}}:</strong>\n      {{selectedSubmittedForm.firstname + ' ' + selectedSubmittedForm.lastname}}\n    </h4>\n    <div class=\"box-popup-btn-container\">\n        <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\n          (click)=\"deleteSubmittedForm(selectedSubmittedForm)\">\n        <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n          (click)=\"deleting=false; selectedSubmittedForm=null;\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"deletedNotification===1\" class=\"notification-container\">\n  <div class=\"notification danger-bg\">\n    {{_t.translate('The submitted form has been deleted successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"deletedNotification=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"deletedNotification===-1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Failed to delete the submitted form.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"deletedNotification=0;\"></i>\n  </div>\n</div>"
+module.exports = "<!-- Forms -->\n<ng-container *ngIf=\"selectedForm===null\">\n  <app-table-search [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-table-search>\n  <div class=\"row form-container fade-in\">\n    <h2 *ngIf=\"forms===null\" class=\"result-err-table-text\">{{_t.translate('Loading forms')}}...</h2>\n    <h2 *ngIf=\"forms!==null && forms.length==0\" class=\"result-err-table-text\">{{_t.translate('No forms available.')}}</h2>\n\n    <ng-container *ngIf=\"forms!==null && forms.length>0\">\n      <div *ngFor=\"let form of forms;\" class=\"col-sm-6 col-md-6 col-lg-4 form-selection-container\"\n      (click)=\"selectForm(form)\">\n        <div class=\"form-selection\">\n          <img class=\"form-img\" [src]=\"formPreview(form)\">\n          <div class=\"form-cover\"></div>\n          <h2 class=\"form-owner\">{{formOwner(form)}} Form</h2>\n          <div class=\"form-desc\">{{formName(form)}}</div>\n          <div class=\"form-date\">\n            {{_t.translate('Create date')}}: \n            <span>{{dateFromObjectId(form._id)}}</span>\n          </div>\n        </div>\n        <div *ngIf=\"form.pendingNumber>0\" class=\"form-pending-warning warning-bg\">{{form.pendingNumber}}</div>\n      </div>\n    </ng-container>\n  </div>\n  <app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>\n</ng-container>\n\n<!-- Submitted form table -->\n<ng-container *ngIf=\"selectedForm!==null\">\n  <div class=\"row\" class=\"form-table-btn-container md-border-top md-space-top\">\n    <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Go back')\" (click)=\"backToFormPage()\">\n  </div>\n  <h2 *ngIf=\"_t.getLanguage==='TH'\" class=\"form-table-header\">{{selectedForm.nameTH}}</h2>\n  <h2 *ngIf=\"_t.getLanguage!=='TH'\" class=\"form-table-header\">{{selectedForm.nameEN}}</h2>\n\n  <app-table-search [type]=\"2\" [criteria]=\"tableOptions\" [selected]=\"tableCriteria\" (criteriaChange)=\"tableCriteriaChange($event)\"></app-table-search>\n  <div class=\"row form-container fade-in\">\n    <div class=\"table-container\"><table><tbody>\n      <tr>\n        <th width=\"12%\">{{_t.translate('First Name')}}</th>\n        <th width=\"12%\">{{_t.translate('Last Name')}}</th>\n        <th width=\"20%\">{{_t.translate('E-mail Address')}}</th>\n        <th width=\"16%\">{{_t.translate('Submitted Date')}}</th>\n        <th width=\"12%\">{{_t.translate('Status')}}</th>\n        <th width=\"18%\">{{_t.translate('Actions')}}</th>\n      </tr>\n      <tr *ngIf=\"submittedForms===null\"><td colspan=\"6\">\n        {{_t.translate('Loading submitted forms')}}...\n      </td></tr>\n      <tr *ngIf=\"submittedForms!==null && submittedForms.length==0\"><td colspan=\"6\">\n        {{_t.translate('No submitted forms found.')}}\n      </td></tr>\n      <ng-container *ngIf=\"submittedForms!==null && submittedForms.length>0\">\n        <tr *ngFor=\"let submittedForm of submittedForms;\">\n          <td>{{submittedForm.firstname}}</td>\n          <td>{{submittedForm.lastname}}</td>\n          <td>{{submittedForm.email}}</td>\n          <td>{{dateFromObjectId(submittedForm._id)}}</td>\n          <td [ngClass]=\"{'danger':submittedForm.status=='Not approved', 'warning':submittedForm.status=='Pending', 'primary':submittedForm.status=='Approved'}\">\n            <strong>{{submittedForm.status}}</strong>\n          </td>\n          <td>\n            <i *ngIf=\"submittedForm.status!=='Approved'\" class=\"far fa-check-circle success\" title=\"Approve\"\n              (click)=\"approvingSubmittedForm(submittedForm)\">&nbsp;</i>\n            <i *ngIf=\"submittedForm.status!=='Not approved'\" class=\"far fa-times-circle danger\" title=\"Not approve\"\n              (click)=\"notApprovingSubmittedForm(submittedForm)\">&nbsp;</i>\n            <i class=\"far fa-address-book primary\" title=\"View\"\n              (click)=\"byPassSubmittedForm(submittedForm, 'ViewByPass')\"></i>&nbsp;\n            <i class=\"fas fa-edit warning\" title=\"Edit\"\n              (click)=\"byPassSubmittedForm(submittedForm, 'EditByPass')\"></i>&nbsp;\n            <i class=\"far fa-trash-alt danger\" title=\"Delete\" \n              (click)=\"deletingingSubmittedForm(submittedForm)\"></i>\n          </td>\n        </tr>\n      </ng-container>\n    </tbody></table></div>\n  </div>\n  <app-pagination [pagination]=\"pagination\" [selected]=\"tableCriteria\" (criteriaChange)=\"tableCriteriaChange($event)\"></app-pagination>\n</ng-container>\n\n<!-- Approving -->\n<div *ngIf=\"approving && selectedSubmittedForm!==null && selectedForm!==null\" class=\"box-popup\">\n  <div class=\"box-popup-container primary-border\">\n    <h2 class=\"primary-color\">{{_t.translate('Do you want to approve this submitted form?')}}</h2>\n    <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\n    <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\n    <h4>\n      <strong>{{_t.translate('Owner')}}:</strong>\n      {{selectedSubmittedForm.firstname + ' ' + selectedSubmittedForm.lastname}}\n    </h4>\n    <div class=\"box-popup-btn-container\">\n        <input class=\"btn btn-primary\" type=\"button\" [value]=\"_t.translate('Approve this form')\"\n          (click)=\"setSubmittedFormStatus(selectedSubmittedForm, 'Approved')\">\n        <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n          (click)=\"approving=false; selectedSubmittedForm=null;\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"approvedNotification===1\" class=\"notification-container\">\n  <div class=\"notification primary-bg\">\n    {{_t.translate('The submitted form has been approved successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"approvedNotification=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"approvedNotification===-1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Failed to approve the submitted form.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"approvedNotification=0;\"></i>\n  </div>\n</div>\n<!-- Not approving -->\n<div *ngIf=\"notApproving && selectedSubmittedForm!==null && selectedForm!==null\" class=\"box-popup\">\n  <div class=\"box-popup-container danger-border\">\n    <h2 class=\"danger-color\">{{_t.translate('Do you want to unapprove this submitted form?')}}</h2>\n    <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\n    <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\n    <h4>\n      <strong>{{_t.translate('Owner')}}:</strong>\n      {{selectedSubmittedForm.firstname + ' ' + selectedSubmittedForm.lastname}}\n    </h4>\n    <div class=\"box-popup-btn-container\">\n        <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Unapprove this form')\"\n          (click)=\"setSubmittedFormStatus(selectedSubmittedForm, 'Not approved')\">\n        <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n          (click)=\"approving=false; selectedSubmittedForm=null;\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"notApprovedNotification===1\" class=\"notification-container\">\n  <div class=\"notification danger-bg\">\n    {{_t.translate('The submitted form has been unapproved successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"notApprovedNotification=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"notApprovedNotification===-1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Failed to unapprove the submitted form.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"notApprovedNotification=0;\"></i>\n  </div>\n</div>\n<!-- Deleting -->\n<div *ngIf=\"deleting && selectedSubmittedForm!==null && selectedForm!==null\" class=\"box-popup\">\n  <div class=\"box-popup-container danger-border\">\n    <h2 class=\"danger-color\">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>\n    <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedForm.nameTH}}</h4>\n    <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedForm.nameEN}}</h4>\n    <h4>\n      <strong>{{_t.translate('Owner')}}:</strong>\n      {{selectedSubmittedForm.firstname + ' ' + selectedSubmittedForm.lastname}}\n    </h4>\n    <div class=\"box-popup-btn-container\">\n        <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\n          (click)=\"deleteSubmittedForm(selectedSubmittedForm)\">\n        <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n          (click)=\"deleting=false; selectedSubmittedForm=null;\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"deletedNotification===1\" class=\"notification-container\">\n  <div class=\"notification danger-bg\">\n    {{_t.translate('The submitted form has been deleted successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"deletedNotification=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"deletedNotification===-1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Failed to delete the submitted form.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"deletedNotification=0;\"></i>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1443,7 +1557,7 @@ module.exports = ""
 /***/ "./src/app/page-admin-panel/page-admin-user-management/page-admin-user-management.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  page-admin-user-management works!\n</p>\n"
+module.exports = "<ng-container *ngIf=\"page==='Table'\">\n    <app-table-search [criteria]=\"options\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-table-search>\n    <div class=\"row form-container fade-in\">\n        <div class=\"table-container\"><table><tbody>\n            <tr>\n                <th width=\"14%\">{{_t.translate('Username')}}</th>\n                <th width=\"14%\">{{_t.translate('First Name')}}</th>\n                <th width=\"14%\">{{_t.translate('Last Name')}}</th>\n                <th width=\"22%\">{{_t.translate('E-mail Address')}}</th>\n                <th width=\"8%\">{{_t.translate('Level')}}</th>\n                <th width=\"8%\">{{_t.translate('Status')}}</th>\n                <th width=\"20%\">{{_t.translate('Actions')}}</th>\n            </tr>\n            <tr *ngIf=\"users===null\"><td colspan=\"7\" align=\"center\">\n                {{_t.translate('Loading users')}}...\n            </td></tr>\n            <tr *ngIf=\"users!==null && users.length==0\"><td colspan=\"5\" align=\"center\">\n                {{_t.translate('No users found.')}}\n            </td></tr>\n            <ng-container *ngIf=\"users!==null && users.length>0\">\n            <tr *ngFor=\"let user of users;\">\n                <td>{{user.username}}</td>\n                <td>{{user.firstname}}</td>\n                <td>{{user.lastname}}</td>\n                <td>{{user.email}}</td>\n                <td>{{user.level}}</td>\n                <td [ngClass]=\"{'danger':user.status=='Ban', 'warning':user.status=='Pending', 'primary':user.status=='Active'}\">\n                    <strong>{{user.status}}</strong>\n                </td>\n                <!-- Admin options based on level -->\n                <!-- Lower users -->\n                <td *ngIf=\"user.level < _user.getUser().level\">\n                    <i *ngIf=\"user.status!='Active'\" class=\"far fa-check-circle success\" title=\"Set active\"\n                    (click)=\"trySetUserStatus(user, 'Active')\">&nbsp;</i>\n                    <i *ngIf=\"user.status!='Ban'\" class=\"far fa-times-circle danger\" title=\"Ban user\"\n                    (click)=\"trySetUserStatus(user, 'Ban')\">&nbsp;</i>\n                    <i class=\"far fa-address-book primary\" title=\"View\" (click)=\"viewUserinfo(user)\"></i>&nbsp;\n                    <i class=\"fas fa-chart-line info\" title=\"Activity logs\"></i>&nbsp;\n                    <i class=\"fas fa-edit warning\" title=\"Edit\" (click)=\"adminEditUserinfo(user)\"></i>&nbsp;\n                    <i class=\"far fa-trash-alt danger\" title=\"Delete\" (click)=\"tryDeleteUser(user)\"></i>\n                </td>\n                <!-- Higher users -->\n                <td *ngIf=\"user.level > _user.getUser().level\">\n                    <i class=\"far fa-address-book primary\" title=\"View\" (click)=\"viewUserinfo(user)\"></i>&nbsp;\n                    <i class=\"fas fa-chart-line info\" title=\"Activity logs\"></i>\n                </td>\n                <!-- Yourself -->\n                <td *ngIf=\"user.level==_user.getUser().level && user._id==_user.getUser()._id\">\n                    <i class=\"far fa-address-book primary\" title=\"View\" (click)=\"viewUserinfo(user)\"></i>&nbsp;\n                    <i class=\"fas fa-chart-line info\" title=\"Activity logs\"></i>&nbsp;\n                    <i class=\"fas fa-edit warning\" title=\"Edit\" (click)=\"adminEditUserinfo(user)\"></i>\n                </td>\n                <!-- Same level users, not you -->\n                <td *ngIf=\"user.level==_user.getUser().level && user._id!=_user.getUser()._id\">\n                    <i class=\"far fa-address-book primary\" title=\"View\" (click)=\"viewUserinfo(user)\"></i>&nbsp;\n                    <i class=\"fas fa-chart-line info\" title=\"Activity logs\"></i>\n                </td>\n            </tr>\n            </ng-container>\n        </tbody></table></div>\n    </div>\n    <app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>\n</ng-container>\n<!-- Set active -->\n<div *ngIf=\"setActive && selectedUser!==null\" class=\"box-popup\">\n    <div class=\"box-popup-container primary-border\">\n        <h2 class=\"danger-color\">{{_t.translate('Do you want to set this user active?')}}</h2>\n        <h4><strong>{{_t.translate('Username')}}:</strong> {{selectedUser.username}}</h4>\n        <h4><strong>{{_t.translate('First Name')}}:</strong> {{selectedUser.firstname}}</h4>\n        <h4><strong>{{_t.translate('Last Name')}}:</strong> {{selectedUser.lastname}}</h4>\n        <div class=\"box-popup-btn-container\">\n            <input class=\"btn btn-primary\" type=\"button\" [value]=\"_t.translate('Set this user active')\"\n                (click)=\"setUserStatus(selectedUser, 'Active')\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n                (click)=\"setActive=false; selectedUser=null;\">\n        </div>\n    </div>\n</div>\n<div *ngIf=\"setActiveNotification===1\" class=\"notification-container\">\n    <div class=\"notification primary-bg\">\n        {{_t.translate('The user has been set active successfully!')}}\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setActiveNotification=0;\"></i>\n    </div>\n</div>\n<div *ngIf=\"setActiveNotification===-1\" class=\"notification-container\">\n    <div class=\"notification warning-bg\">\n        {{_t.translate('Failed to set the user active.')}}\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setActiveNotification=0;\"></i>\n    </div>\n</div>\n<!-- Set inactive -->\n<div *ngIf=\"setInactive && selectedUser!==null\" class=\"box-popup\">\n    <div class=\"box-popup-container danger-border\">\n        <h2 class=\"danger-color\">{{_t.translate('Do you want to ban this user?')}}</h2>\n        <h4><strong>{{_t.translate('Username')}}:</strong> {{selectedUser.username}}</h4>\n        <h4><strong>{{_t.translate('First Name')}}:</strong> {{selectedUser.firstname}}</h4>\n        <h4><strong>{{_t.translate('Last Name')}}:</strong> {{selectedUser.lastname}}</h4>\n        <div class=\"box-popup-btn-container\">\n            <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Ban this user')\"\n                (click)=\"setUserStatus(selectedUser, 'Ban')\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n                (click)=\"setInactive=false; selectedUser=null;\">\n        </div>\n    </div>\n</div>\n<div *ngIf=\"setInactiveNotification===1\" class=\"notification-container\">\n    <div class=\"notification danger-bg\">\n        {{_t.translate('The user has been banned successfully!')}}\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setInactiveNotification=0;\"></i>\n    </div>\n</div>\n<div *ngIf=\"setInactiveNotification===-1\" class=\"notification-container\">\n    <div class=\"notification warning-bg\">\n        {{_t.translate('Failed to ban the user.')}}\n        <i class=\"far fa-times-circle notification-close\" (click)=\"setInactiveNotification=0;\"></i>\n    </div>\n</div>\n<!-- Deleting -->\n<div *ngIf=\"deleting && selectedUser!==null\" class=\"box-popup\">\n    <div class=\"box-popup-container danger-border\">\n        <h2 class=\"danger-color\">{{_t.translate('Do you want to delete this user?')}}</h2>\n        <h4><strong>{{_t.translate('Username')}}:</strong> {{selectedUser.username}}</h4>\n        <h4><strong>{{_t.translate('First Name')}}:</strong> {{selectedUser.firstname}}</h4>\n        <h4><strong>{{_t.translate('Last Name')}}:</strong> {{selectedUser.lastname}}</h4>\n        <div class=\"box-popup-btn-container\">\n            <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete this user')\"\n                (click)=\"deleteUser(selectedUser)\">\n            <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n                (click)=\"deleting=false; selectedUser=null;\">\n        </div>\n    </div>\n</div>\n<div *ngIf=\"deletedNotification===1\" class=\"notification-container\">\n    <div class=\"notification danger-bg\">\n        {{_t.translate('The user has been deleted successfully!')}}\n        <i class=\"far fa-times-circle notification-close\" (click)=\"deletedNotification=0;\"></i>\n    </div>\n</div>\n<div *ngIf=\"deletedNotification===-1\" class=\"notification-container\">\n    <div class=\"notification warning-bg\">\n        {{_t.translate('Failed to delete the user.')}}\n        <i class=\"far fa-times-circle notification-close\" (click)=\"deletedNotification=0;\"></i>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -1452,6 +1566,14 @@ module.exports = "<p>\n  page-admin-user-management works!\n</p>\n"
 
 "use strict";
 
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1463,10 +1585,133 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var socketio_service_1 = __webpack_require__("./src/app/services/socketio.service.ts");
+var user_service_1 = __webpack_require__("./src/app/services/user.service.ts");
+var admin_service_1 = __webpack_require__("./src/app/services/admin.service.ts");
+var translation_service_1 = __webpack_require__("./src/app/services/translation.service.ts");
 var PageAdminUserManagementComponent = /** @class */ (function () {
-    function PageAdminUserManagementComponent() {
+    function PageAdminUserManagementComponent(_socketio, _user, _admin, _t) {
+        this._socketio = _socketio;
+        this._user = _user;
+        this._admin = _admin;
+        this._t = _t;
+        this.options = {
+            limit: [10, 25, 50, 100],
+            sort: [
+                'None', 'First name increasing', 'First name decreasing', 'Last name increasing', 'Last name decreasing',
+                'Level increasing', 'Level decreasing', 'Status increasing', 'Status decreasing',
+                'Register date increasing', 'Register date decreasing'
+            ]
+        };
+        this.pagination = [];
+        this.criteria = {
+            page: 0, start: 0, limit: 25, total: 0,
+            sort: 'None', search: '', category: 'None'
+        };
+        this.users = null;
+        this.selectedUser = null;
+        this.page = 'Table';
+        this.processing = false;
+        this.setActive = false;
+        this.setActiveNotification = 0;
+        this.setInactive = false;
+        this.setInactiveNotification = 0;
+        this.deleting = false;
+        this.deletedNotification = 0;
     }
     PageAdminUserManagementComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.getUsersSubscription = this._admin.observeUsers().subscribe(function (result) {
+            if (result.status) {
+                _this.users = result.data;
+                _this.criteria.total = result.totalUsers;
+                _this.pagination = [];
+                var count = 0;
+                while (count * _this.criteria.limit < _this.criteria.total) {
+                    _this.pagination.push(count);
+                    count += 1;
+                }
+            }
+        });
+        this._admin.getUsers(this.criteria);
+        this._socketio.getSocket().on('update-new-users', function () {
+            this._admin.getUsers(this.criteria);
+        }.bind(this));
+        this._socketio.getSocket().on('announce-account-status', function () {
+            this._admin.getUsers(this.criteria);
+        }.bind(this));
+        this._socketio.getSocket().on('announce-account-delete', function () {
+            this._admin.getUsers(this.criteria);
+        }.bind(this));
+    };
+    PageAdminUserManagementComponent.prototype.criteriaChange = function (selected) {
+        this.criteria = __assign({}, this.criteria, selected);
+        this._admin.getUsers(this.criteria);
+    };
+    PageAdminUserManagementComponent.prototype.dateFromObjectId = function (objectId) {
+        var date = new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+        return date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear();
+    };
+    PageAdminUserManagementComponent.prototype.clearProcess = function () {
+        this.selectedUser = null;
+        this.setActive = false;
+        this.setInactive = false;
+        this.deleting = false;
+        this.setActiveNotification = 0;
+        this.setInactiveNotification = 0;
+        this.deletedNotification = 0;
+        this.processing = false;
+    };
+    PageAdminUserManagementComponent.prototype.trySetUserStatus = function (user, status) {
+        this.selectedUser = user;
+        if (status === 'Active')
+            this.setActive = true;
+        else
+            this.setInactive = true;
+    };
+    PageAdminUserManagementComponent.prototype.setUserStatus = function (user, status) {
+        var _this = this;
+        if (!this.processing) {
+            this.processing = true;
+            this._admin.setAccoundStatus(user, status).then(function (result) {
+                _this.clearProcess();
+                if (result.status) {
+                    _this._admin.getUsers(_this.criteria);
+                    if (status === 'Active')
+                        _this.setActiveNotification = 1;
+                    else
+                        _this.setInactiveNotification = 1;
+                }
+                else {
+                    if (status === 'Active')
+                        _this.setActiveNotification = -1;
+                    else
+                        _this.setInactiveNotification = -1;
+                }
+            });
+        }
+    };
+    PageAdminUserManagementComponent.prototype.tryDeleteUser = function (user) { this.selectedUser = user; this.deleting = true; };
+    PageAdminUserManagementComponent.prototype.deleteUser = function (user) {
+        var _this = this;
+        if (!this.processing) {
+            this.clearProcess();
+            this._admin.deleteAccount(user).then(function (result) {
+                if (result.status) {
+                    _this._admin.getUsers(_this.criteria);
+                    _this.deletedNotification = 1;
+                }
+                else
+                    _this.deletedNotification = -1;
+            });
+        }
+    };
+    PageAdminUserManagementComponent.prototype.ngOnDestroy = function () {
+        this.getUsersSubscription.unsubscribe();
+        // Unbind Socket.io
+        this._socketio.getSocket().removeAllListeners('update-new-users');
+        this._socketio.getSocket().removeAllListeners('announce-account-status');
+        this._socketio.getSocket().removeAllListeners('announce-account-delete');
     };
     PageAdminUserManagementComponent = __decorate([
         core_1.Component({
@@ -1474,7 +1719,10 @@ var PageAdminUserManagementComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/page-admin-panel/page-admin-user-management/page-admin-user-management.component.html"),
             styles: [__webpack_require__("./src/app/page-admin-panel/page-admin-user-management/page-admin-user-management.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [socketio_service_1.SocketioService,
+            user_service_1.UserService,
+            admin_service_1.AdminService,
+            translation_service_1.TranslationService])
     ], PageAdminUserManagementComponent);
     return PageAdminUserManagementComponent;
 }());
@@ -1797,8 +2045,11 @@ var SsPdfFormComponent = /** @class */ (function () {
             if (params.accessCode !== undefined) {
                 _this.accessCode = params.accessCode;
                 _this._form.getFormDetail(_this.accessCode)
-                    .then(function (result) { if (result.status)
-                    _this.form = result.data; });
+                    .then(function (result) {
+                    if (result.status)
+                        _this.form = result.data;
+                    console.log(_this.form);
+                });
                 if (_this._form.getRole === 'User' || _this.loadForm === null) {
                     var user = Object.assign({}, _this._user.getUser());
                     _this._user.getUserDetail(user)
@@ -2554,7 +2805,7 @@ module.exports = ""
 /***/ "./src/app/page-user-panel/page-user-form-history/page-user-form-history.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-table-search [type]=\"2\" [criteria]=\"options\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-table-search>\n<div class=\"row form-container\">\n  <div class=\"table-container\"><table><tbody>\n    <tr>\n      <th width=\"45%\">{{_t.translate('Form Name')}}</th>\n      <th width=\"22%\">{{_t.translate('Submitted Date')}}</th>\n      <th width=\"15%\">{{_t.translate('Status')}}</th>\n      <th width=\"18%\">{{_t.translate('Actions')}}</th>\n    </tr>\n    <tr *ngIf=\"forms===null\"><td colspan=\"4\">\n      {{_t.translate('Loading submitted form history')}}...\n    </td></tr>\n    <tr *ngIf=\"forms!==null && forms.length==0\"><td colspan=\"4\">\n      {{_t.translate('No submitted forms found.')}}\n    </td></tr>\n    <ng-container *ngIf=\"forms!==null && forms.length>0\">\n      <tr *ngFor=\"let form of forms;\">\n        <td *ngIf=\"_t.getLanguage==='TH'\" class=\"col-left\">{{form.form.nameTH}}</td>\n        <td *ngIf=\"_t.getLanguage!=='TH'\" class=\"col-left\">{{form.form.nameEN}}</td>\n        <td>{{dateFromObjectId(form._id)}}</td>\n        <td [ngClass]=\"{'danger':form.status=='Not approved', 'warning':form.status=='Pending', 'primary':form.status=='Approved'}\">\n          <strong>{{form.status}}</strong>\n        </td>\n\n        <!-- Pending forms -->\n        <td *ngIf=\"form.status==='Pending'\">\n          <i class=\"far fa-address-book primary\" (click)=\"viewSubmittedForm(form)\" title=\"View\"></i>&nbsp;\n          <i class=\"fas fa-edit warning\" (click)=\"editSubmittedForm(form)\" title=\"Edit\"></i>&nbsp;\n          <i class=\"far fa-trash-alt danger\" (click)=\"tryDeleteSubmittedForm(form)\" title=\"Delete\"></i>\n        </td>\n        <!-- Approved / Not approved forms -->\n        <td *ngIf=\"form.status==='Not approved' || form.status==='Approved'\">\n          <i class=\"far fa-address-book primary\" (click)=\"viewSubmittedForm(form)\" title=\"View\"></i>\n        </td>\n\n      </tr>\n    </ng-container>\n  </tbody></table></div>\n</div>\n<app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>\n\n<div *ngIf=\"selectedDeleteForm!==null\" class=\"box-popup\">\n  <div class=\"box-popup-container danger-border\">\n    <h2 class=\"danger-color\">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>\n    <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedDeleteForm.form.nameTH}}</h4>\n    <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedDeleteForm.form.nameEN}}</h4>\n    <div class=\"box-popup-btn-container\">\n        <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\n          (click)=\"deleteSubmittedForm()\">\n        <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n          (click)=\"cancelDeleteSubmittedForm()\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"deleteNotification\" class=\"notification-container\">\n  <div class=\"notification danger-bg\">\n    {{_t.translate('The submitted form has been deleted successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"deleteNotification=false;\"></i>\n  </div>\n</div>"
+module.exports = "<app-table-search [type]=\"2\" [criteria]=\"options\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-table-search>\n<div class=\"row form-container fade-in\">\n  <div class=\"table-container\"><table><tbody>\n    <tr>\n      <th width=\"45%\">{{_t.translate('Form Name')}}</th>\n      <th width=\"22%\">{{_t.translate('Submitted Date')}}</th>\n      <th width=\"15%\">{{_t.translate('Status')}}</th>\n      <th width=\"18%\">{{_t.translate('Actions')}}</th>\n    </tr>\n    <tr *ngIf=\"forms===null\"><td colspan=\"4\">\n      {{_t.translate('Loading submitted form history')}}...\n    </td></tr>\n    <tr *ngIf=\"forms!==null && forms.length==0\"><td colspan=\"4\">\n      {{_t.translate('No submitted forms found.')}}\n    </td></tr>\n    <ng-container *ngIf=\"forms!==null && forms.length>0\">\n      <tr *ngFor=\"let form of forms;\">\n        <td *ngIf=\"_t.getLanguage==='TH'\" class=\"col-left\">{{form.form.nameTH}}</td>\n        <td *ngIf=\"_t.getLanguage!=='TH'\" class=\"col-left\">{{form.form.nameEN}}</td>\n        <td>{{dateFromObjectId(form._id)}}</td>\n        <td [ngClass]=\"{'danger':form.status=='Not approved', 'warning':form.status=='Pending', 'primary':form.status=='Approved'}\">\n          <strong>{{form.status}}</strong>\n        </td>\n\n        <!-- Pending forms -->\n        <td *ngIf=\"form.status==='Pending'\">\n          <i class=\"far fa-address-book primary\" (click)=\"viewSubmittedForm(form)\" title=\"View\"></i>&nbsp;\n          <i class=\"fas fa-edit warning\" (click)=\"editSubmittedForm(form)\" title=\"Edit\"></i>&nbsp;\n          <i class=\"far fa-trash-alt danger\" (click)=\"tryDeleteSubmittedForm(form)\" title=\"Delete\"></i>\n        </td>\n        <!-- Approved / Not approved forms -->\n        <td *ngIf=\"form.status==='Not approved' || form.status==='Approved'\">\n          <i class=\"far fa-address-book primary\" (click)=\"viewSubmittedForm(form)\" title=\"View\"></i>\n        </td>\n\n      </tr>\n    </ng-container>\n  </tbody></table></div>\n</div>\n<app-pagination [pagination]=\"pagination\" [selected]=\"criteria\" (criteriaChange)=\"criteriaChange($event)\"></app-pagination>\n\n<div *ngIf=\"selectedDeleteForm!==null\" class=\"box-popup\">\n  <div class=\"box-popup-container danger-border\">\n    <h2 class=\"danger-color\">{{_t.translate('Do you really want to delete this submitted form?')}}</h2>\n    <h4 *ngIf=\"_t.getLanguage==='TH'\"><strong>แบบฟอร์ม:</strong> {{selectedDeleteForm.form.nameTH}}</h4>\n    <h4 *ngIf=\"_t.getLanguage!=='TH'\"><strong>Form:</strong> {{selectedDeleteForm.form.nameEN}}</h4>\n    <div class=\"box-popup-btn-container\">\n        <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete this form')\"\n          (click)=\"deleteSubmittedForm()\">\n        <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\"\n          (click)=\"cancelDeleteSubmittedForm()\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"deleteNotification\" class=\"notification-container\">\n  <div class=\"notification danger-bg\">\n    {{_t.translate('The submitted form has been deleted successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"deleteNotification=false;\"></i>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -2825,7 +3076,7 @@ module.exports = ""
 /***/ "./src/app/page-user-panel/page-user-profile/page-user-profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  page-user-profile works!\n</p>\n"
+module.exports = "<div class=\"md-border-top\">\n  <app-user-profile-template [user]=\"_user.getUser()\"></app-user-profile-template>\n</div>\n"
 
 /***/ }),
 
@@ -2845,8 +3096,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var user_service_1 = __webpack_require__("./src/app/services/user.service.ts");
 var PageUserProfileComponent = /** @class */ (function () {
-    function PageUserProfileComponent() {
+    function PageUserProfileComponent(_user) {
+        this._user = _user;
     }
     PageUserProfileComponent.prototype.ngOnInit = function () {
     };
@@ -2856,7 +3109,7 @@ var PageUserProfileComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/page-user-panel/page-user-profile/page-user-profile.component.html"),
             styles: [__webpack_require__("./src/app/page-user-panel/page-user-profile/page-user-profile.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [user_service_1.UserService])
     ], PageUserProfileComponent);
     return PageUserProfileComponent;
 }());
@@ -2925,7 +3178,7 @@ module.exports = ""
 /***/ "./src/app/reusable/form-actions/form-actions.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Create -->\n<div class=\"form-actions-container\" *ngIf=\"type==='Create' && formCategory!==null\">\n  <h2 class=\"form-table-header\">{{_t.translate('Create form')}}</h2>\n  <form #createGovForm=\"ngForm\" (ngSubmit)=\"adminCreateForm(createGovForm)\" ngNativeValidate>\n    <div class=\"row\">\n      <div class=\"col-md-6\">\n        {{_t.translate('Thai name')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameTH\" ngModel required>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('English name')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameEN\" ngModel required>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form owner')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"owner\" ngModel>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Require evidences')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <sui-select class=\"selection form-control no-transition\" [ngModel]=\"'No'\" ngModel required\n          name=\"requireEvidence\">\n            <sui-select-option *ngFor=\"let option of ['No', 'Yes']\" [value]=\"option\"></sui-select-option>\n          </sui-select>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form PDF')}} (<span class=\"danger-color\">*{{_t.translate('cannot be changed')}}</span>)\n        <div class=\"form-group\">\n          <input class=\"form-control\" name=\"pdfForm\" type=\"file\" (change)=\"choosePdfForm($event)\" accept=\"application/pdf\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form category')}}\n        <div class=\"form-group\">\n          <ng-container *ngIf=\"_t.getLanguage=='TH'\">\n            <sui-select class=\"selection form-control no-transition\" ngModel name=\"category\">\n              <sui-select-option *ngFor=\"let option of formCategory\" [value]=\"option.categoryTH\"></sui-select-option>\n            </sui-select>\n          </ng-container>\n          <ng-container *ngIf=\"_t.getLanguage!='TH'\">\n            <sui-select class=\"selection form-control no-transition\" ngModel name=\"category\">\n              <sui-select-option *ngFor=\"let option of formCategory\" [value]=\"option.categoryEN\"></sui-select-option>\n            </sui-select>\n          </ng-container>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form preview')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" name=\"previewUrl\" type=\"file\" (change)=\"choosePdfPreview($event)\" accept=\"image/*\">\n        </div>\n      </div>\n\n      <div class=\"delimeter\"></div>\n      <div class=\"col-md-12 text-center\">\n        <button class=\"btn btn-success\" type=\"submit\">{{_t.translate('Create a form')}}</button>\n      </div>\n\n    </div>\n  </form>\n</div>\n\n<!-- View -->\n<div class=\"form-actions-container\" *ngIf=\"type==='View' && form!==null\">\n  <h2 class=\"form-table-header\">{{_t.translate('View form')}}</h2>\n  <div class=\"row\">\n    <div class=\"row\">\n      <div class=\"col-md-6\">\n        {{_t.translate('Thai name')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameTH\" [value]=\"form.nameTH\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('English name')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameEN\" [value]=\"form.nameEN\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form owner')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"owner\" [value]=\"displayValue(form.owner)\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Require evidences')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"requireEvidence\" [value]=\"displayValue(form.requireEvidence)\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form PDF')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" name=\"pdfForm\" type=\"text\" [value]=\"form.pdfForm\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form category')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"category\" [value]=\"displayFormCategory()\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form preview')}}\n        <div class=\"delimeter-sm\"></div>\n        <img class=\"form-preview-display\" [src]=\"displayFormPreview()\">\n      </div>\n\n    </div>\n  </div>\n</div>\n\n<!-- Edit -->\n<div class=\"form-actions-container\" *ngIf=\"type==='Edit' && form!==null\">\n  <h2 class=\"form-table-header\">{{_t.translate('Edit form')}}</h2>\n  <form #editGovForm=\"ngForm\" (ngSubmit)=\"adminEditForm(editGovForm)\" ngNativeValidate>\n    <div class=\"row\">\n      <div class=\"col-md-6\">\n        {{_t.translate('Thai name')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameTH\" [ngModel]=\"form.nameTH\" ngModel required>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('English name')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameEN\" [ngModel]=\"form.nameEN\" ngModel required>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form owner')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"owner\" [ngModel]=\"defaultValue(form.owner)\" ngModel>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Require evidences')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <sui-select class=\"selection form-control no-transition\" [ngModel]=\"defaultValue(form.requireEvidence)\"\n          ngModel required name=\"requireEvidence\">\n            <sui-select-option *ngFor=\"let option of ['No', 'Yes']\" [value]=\"option\"></sui-select-option>\n          </sui-select>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form PDF')}} (<span class=\"danger-color\">*{{_t.translate('cannot be changed')}}</span>)\n        <div class=\"form-group\">\n          <input class=\"form-control\" name=\"pdfForm\" type=\"text\" [value]=\"form.pdfForm\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form category')}}\n        <div class=\"form-group\">\n          <ng-container *ngIf=\"_t.getLanguage=='TH'\">\n            <sui-select class=\"selection form-control no-transition\" [ngModel]=\"defaultFormCategory()\" ngModel name=\"category\">\n              <sui-select-option *ngFor=\"let option of formCategory\" [value]=\"option.categoryTH\"></sui-select-option>\n            </sui-select>\n          </ng-container>\n          <ng-container *ngIf=\"_t.getLanguage!='TH'\">\n            <sui-select class=\"selection form-control no-transition\" [ngModel]=\"defaultFormCategory()\" ngModel name=\"category\">\n              <sui-select-option *ngFor=\"let option of formCategory\" [value]=\"option.categoryEN\"></sui-select-option>\n            </sui-select>\n          </ng-container>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form preview')}}\n        <ng-container *ngIf=\"form.previewUrl!==undefined && form.previewUrl!==null && form.previewUrl!==''\">\n          <i class=\"far fa-trash-alt danger form-preview-delete\" title=\"Delete form preview\" (click)=\"previewDeleting=true;\"></i>\n          <div class=\"delimeter-sm\"></div>\n          <img class=\"form-preview-display\" [src]=\"displayFormPreview()\">\n        </ng-container>\n        <div class=\"form-group\" *ngIf=\"form.previewUrl===undefined || form.previewUrl===null || form.previewUrl===''\">\n          <input class=\"form-control\" name=\"previewUrl\" type=\"file\" (change)=\"choosePdfPreview($event)\" accept=\"image/*\">            \n        </div>\n      </div>\n\n      <div class=\"delimeter\"></div>\n      <div class=\"col-md-12 text-center\">\n        <button class=\"btn btn-success\" type=\"submit\">{{_t.translate('Edit form')}}</button>\n      </div>\n\n    </div>\n  </form>\n</div>\n\n<!-- Form preview deleting -->\n<div *ngIf=\"previewDeleting\" class=\"box-popup\">\n  <div class=\"box-popup-container danger-border\">\n    <h2 class=\"danger-color\">{{_t.translate('Do you want to delete this form preview?')}}</h2>\n    <div class=\"box-popup-btn-container\">\n      <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete form preview')\" (click)=\"deleteFormPreview()\">\n      <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\" (click)=\"previewDeleting=false;\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"previewDeleted===1\" class=\"notification-container\">\n  <div class=\"notification danger-bg\">\n    {{_t.translate('The form preview has been deleted successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"previewDeleted=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"previewDeleted===-1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Failed to delete the form preview.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"previewDeleted=0;\"></i>\n  </div>\n</div>\n<!-- Notification -->\n<div *ngIf=\"pdfMissing===1 && files.pdfForm===null\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Please select form pdf file.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"pdfMissing=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"failed===1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Sorry. This form cannot be created at this time. Please try again later.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"failed=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"editFailed===1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Sorry. This form cannot be edited at this time. Please try again later.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"editFailed=0;\"></i>\n  </div>\n</div>"
+module.exports = "<!-- Create -->\n<div class=\"form-actions-container fade-in\" *ngIf=\"type==='Create' && formCategory!==null\">\n  <h2 class=\"form-table-header\">{{_t.translate('Create form')}}</h2>\n  <form #createGovForm=\"ngForm\" (ngSubmit)=\"adminCreateForm(createGovForm)\" ngNativeValidate>\n    <div class=\"row\">\n      <div class=\"col-md-6\">\n        {{_t.translate('Thai name')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameTH\" ngModel required>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('English name')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameEN\" ngModel required>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form owner')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"owner\" ngModel>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Require evidences')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <sui-select class=\"selection form-control no-transition\" [ngModel]=\"'No'\" ngModel required\n          name=\"requireEvidence\">\n            <sui-select-option *ngFor=\"let option of ['No', 'Yes']\" [value]=\"option\"></sui-select-option>\n          </sui-select>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form PDF')}} (<span class=\"danger-color\">*{{_t.translate('cannot be changed')}}</span>)\n        <div class=\"form-group\">\n          <input class=\"form-control\" name=\"pdfForm\" type=\"file\" (change)=\"choosePdfForm($event)\" accept=\"application/pdf\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form category')}}\n        <div class=\"form-group\">\n          <ng-container *ngIf=\"_t.getLanguage=='TH'\">\n            <sui-select class=\"selection form-control no-transition\" ngModel name=\"category\">\n              <sui-select-option *ngFor=\"let option of formCategory\" [value]=\"option.categoryTH\"></sui-select-option>\n            </sui-select>\n          </ng-container>\n          <ng-container *ngIf=\"_t.getLanguage!='TH'\">\n            <sui-select class=\"selection form-control no-transition\" ngModel name=\"category\">\n              <sui-select-option *ngFor=\"let option of formCategory\" [value]=\"option.categoryEN\"></sui-select-option>\n            </sui-select>\n          </ng-container>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form preview')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" name=\"previewUrl\" type=\"file\" (change)=\"choosePdfPreview($event)\" accept=\"image/*\">\n        </div>\n      </div>\n\n      <div class=\"delimeter\"></div>\n      <div class=\"col-md-12 text-center\">\n        <button class=\"btn btn-success\" type=\"submit\">{{_t.translate('Create a form')}}</button>\n      </div>\n\n    </div>\n  </form>\n</div>\n\n<!-- View -->\n<div class=\"form-actions-container fade-in\" *ngIf=\"type==='View' && form!==null\">\n  <h2 class=\"form-table-header\">{{_t.translate('View form')}}</h2>\n  <div class=\"row\">\n    <div class=\"row\">\n      <div class=\"col-md-6\">\n        {{_t.translate('Thai name')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameTH\" [value]=\"form.nameTH\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('English name')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameEN\" [value]=\"form.nameEN\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form owner')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"owner\" [value]=\"displayValue(form.owner)\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Require evidences')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"requireEvidence\" [value]=\"displayValue(form.requireEvidence)\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form PDF')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" name=\"pdfForm\" type=\"text\" [value]=\"form.pdfForm\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form category')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"category\" [value]=\"displayFormCategory()\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form preview')}}\n        <div class=\"delimeter-sm\"></div>\n        <img class=\"form-preview-display\" [src]=\"displayFormPreview()\">\n      </div>\n\n    </div>\n  </div>\n</div>\n\n<!-- Edit -->\n<div class=\"form-actions-container fade-in\" *ngIf=\"type==='Edit' && form!==null\">\n  <h2 class=\"form-table-header\">{{_t.translate('Edit form')}}</h2>\n  <form #editGovForm=\"ngForm\" (ngSubmit)=\"adminEditForm(editGovForm)\" ngNativeValidate>\n    <div class=\"row\">\n      <div class=\"col-md-6\">\n        {{_t.translate('Thai name')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameTH\" [ngModel]=\"form.nameTH\" ngModel required>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('English name')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"nameEN\" [ngModel]=\"form.nameEN\" ngModel required>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form owner')}}\n        <div class=\"form-group\">\n          <input class=\"form-control\" type=\"text\" name=\"owner\" [ngModel]=\"defaultValue(form.owner)\" ngModel>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Require evidences')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\">\n          <sui-select class=\"selection form-control no-transition\" [ngModel]=\"defaultValue(form.requireEvidence)\"\n          ngModel required name=\"requireEvidence\">\n            <sui-select-option *ngFor=\"let option of ['No', 'Yes']\" [value]=\"option\"></sui-select-option>\n          </sui-select>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form PDF')}} (<span class=\"danger-color\">*{{_t.translate('cannot be changed')}}</span>)\n        <div class=\"form-group\">\n          <input class=\"form-control\" name=\"pdfForm\" type=\"text\" [value]=\"form.pdfForm\" disabled=\"disabled\">\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form category')}}\n        <div class=\"form-group\">\n          <ng-container *ngIf=\"_t.getLanguage=='TH'\">\n            <sui-select class=\"selection form-control no-transition\" [ngModel]=\"defaultFormCategory()\" ngModel name=\"category\">\n              <sui-select-option *ngFor=\"let option of formCategory\" [value]=\"option.categoryTH\"></sui-select-option>\n            </sui-select>\n          </ng-container>\n          <ng-container *ngIf=\"_t.getLanguage!='TH'\">\n            <sui-select class=\"selection form-control no-transition\" [ngModel]=\"defaultFormCategory()\" ngModel name=\"category\">\n              <sui-select-option *ngFor=\"let option of formCategory\" [value]=\"option.categoryEN\"></sui-select-option>\n            </sui-select>\n          </ng-container>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('Form preview')}}\n        <ng-container *ngIf=\"form.previewUrl!==undefined && form.previewUrl!==null && form.previewUrl!==''\">\n          <i class=\"far fa-trash-alt danger form-preview-delete\" title=\"Delete form preview\" (click)=\"previewDeleting=true;\"></i>\n          <div class=\"delimeter-sm\"></div>\n          <img class=\"form-preview-display\" [src]=\"displayFormPreview()\">\n        </ng-container>\n        <div class=\"form-group\" *ngIf=\"form.previewUrl===undefined || form.previewUrl===null || form.previewUrl===''\">\n          <input class=\"form-control\" name=\"previewUrl\" type=\"file\" (change)=\"choosePdfPreview($event)\" accept=\"image/*\">            \n        </div>\n      </div>\n\n      <div class=\"delimeter\"></div>\n      <div class=\"col-md-12 text-center\">\n        <button class=\"btn btn-success\" type=\"submit\">{{_t.translate('Edit form')}}</button>\n      </div>\n\n    </div>\n  </form>\n</div>\n\n<!-- Form preview deleting -->\n<div *ngIf=\"previewDeleting\" class=\"box-popup\">\n  <div class=\"box-popup-container danger-border\">\n    <h2 class=\"danger-color\">{{_t.translate('Do you want to delete this form preview?')}}</h2>\n    <div class=\"box-popup-btn-container\">\n      <input class=\"btn btn-danger\" type=\"button\" [value]=\"_t.translate('Delete form preview')\" (click)=\"deleteFormPreview()\">\n      <input class=\"btn btn-success\" type=\"button\" [value]=\"_t.translate('Cancel')\" (click)=\"previewDeleting=false;\">\n    </div>\n  </div>\n</div>\n<div *ngIf=\"previewDeleted===1\" class=\"notification-container\">\n  <div class=\"notification danger-bg\">\n    {{_t.translate('The form preview has been deleted successfully!')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"previewDeleted=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"previewDeleted===-1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Failed to delete the form preview.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"previewDeleted=0;\"></i>\n  </div>\n</div>\n<!-- Notification -->\n<div *ngIf=\"pdfMissing===1 && files.pdfForm===null\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Please select form pdf file.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"pdfMissing=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"failed===1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Sorry. This form cannot be created at this time. Please try again later.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"failed=0;\"></i>\n  </div>\n</div>\n<div *ngIf=\"editFailed===1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Sorry. This form cannot be edited at this time. Please try again later.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"editFailed=0;\"></i>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -3198,6 +3451,97 @@ exports.FormActionsComponent = FormActionsComponent;
 
 /***/ }),
 
+/***/ "./src/app/reusable/form-category-actions/form-category-actions.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/reusable/form-category-actions/form-category-actions.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<!-- Create -->\n<div class=\"form-actions-container fade-in\" *ngIf=\"type==='Create'\">\n  <h2 class=\"form-table-header\">{{_t.translate('Create a form category')}}</h2>\n  <form #createFormCategory=\"ngForm\" (ngSubmit)=\"adminCreateFormCategory(createFormCategory)\" ngNativeValidate>\n    <div class=\"row\">\n      <div class=\"col-md-6\">\n        {{_t.translate('Thai category name')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\" style=\"margin-bottom:5px;\">\n          <input class=\"form-control\" type=\"text\" name=\"categoryTH\" ngModel required>\n        </div>\n        <div class=\"danger-color input-warning\">\n          <ng-container *ngIf=\"existed1===1\">* The name already exists</ng-container>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        {{_t.translate('English category name')}} <span class=\"danger-color\">*</span>\n        <div class=\"form-group\" style=\"margin-bottom:5px;\">\n          <input class=\"form-control\" type=\"text\" name=\"categoryEN\" ngModel required>\n        </div>\n        <div class=\"danger-color input-warning\">\n            <ng-container *ngIf=\"existed2===1\">* The name already exists</ng-container>\n        </div>\n      </div>\n\n      <div class=\"delimeter-sm\"></div>\n      <div class=\"col-md-12 text-center\">\n        <button class=\"btn btn-success\" type=\"submit\">{{_t.translate('Create a form category')}}</button>\n      </div>\n\n    </div>\n  </form>\n</div>\n\n<!-- Notification -->\n<div *ngIf=\"failed===1\" class=\"notification-container\">\n  <div class=\"notification warning-bg\">\n    {{_t.translate('Failed to create the form category.')}}\n    <i class=\"far fa-times-circle notification-close\" (click)=\"failed=0;\"></i>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/reusable/form-category-actions/form-category-actions.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var form_service_1 = __webpack_require__("./src/app/services/form.service.ts");
+var translation_service_1 = __webpack_require__("./src/app/services/translation.service.ts");
+var FormCategoryActionsComponent = /** @class */ (function () {
+    function FormCategoryActionsComponent(_form, _t) {
+        this._form = _form;
+        this._t = _t;
+        this.type = 'Create';
+        this.formCategoryCreated = new core_1.EventEmitter();
+        this.existed1 = 0;
+        this.existed2 = 0;
+        this.processing = false;
+        this.failed = 0;
+    }
+    FormCategoryActionsComponent.prototype.ngOnInit = function () {
+    };
+    FormCategoryActionsComponent.prototype.adminCreateFormCategory = function (formCategory) {
+        var _this = this;
+        if (!this.processing) {
+            this.processing = true;
+            this.existed1 = 0;
+            this.existed2 = 0;
+            this.failed = 0;
+            this._form.createFormCategory(formCategory.value).then(function (result) {
+                _this.processing = false;
+                if (result.status)
+                    _this.formCategoryCreated.emit(result);
+                else {
+                    if (result.data === null)
+                        _this.failed = 1;
+                    else if (result.data === 0)
+                        _this.existed1 = 1;
+                    else
+                        _this.existed2 = 1;
+                }
+            });
+        }
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FormCategoryActionsComponent.prototype, "type", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
+    ], FormCategoryActionsComponent.prototype, "formCategoryCreated", void 0);
+    FormCategoryActionsComponent = __decorate([
+        core_1.Component({
+            selector: 'app-form-category-actions',
+            template: __webpack_require__("./src/app/reusable/form-category-actions/form-category-actions.component.html"),
+            styles: [__webpack_require__("./src/app/reusable/form-category-actions/form-category-actions.component.css")]
+        }),
+        __metadata("design:paramtypes", [form_service_1.FormService,
+            translation_service_1.TranslationService])
+    ], FormCategoryActionsComponent);
+    return FormCategoryActionsComponent;
+}());
+exports.FormCategoryActionsComponent = FormCategoryActionsComponent;
+
+
+/***/ }),
+
 /***/ "./src/app/reusable/form-result/form-result.component.css":
 /***/ (function(module, exports) {
 
@@ -3273,7 +3617,7 @@ module.exports = ""
 /***/ "./src/app/reusable/pagination/pagination.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row pagination-container\">\n  <ul class=\"pagination-wraper\">\n    <li [ngClass]=\"{'active':selected.page!==0}\" (click)=\"previousPage()\">\n      <span><i class=\"fas fa-angle-left\"></i></span>\n    </li>\n\n    <li *ngFor=\"let page of pagination;\" (click)=\"selectPage(page)\"\n    [ngClass]=\"{'active':page!==selected.page, 'selected':page===selected.page}\">\n      <span>{{page+1}}</span>\n    </li>\n\n    <li [ngClass]=\"{'active':selected.page!==pagination.length-1}\" (click)=\"nextPage()\">\n      <span><i class=\"fas fa-angle-right\"></i></span>\n    </li>\n  </ul>\n</div>\n"
+module.exports = "<div class=\"row fade-in pagination-container\">\n  <ul class=\"pagination-wraper\">\n    <li [ngClass]=\"{'active':selected.page!==0}\" (click)=\"previousPage()\">\n      <span><i class=\"fas fa-angle-left\"></i></span>\n    </li>\n\n    <li *ngFor=\"let page of pagination;\" (click)=\"selectPage(page)\"\n    [ngClass]=\"{'active':page!==selected.page, 'selected':page===selected.page}\">\n      <span>{{page+1}}</span>\n    </li>\n\n    <li [ngClass]=\"{'active':selected.page!==pagination.length-1}\" (click)=\"nextPage()\">\n      <span><i class=\"fas fa-angle-right\"></i></span>\n    </li>\n  </ul>\n</div>\n"
 
 /***/ }),
 
@@ -3501,7 +3845,7 @@ module.exports = ""
 /***/ "./src/app/reusable/table-search/table-search.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"type===1\" class=\"row table-criteria-container md-border-top\">\n  <div class=\"col-md-5 col-lg-4 table-limit table-criteria\">\n    {{_t.translate('Show per page')}}\n    <!-- <select class=\"form-control no-transition\" (change)=\"limitChange($event.target.value)\" [ngStyle]=\"limitStyle()\">\n      <ng-container *ngFor=\"let limit of criteria.limit;\">\n        <option *ngIf=\"limit===selected.limit\" [value]=\"limit\" selected=\"selected\">{{limit}}</option>\n        <option *ngIf=\"limit!==selected.limit\" [value]=\"limit\">{{limit}}</option>\n      </ng-container>\n    </select> -->\n    <sui-select class=\"selection form-control no-transition\" [ngModel]=\"selected.limit\"\n    (ngModelChange)=\"limitChange($event)\" [ngStyle]=\"limitStyle()\">\n      <sui-select-option *ngFor=\"let limit of criteria.limit;\" [value]=\"limit\">\n      </sui-select-option>\n    </sui-select>\n  </div>\n  <div class=\"col-md-7 col-lg-4 table-sort table-criteria\">\n    {{_t.translate('Sort by')}}\n    <!-- <select class=\"form-control no-transition\" (change)=\"sortChange($event.target.value)\" [ngStyle]=\"sortStyle()\">\n      <ng-container *ngFor=\"let sort of criteria.sort;\">\n        <option *ngIf=\"sort===selected.sort\" [value]=\"sort\" selected=\"selected\">{{sort}}</option>\n        <option *ngIf=\"sort!==selected.sort\" [value]=\"sort\">{{sort}}</option>\n      </ng-container>\n    </select> -->\n    <sui-select class=\"selection form-control no-transition\" [ngModel]=\"selected.sort\"\n    (ngModelChange)=\"sortChange($event)\" [ngStyle]=\"sortStyle()\">\n      <sui-select-option *ngFor=\"let sort of criteria.sort;\" [value]=\"sort\">\n      </sui-select-option>\n    </sui-select>\n  </div>\n  <div class=\"col-md-12 col-lg-4 table-search table-criteria\">\n    <input #keyword class=\"form-control no-transition\" type=\"text\" (keyup.enter)=\"searchChange(keyword.value)\" [ngStyle]=\"searchStyle()\"\n    [value]=\"selected.search\">\n    <input type=\"submit\" class=\"btn btn-success\" [value]=\"_t.translate('Search')\" (click)=\"searchChange(keyword.value)\">\n  </div>\n</div>\n\n<div *ngIf=\"type===2\" class=\"row table-criteria-container md-border-top\">\n  <div class=\"col-md-5 col-lg-5 table-limit table-criteria\">\n    {{_t.translate('Show per page')}}\n    <!-- <select class=\"form-control no-transition\" (change)=\"limitChange($event.target.value)\" [ngStyle]=\"limitStyle()\">\n      <ng-container *ngFor=\"let limit of criteria.limit;\">\n        <option *ngIf=\"limit===selected.limit\" [value]=\"limit\" selected=\"selected\">{{limit}}</option>\n        <option *ngIf=\"limit!==selected.limit\" [value]=\"limit\">{{limit}}</option>\n      </ng-container>\n    </select> -->\n    <sui-select class=\"selection form-control no-transition\" [ngModel]=\"selected.limit\"\n    (ngModelChange)=\"limitChange($event)\" [ngStyle]=\"limitStyle()\">\n      <sui-select-option *ngFor=\"let limit of criteria.limit;\" [value]=\"limit\">\n      </sui-select-option>\n    </sui-select>\n  </div>\n  <div class=\"col-md-7 col-lg-7 table-sort table-criteria\">\n    {{_t.translate('Sort by')}}\n    <!-- <select class=\"form-control no-transition\" (change)=\"sortChange($event.target.value)\" [ngStyle]=\"sortStyle()\">\n      <ng-container *ngFor=\"let sort of criteria.sort;\">\n        <option *ngIf=\"sort===selected.sort\" [value]=\"sort\" selected=\"selected\">{{sort}}</option>\n        <option *ngIf=\"sort!==selected.sort\" [value]=\"sort\">{{sort}}</option>\n      </ng-container>\n    </select> -->\n    <sui-select class=\"selection form-control no-transition\" [ngModel]=\"selected.sort\"\n    (ngModelChange)=\"sortChange($event)\" [ngStyle]=\"sortStyle()\">\n      <sui-select-option *ngFor=\"let sort of criteria.sort;\" [value]=\"sort\">\n      </sui-select-option>\n    </sui-select>\n  </div>\n</div>\n"
+module.exports = "<div *ngIf=\"type===1\" class=\"row fade-in table-criteria-container md-border-top\">\n  <div class=\"col-md-5 col-lg-4 table-limit table-criteria\">\n    {{_t.translate('Show per page')}}\n    <!-- <select class=\"form-control no-transition\" (change)=\"limitChange($event.target.value)\" [ngStyle]=\"limitStyle()\">\n      <ng-container *ngFor=\"let limit of criteria.limit;\">\n        <option *ngIf=\"limit===selected.limit\" [value]=\"limit\" selected=\"selected\">{{limit}}</option>\n        <option *ngIf=\"limit!==selected.limit\" [value]=\"limit\">{{limit}}</option>\n      </ng-container>\n    </select> -->\n    <sui-select class=\"selection form-control no-transition\" [ngModel]=\"selected.limit\"\n    (ngModelChange)=\"limitChange($event)\" [ngStyle]=\"limitStyle()\">\n      <sui-select-option *ngFor=\"let limit of criteria.limit;\" [value]=\"limit\">\n      </sui-select-option>\n    </sui-select>\n  </div>\n  <div class=\"col-md-7 col-lg-4 table-sort table-criteria\">\n    {{_t.translate('Sort by')}}\n    <!-- <select class=\"form-control no-transition\" (change)=\"sortChange($event.target.value)\" [ngStyle]=\"sortStyle()\">\n      <ng-container *ngFor=\"let sort of criteria.sort;\">\n        <option *ngIf=\"sort===selected.sort\" [value]=\"sort\" selected=\"selected\">{{sort}}</option>\n        <option *ngIf=\"sort!==selected.sort\" [value]=\"sort\">{{sort}}</option>\n      </ng-container>\n    </select> -->\n    <sui-select class=\"selection form-control no-transition\" [ngModel]=\"selected.sort\"\n    (ngModelChange)=\"sortChange($event)\" [ngStyle]=\"sortStyle()\">\n      <sui-select-option *ngFor=\"let sort of criteria.sort;\" [value]=\"sort\">\n      </sui-select-option>\n    </sui-select>\n  </div>\n  <div class=\"col-md-12 col-lg-4 table-search table-criteria\">\n    <input #keyword class=\"form-control no-transition\" type=\"text\" (keyup.enter)=\"searchChange(keyword.value)\" [ngStyle]=\"searchStyle()\"\n    [value]=\"selected.search\">\n    <input type=\"submit\" class=\"btn btn-success\" [value]=\"_t.translate('Search')\" (click)=\"searchChange(keyword.value)\">\n  </div>\n</div>\n\n<div *ngIf=\"type===2\" class=\"row fade-in table-criteria-container md-border-top\">\n  <div class=\"col-md-5 col-lg-5 table-limit table-criteria\">\n    {{_t.translate('Show per page')}}\n    <!-- <select class=\"form-control no-transition\" (change)=\"limitChange($event.target.value)\" [ngStyle]=\"limitStyle()\">\n      <ng-container *ngFor=\"let limit of criteria.limit;\">\n        <option *ngIf=\"limit===selected.limit\" [value]=\"limit\" selected=\"selected\">{{limit}}</option>\n        <option *ngIf=\"limit!==selected.limit\" [value]=\"limit\">{{limit}}</option>\n      </ng-container>\n    </select> -->\n    <sui-select class=\"selection form-control no-transition\" [ngModel]=\"selected.limit\"\n    (ngModelChange)=\"limitChange($event)\" [ngStyle]=\"limitStyle()\">\n      <sui-select-option *ngFor=\"let limit of criteria.limit;\" [value]=\"limit\">\n      </sui-select-option>\n    </sui-select>\n  </div>\n  <div class=\"col-md-7 col-lg-7 table-sort table-criteria\">\n    {{_t.translate('Sort by')}}\n    <!-- <select class=\"form-control no-transition\" (change)=\"sortChange($event.target.value)\" [ngStyle]=\"sortStyle()\">\n      <ng-container *ngFor=\"let sort of criteria.sort;\">\n        <option *ngIf=\"sort===selected.sort\" [value]=\"sort\" selected=\"selected\">{{sort}}</option>\n        <option *ngIf=\"sort!==selected.sort\" [value]=\"sort\">{{sort}}</option>\n      </ng-container>\n    </select> -->\n    <sui-select class=\"selection form-control no-transition\" [ngModel]=\"selected.sort\"\n    (ngModelChange)=\"sortChange($event)\" [ngStyle]=\"sortStyle()\">\n      <sui-select-option *ngFor=\"let sort of criteria.sort;\" [value]=\"sort\">\n      </sui-select-option>\n    </sui-select>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -3613,21 +3957,21 @@ exports.TableSearchComponent = TableSearchComponent;
 
 /***/ }),
 
-/***/ "./src/app/reusable/user-profile/user-profile.component.css":
+/***/ "./src/app/reusable/user-profile-template/user-profile-template.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\r\n.profile-img-container {width: 100%; overflow: hidden; display: block;}\r\n\r\n.profile-img-container > .profile-img-left {float: left; width: 220px;}\r\n\r\n.profile-img-container > .profile-img-right {float: left; width: calc(100% - 220px); padding: 0 0 15px 25px;}\r\n\r\n.profile-img-wrapper {background: #f5f5f5;}\r\n\r\n.profile-img-wrapper > img {\r\n    display: block; max-width: 220px; width: 100%; height: auto; margin: 0 auto;\r\n}\r\n\r\n.profile-choice-wrapper > .profile-choice {\r\n    width: 100%; text-align: center; margin: 3px 0; padding: 8px 0; cursor: pointer;\r\n    border-left: 6px solid rgba(247,202,24,.2); -webkit-transition: .25s all; transition: .25s all;\r\n}\r\n\r\n.profile-choice-wrapper > .profile-choice:hover {\r\n    border-left: 6px solid rgba(247,202,24,1); background: transparent;\r\n}\r\n\r\n.profile-choice-wrapper > .profile-choice.active {\r\n    font-weight: 600; border-left: 6px solid rgba(247,202,24,1); background: transparent;\r\n}\r\n\r\n@media (max-width: 767.98px) {\r\n    .profile-img-container {margin-top: 15px;}\r\n}"
 
 /***/ }),
 
-/***/ "./src/app/reusable/user-profile/user-profile.component.html":
+/***/ "./src/app/reusable/user-profile-template/user-profile-template.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  user-profile works!\n</p>\n"
+module.exports = "<div *ngIf=\"userDetail!==null\" class=\"profile-img-container fade-in\">\n    <div class=\"profile-img-left\">\n        <div class=\"profile-img-wrapper\">\n            <img [src]=\"userProfileImage\" alt=\"Profile image not available\">\n        </div>\n        <div class=\"profile-choice-wrapper\">\n            <div class=\"profile-choice\" [ngClass]=\"{'active':page=='Basic Detail'}\"\n            (click)=\"page='Basic Detail'\">{{_t.translate('Basic Detail')}}</div>\n            <div class=\"profile-choice\" [ngClass]=\"{'active':page=='Education'}\"\n            (click)=\"page='Education'\">{{_t.translate('Education')}}</div>\n            <div class=\"profile-choice\" [ngClass]=\"{'active':page=='Workplace'}\"\n            (click)=\"page='Workplace'\">{{_t.translate('Workplace')}}</div>\n            <div class=\"profile-choice\" [ngClass]=\"{'active':page=='Security'}\"\n            (click)=\"page='Security'\">{{_t.translate('Security')}}</div>\n        </div>\n    </div>\n    <div class=\"profile-img-right\">\n\n        <!-- Basic Information -->\n        <div class=\"row fade-in\" *ngIf=\"page=='Basic Detail'\">\n            <div class=\"col\">\n                <div class=\"input-label\">{{_t.translate('Username')}}:</div>\n                <input type=\"text\" class=\"form-control\" [value]=\"userDetail.username\" disabled=\"disabled\">\n            </div>\n            <div class=\"separator\"></div>\n            <div class=\"col-lg-6\">\n                <div class=\"input-label\">{{_t.translate('First Name')}}:</div>\n                <input type=\"text\" class=\"form-control\" [value]=\"userDetail.firstname\" disabled=\"disabled\">\n            </div>\n            <div class=\"col-lg-6\">\n                <div class=\"input-label\">{{_t.translate('Last Name')}}:</div>\n                <input type=\"text\" class=\"form-control\" [value]=\"userDetail.lastname\" disabled=\"disabled\">\n            </div>\n            <div class=\"separator\"></div>\n            <div class=\"col-lg-6\">\n                <div class=\"input-label\">{{_t.translate('Position')}}:</div>\n                <input type=\"text\" class=\"form-control\" [value]=\"defaultValue(userDetail.position)\" disabled=\"disabled\">\n            </div>\n            <div class=\"col-lg-6\">\n                <div class=\"input-label\">{{_t.translate('Gender')}}:</div>\n                <input type=\"text\" class=\"form-control\" [value]=\"defaultValue(userDetail.gender, 'N/A')\" disabled=\"disabled\">\n            </div>\n            <div class=\"separator\"></div>\n            <div class=\"col\">\n                <div class=\"input-label\">{{_t.translate('About Me')}}:</div>\n                <div class=\"fake-form-control\">{{defaultValue(userDetail.about, 'N/A')}}</div>\n            </div>\n        </div>\n\n        <!-- Education -->\n        <div class=\"row fade-in\" *ngIf=\"page=='Education'\">\n            <div class=\"col-lg-6\">\n                <div class=\"input-label\">{{_t.translate('Education')}}:</div>\n                <input type=\"text\" class=\"form-control\" [value]=\"defaultValue(userDetail.education)\" disabled=\"disabled\">\n            </div>\n            <div class=\"col-lg-6\">\n                <div class=\"input-label\">{{_t.translate('Major')}}:</div>\n                <input type=\"text\" class=\"form-control\" [value]=\"defaultValue(userDetail.major)\" disabled=\"disabled\">\n            </div>\n            <div class=\"separator\"></div>\n            <div class=\"col\">\n                <div class=\"input-label\">{{_t.translate('School/University')}}:</div>\n                <input type=\"text\" class=\"form-control\" [value]=\"defaultValue(userDetail.school)\" disabled=\"disabled\">\n            </div>\n            <div class=\"separator\"></div>\n            <div class=\"col\">\n                <div class=\"input-label\">{{_t.translate('School/University Address')}}:</div>\n                <div class=\"fake-form-control\">{{defaultValue(userDetail.schoolAddress, 'N/A')}}</div>\n            </div>\n        </div>\n\n    </div>\n</div>\n"
 
 /***/ }),
 
-/***/ "./src/app/reusable/user-profile/user-profile.component.ts":
+/***/ "./src/app/reusable/user-profile-template/user-profile-template.component.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3643,22 +3987,61 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var UserProfileComponent = /** @class */ (function () {
-    function UserProfileComponent() {
+var user_service_1 = __webpack_require__("./src/app/services/user.service.ts");
+var translation_service_1 = __webpack_require__("./src/app/services/translation.service.ts");
+var user_1 = __webpack_require__("./src/app/schemas/user.ts");
+var UserProfileTemplateComponent = /** @class */ (function () {
+    function UserProfileTemplateComponent(_user, _t) {
+        this._user = _user;
+        this._t = _t;
+        this.user = null;
+        this.allowUpdate = false;
+        this.userDetail = null;
+        this.page = 'Basic Detail';
+        this.mode = 'View';
     }
-    UserProfileComponent.prototype.ngOnInit = function () {
+    UserProfileTemplateComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._user.getUserDetail(this.user).then(function (result) {
+            if (result.status)
+                _this.userDetail = result.data;
+            console.log(_this.userDetail);
+        });
     };
-    UserProfileComponent = __decorate([
+    Object.defineProperty(UserProfileTemplateComponent.prototype, "userProfileImage", {
+        get: function () {
+            if (this.userDetail.profileUrl === undefined || this.userDetail.profileUrl === null || this.userDetail.profileUrl === '')
+                return 'assets/img/profile/default.jpg';
+            else
+                return '../public/profile/' + this.userDetail.profileUrl;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    UserProfileTemplateComponent.prototype.defaultValue = function (value, d) {
+        if (d === void 0) { d = ''; }
+        return (value === undefined || value === null) ? d : value;
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", user_1.User)
+    ], UserProfileTemplateComponent.prototype, "user", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], UserProfileTemplateComponent.prototype, "allowUpdate", void 0);
+    UserProfileTemplateComponent = __decorate([
         core_1.Component({
-            selector: 'app-user-profile',
-            template: __webpack_require__("./src/app/reusable/user-profile/user-profile.component.html"),
-            styles: [__webpack_require__("./src/app/reusable/user-profile/user-profile.component.css")]
+            selector: 'app-user-profile-template',
+            template: __webpack_require__("./src/app/reusable/user-profile-template/user-profile-template.component.html"),
+            styles: [__webpack_require__("./src/app/reusable/user-profile-template/user-profile-template.component.css")]
         }),
-        __metadata("design:paramtypes", [])
-    ], UserProfileComponent);
-    return UserProfileComponent;
+        __metadata("design:paramtypes", [user_service_1.UserService,
+            translation_service_1.TranslationService])
+    ], UserProfileTemplateComponent);
+    return UserProfileTemplateComponent;
 }());
-exports.UserProfileComponent = UserProfileComponent;
+exports.UserProfileTemplateComponent = UserProfileTemplateComponent;
 
 
 /***/ }),
@@ -3695,6 +4078,22 @@ exports.SSForm = SSForm;
 
 /***/ }),
 
+/***/ "./src/app/schemas/user.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var User = /** @class */ (function () {
+    function User() {
+    }
+    return User;
+}());
+exports.User = User;
+
+
+/***/ }),
+
 /***/ "./src/app/services/admin.service.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3714,17 +4113,22 @@ var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
 var globals_1 = __webpack_require__("./src/app/globals.ts");
 var Subject_1 = __webpack_require__("./node_modules/rxjs/_esm5/Subject.js");
+var socketio_service_1 = __webpack_require__("./src/app/services/socketio.service.ts");
 var AdminService = /** @class */ (function () {
-    function AdminService(http) {
+    function AdminService(http, _socketio) {
         this.http = http;
+        this._socketio = _socketio;
         this.apiUrl = globals_1.ipHost + '/admin';
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.subjectUsers = new Subject_1.Subject();
     }
     AdminService.prototype.getUsers = function (criteria) {
         var _this = this;
+        var search = criteria.search;
+        if (search === '')
+            search = 'EmptyNone';
         var url = this.apiUrl + '/getusers/' + criteria.start + '/' + criteria.limit + '/'
-            + criteria.sort + '/' + criteria.search.replace(/\//g, '');
+            + criteria.sort + '/' + search;
         return this.http.get(url).toPromise()
             .then(function (response) {
             var result = response.json();
@@ -3737,6 +4141,7 @@ var AdminService = /** @class */ (function () {
         });
     };
     AdminService.prototype.setAccoundStatus = function (user, status) {
+        var _this = this;
         var url = this.apiUrl + '/setaccountstatus', input = { userId: user._id, status: status };
         return this.http.post(url, JSON.stringify(input), { headers: this.headers })
             .toPromise()
@@ -3744,6 +4149,8 @@ var AdminService = /** @class */ (function () {
             var result = response.json();
             if (globals_1.testing)
                 console.log(result.message);
+            if (result.status)
+                _this._socketio.accountStatus(user._id);
             return result;
         })
             .catch(function (err) { return { status: false, message: err, data: null }; });
@@ -3761,6 +4168,7 @@ var AdminService = /** @class */ (function () {
             .catch(function (err) { return { status: false, message: err, data: null }; });
     };
     AdminService.prototype.deleteAccount = function (user) {
+        var _this = this;
         var url = this.apiUrl + '/deleteaccount', input = { userId: user._id };
         return this.http.post(url, JSON.stringify(input), { headers: this.headers })
             .toPromise()
@@ -3768,6 +4176,8 @@ var AdminService = /** @class */ (function () {
             var result = response.json();
             if (globals_1.testing)
                 console.log(result.message);
+            if (result.status)
+                _this._socketio.deleteAccount(user._id);
             return result;
         })
             .catch(function (err) { return { status: false, message: err, data: null }; });
@@ -3778,7 +4188,8 @@ var AdminService = /** @class */ (function () {
     };
     AdminService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http])
+        __metadata("design:paramtypes", [http_1.Http,
+            socketio_service_1.SocketioService])
     ], AdminService);
     return AdminService;
 }());
@@ -4185,17 +4596,6 @@ var FormService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    FormService.prototype.getFormCategory = function () {
-        var url = this.apiUrl + '/getformcategory';
-        return this.http.get(url).toPromise()
-            .then(function (response) {
-            var result = response.json();
-            if (globals_1.testing)
-                console.log(result.message);
-            return result;
-        })
-            .catch(function (err) { return { status: false, message: err, data: null }; });
-    };
     FormService.prototype.getActiveForms = function (criteria) {
         var _this = this;
         var search = criteria.search;
@@ -4424,8 +4824,27 @@ var FormService = /** @class */ (function () {
         })
             .catch(function (err) { return { status: false, message: err, data: null }; });
     };
-    FormService.prototype.addFormCategory = function (formCategory) {
-        var url = this.apiUrl + '/addformcategory', input = { formCategory: formCategory };
+    FormService.prototype.getFormCategory = function (criteria) {
+        if (criteria === void 0) { criteria = null; }
+        var url = this.apiUrl + '/getformcategory';
+        if (criteria !== null) {
+            var search = criteria.search;
+            if (search === '')
+                search = 'EmptyNone';
+            url = this.apiUrl + '/getformcategory/' + criteria.start + '/' + criteria.limit + '/'
+                + criteria.sort + '/' + search;
+        }
+        return this.http.get(url).toPromise()
+            .then(function (response) {
+            var result = response.json();
+            if (globals_1.testing)
+                console.log(result.message);
+            return result;
+        })
+            .catch(function (err) { return { status: false, message: err, data: null }; });
+    };
+    FormService.prototype.createFormCategory = function (formCategory) {
+        var url = this.apiUrl + '/createformcategory', input = { formCategory: formCategory };
         return this.http.post(url, JSON.stringify(input), { headers: this.headers })
             .toPromise()
             .then(function (response) {

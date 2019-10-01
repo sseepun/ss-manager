@@ -188,6 +188,11 @@ th, td {border: 1px solid rgba(0,0,0,.3);}
 .form-control:disabled, .form-control[readonly] {background: rgba(0,0,0,.02);}
 .form-preview-display {border-color: rgba(0,0,0,.2);}
 
+.input-label {color: #505050;}
+.fake-form-control {color: #495057; background: rgba(0,0,0,.02);}
+
+.profile-choice-wrapper > .profile-choice {background: #ebebeb;}
+
 /*========== End Edit Style ==========*/
 /*========== Start Responsive Style ==========*/
 

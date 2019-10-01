@@ -1,7 +1,7 @@
 <!-- Forms -->
 <ng-container *ngIf="selectedForm===null">
   <app-table-search [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-table-search>
-  <div class="row form-container">
+  <div class="row form-container fade-in">
     <h2 *ngIf="forms===null" class="result-err-table-text">{{_t.translate('Loading forms')}}...</h2>
     <h2 *ngIf="forms!==null && forms.length==0" class="result-err-table-text">{{_t.translate('No forms available.')}}</h2>
 
@@ -34,7 +34,7 @@
   <h2 *ngIf="_t.getLanguage!=='TH'" class="form-table-header">{{selectedForm.nameEN}}</h2>
 
   <app-table-search [type]="2" [criteria]="tableOptions" [selected]="tableCriteria" (criteriaChange)="tableCriteriaChange($event)"></app-table-search>
-  <div class="row form-container">
+  <div class="row form-container fade-in">
     <div class="table-container"><table><tbody>
       <tr>
         <th width="12%">{{_t.translate('First Name')}}</th>

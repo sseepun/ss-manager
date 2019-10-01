@@ -8,6 +8,8 @@ import { Subject } from 'rxjs/Subject';
 import { JsonResponse } from '../schemas/json-response';
 import { User } from '../schemas/user';
 
+import { SocketioService } from './socketio.service';
+
 @Injectable()
 export class AdminService {
 
@@ -17,12 +19,15 @@ export class AdminService {
   private subjectUsers = new Subject<any>();
 
   constructor(
-    private http: Http
+    private http: Http,
+    private _socketio: SocketioService
   ) { }
 
   getUsers(criteria): Promise<void> {
+    let search = criteria.search;
+    if (search==='') search = 'EmptyNone';
     let url = this.apiUrl + '/getusers/' + criteria.start + '/' + criteria.limit + '/' 
-      + criteria.sort + '/' + criteria.search.replace(/\//g, '');
+      + criteria.sort + '/' + search;
 
     return this.http.get(url).toPromise()
       .then(response => {
@@ -43,6 +48,7 @@ export class AdminService {
       .then(response => {
         let result = response.json();
         if (testing) console.log(result.message);
+        if (result.status) this._socketio.accountStatus(user._id);
         return result as JsonResponse;
       })
       .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
@@ -67,6 +73,7 @@ export class AdminService {
       .then(response => {
         let result = response.json();
         if (testing) console.log(result.message);
+        if (result.status) this._socketio.deleteAccount(user._id);
         return result as JsonResponse;
       })
       .catch(err => {return {status: false, message: err, data: null} as JsonResponse});

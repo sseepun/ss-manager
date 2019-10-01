@@ -12,6 +12,40 @@ router.get('/getformcategory', (req, res)=>{
         })
         .catch(err1=>{res.json({status:false, message:'Get form category error: '+err1, data:null})});
 });
+router.get('/getformcategory/:start/:limit/:sort/:search', (req, res)=>{
+    let start = Number(req.params.start),
+        limit = Number(req.params.limit),
+        sort = req.params.sort,
+        search = req.params.search;
+    let dbFormCategory = req.db.get('formCategory');    
+
+    let sortObj = {_id:-1};
+    if (sort=='Created date increasing') sortObj = {_id: 1};
+    else if (sort=='Created date decreasing') sortObj = {_id: -1};
+
+    let query = {};
+    if (search!='EmptyNone') {
+        query = {
+            $or: [
+                {categoryTH: {$regex: search, $options: 'i'}},
+                {categoryEN: {$regex: search, $options: 'i'}}
+            ]
+        };
+    }
+
+    dbFormCategory.find(query, {limit: limit, skip: start, sort: sortObj})
+        .then(check1=>{
+            dbFormCategory.count(query)
+                .then(total=>{
+                    res.json({
+                        status: true, message: 'Get form category successfully!', 
+                        data: check1, total: total 
+                    });
+                })
+                .catch(err2=>{res.json({status:false, message:'Get form category error: '+err2, data:null})});
+        })
+        .catch(err1=>{res.json({status:false, message:'Get form category error: '+err1, data:null})});
+});
 
 router.get('/getactiveforms/:category/:start/:limit/:sort/:search', (req, res)=>{
     let category = req.params.category,
@@ -455,27 +489,26 @@ router.post('/editform', (req, res)=>{
         .catch(err1=>{res.json({status:false, message:'Edit form error: '+err1, data:null})});       
 });
 
-router.post('/addformcategory', (req, res)=>{
+router.post('/createformcategory', (req, res)=>{
     let formCategory = req.body.formCategory;
     let dbFormCategory = req.db.get('formCategory');
 
-    dbFormCategory.findOne({
-        $or: [
-            {categoryTH: formCategory.categoryTH}, 
-            {categoryEN: formCategory.categoryEN}
-        ]
-    })
-    .then(check1=>{
-        if (check1!==null) res.json({status:false, message:'Add form category failed: Repeated category name.', data:0});
+    dbFormCategory.findOne({categoryTH: formCategory.categoryTH}).then(check1=>{
+        if (check1!==null) res.json({status:false, message:'Create form category failed: Repeated Thai category name.', data:0});
         else {
-            dbFormCategory.insert(formCategory)
-                .then(check2=>{
-                    res.json({status:true, message:'Add form category successfully.', data:1});
-                })
-                .catch(err2=>{res.json({status:false, message:'Add form category error: '+err2, data:null})});
-        } 
-    })
-    .catch(err1=>{res.json({status:false, message:'Add form category error: '+err1, data:null})});       
+            dbFormCategory.findOne({categoryEN: formCategory.categoryEN}).then(check2=>{
+                if (check2!==null) res.json({status:false, message:'Create form category failed: Repeated English category name.', data:-1});
+                else {
+
+                    dbFormCategory.insert(formCategory).then(check3=>{
+                        res.json({status:true, message:'Create form category successfully.', data:1});
+                    })
+                    .catch(err3=>{res.json({status:false, message:'Create form category error: '+err3, data:null})});
+        
+                }
+            }).catch(err2=>{res.json({status:false, message:'Create form category error: '+err2, data:null})});
+        }
+    }).catch(err1=>{res.json({status:false, message:'Create form category error: '+err1, data:null})});     
 });
 router.post('/deleteformcategory', (req, res)=>{
     let formCategory = req.body.formCategory,

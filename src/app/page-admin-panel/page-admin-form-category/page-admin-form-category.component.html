@@ -1,3 +1,77 @@
-<p>
-  page-admin-form-category works!
-</p>
+<ng-container *ngIf="page==='Table'">
+  <div class="row" class="form-table-btn-container md-border-top md-space-top">
+    <input class="btn btn-success" type="button" [value]="_t.translate('Create a form category')"
+    (click)="accessFormCategory(null, 'Create')">
+  </div>
+
+  <app-table-search [criteria]="options" [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-table-search>
+  <div class="row form-container fade-in">
+    <div class="table-container"><table><tbody>
+      <tr>
+        <th width="35%">{{_t.translate('Thai Category Name')}}</th>
+        <th width="35%">{{_t.translate('English Category Name')}}</th>
+        <th width="15%">{{_t.translate('Created Date')}}</th>
+        <th width="15%">{{_t.translate('Actions')}}</th>
+      </tr>
+      <tr *ngIf="formCategory===null"><td colspan="5">
+        {{_t.translate('Loading form category')}}...
+      </td></tr>
+      <tr *ngIf="formCategory!==null && formCategory.length==0"><td colspan="5">
+        {{_t.translate('No form category found.')}}
+      </td></tr>
+      <ng-container *ngIf="formCategory!==null && formCategory.length>0">
+        <tr *ngFor="let category of formCategory;">
+          <td class="col-left">{{category.categoryTH}}</td>
+          <td class="col-left">{{category.categoryEN}}</td>
+          <td>{{dateFromObjectId(category._id)}}</td>
+          <td>
+            <i class="far fa-trash-alt danger" title="Delete" (click)="deletingFormCategory(category)"></i>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody></table></div>
+  </div>
+  <app-pagination [pagination]="pagination" [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-pagination>
+</ng-container>
+
+<!-- Create process -->
+<ng-container *ngIf="page==='Create' && selectedCategory===null">
+  <div class="row" class="form-table-btn-container md-border-top md-space-top">
+    <input class="btn btn-success" type="button" [value]="_t.translate('Go back')"
+    (click)="accessFormCategory(null, 'Table')">
+  </div>
+  <app-form-category-actions [type]="page" (formCategoryCreated)="createFormCategory($event)"></app-form-category-actions>
+</ng-container>
+<div *ngIf="created===1" class="notification-container">
+    <div class="notification primary-bg">
+        {{_t.translate('The form category has been created successfully!')}}
+        <i class="far fa-times-circle notification-close" (click)="created=0;"></i>
+    </div>
+</div>
+
+<!-- Deleting process -->
+<div *ngIf="deleting && selectedCategory!==null" class="box-popup">
+  <div class="box-popup-container danger-border">
+    <h2 class="danger-color">{{_t.translate('Do you want to delete this form category?')}}</h2>
+    <h4 *ngIf="_t.getLanguage==='TH'"><strong>ประเภทแบบฟอร์ม:</strong> {{selectedCategory.categoryTH}}</h4>
+    <h4 *ngIf="_t.getLanguage!=='TH'"><strong>Form category:</strong> {{selectedCategory.categoryEN}}</h4>
+    <div class="box-popup-btn-container">
+        <input class="btn btn-danger" type="button" [value]="_t.translate('Delete this form category')"
+          (click)="deleteFormCategory()">
+        <input class="btn btn-success" type="button" [value]="_t.translate('Cancel')"
+          (click)="deleting=false; selectedCategory=null;">
+    </div>
+  </div>
+</div>
+<div *ngIf="deleted===1" class="notification-container">
+  <div class="notification danger-bg">
+    {{_t.translate('The form category has been deleted successfully!')}}
+    <i class="far fa-times-circle notification-close" (click)="deleted=0;"></i>
+  </div>
+</div>
+<div *ngIf="deleted===-1" class="notification-container">
+  <div class="notification warning-bg">
+    {{_t.translate('Failed to delete the form category.')}}
+    <i class="far fa-times-circle notification-close" (click)="deleted=0;"></i>
+  </div>
+</div>

@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this._socketio.getSocket().on('announce-account-status', function(userId) {
       if (this.yourAccount(userId)) {
         this._user.update();
-        this.router.navigate(['/check-status']);
+        this.router.navigate(['/status']);
       }
     }.bind(this));
     this._socketio.getSocket().on('announce-account-delete', function(userId) {
@@ -45,7 +45,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     }.bind(this));
   }
-
   yourAccount(userId) {
     if (this._user.getUser()!==undefined && this._user.getUser()!==null && userId===this._user.getUser()._id) {
       return true;

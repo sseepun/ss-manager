@@ -4,7 +4,7 @@
     </div>
   
     <app-table-search [criteria]="options" [selected]="criteria" (criteriaChange)="criteriaChange($event)"></app-table-search>
-    <div class="row form-container">
+    <div class="row fade-in form-container">
       <div class="table-container"><table><tbody>
         <tr>
           <th width="36%">{{_t.translate('Form Name')}}</th>
@@ -13,10 +13,10 @@
           <th width="15%">{{_t.translate('Status')}}</th>
           <th width="16%">{{_t.translate('Actions')}}</th>
         </tr>
-        <tr *ngIf="forms===null"><td colspan="5">
+        <tr *ngIf="forms===null"><td colspan="5" align="center">
           {{_t.translate('Loading forms')}}...
         </td></tr>
-        <tr *ngIf="forms!==null && forms.length==0"><td colspan="5">
+        <tr *ngIf="forms!==null && forms.length==0"><td colspan="5" align="center">
           {{_t.translate('No forms found.')}}
         </td></tr>
         <ng-container *ngIf="forms!==null && forms.length>0">
@@ -125,7 +125,7 @@
 
 <!-- View form -->
 <ng-container *ngIf="page==='View' && selectedForm!==null">
-    <div class="row" class="form-table-btn-container md-border-top md-space-top">
+    <div class="row fade-in" class="form-table-btn-container md-border-top md-space-top">
       <input class="btn btn-success" type="button" [value]="_t.translate('Go back')" (click)="accessForm(null, 'Table')">
     </div>
     <app-form-actions [type]="page" [form]="selectedForm"></app-form-actions>

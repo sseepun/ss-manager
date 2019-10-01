@@ -1,0 +1,40 @@
+<!-- Create -->
+<div class="form-actions-container fade-in" *ngIf="type==='Create'">
+  <h2 class="form-table-header">{{_t.translate('Create a form category')}}</h2>
+  <form #createFormCategory="ngForm" (ngSubmit)="adminCreateFormCategory(createFormCategory)" ngNativeValidate>
+    <div class="row">
+      <div class="col-md-6">
+        {{_t.translate('Thai category name')}} <span class="danger-color">*</span>
+        <div class="form-group" style="margin-bottom:5px;">
+          <input class="form-control" type="text" name="categoryTH" ngModel required>
+        </div>
+        <div class="danger-color input-warning">
+          <ng-container *ngIf="existed1===1">* The name already exists</ng-container>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{_t.translate('English category name')}} <span class="danger-color">*</span>
+        <div class="form-group" style="margin-bottom:5px;">
+          <input class="form-control" type="text" name="categoryEN" ngModel required>
+        </div>
+        <div class="danger-color input-warning">
+            <ng-container *ngIf="existed2===1">* The name already exists</ng-container>
+        </div>
+      </div>
+
+      <div class="delimeter-sm"></div>
+      <div class="col-md-12 text-center">
+        <button class="btn btn-success" type="submit">{{_t.translate('Create a form category')}}</button>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<!-- Notification -->
+<div *ngIf="failed===1" class="notification-container">
+  <div class="notification warning-bg">
+    {{_t.translate('Failed to create the form category.')}}
+    <i class="far fa-times-circle notification-close" (click)="failed=0;"></i>
+  </div>
+</div>

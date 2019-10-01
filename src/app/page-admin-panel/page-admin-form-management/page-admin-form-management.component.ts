@@ -22,7 +22,7 @@ export class PageAdminFormManagementComponent implements OnInit, OnDestroy {
       'None', 'Name increasing', 'Name decreasing', 'Status increasing', 'Status decreasing', 
       'Created date increasing', 'Created date decreasing', 'Owner increasing', 'Owner decreasing'
     ]
-  }
+  };
 
   public pagination = [];
   public criteria = {

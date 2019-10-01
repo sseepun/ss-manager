@@ -58,17 +58,6 @@ export class FormService {
   get getForm(): SSForm {return this.form}
   get getCriteria() {return this.criteria}
 
-  getFormCategory(): Promise<JsonResponse> {
-    let url = this.apiUrl + '/getformcategory';
-    return this.http.get(url).toPromise()
-      .then(response =>{
-        let result = response.json();
-        if (testing) console.log(result.message);
-        return result as JsonResponse;
-      })
-      .catch(err=>{return {status: false, message: err, data: null} as JsonResponse});
-  }
-
   getActiveForms(criteria): Promise<void> {
     let search = criteria.search;
     if (search==='') search = 'EmptyNone';
@@ -281,8 +270,25 @@ export class FormService {
       .catch(err => {return {status: false, message: err, data: null} as JsonResponse});
   }
 
-  addFormCategory(formCategory: FormCategory): Promise<JsonResponse> {
-    const url = this.apiUrl + '/addformcategory',
+  getFormCategory(criteria=null): Promise<JsonResponse> {
+    let url = this.apiUrl + '/getformcategory';
+    if (criteria!==null) {
+      let search = criteria.search;
+      if (search==='') search = 'EmptyNone';
+      url = this.apiUrl + '/getformcategory/' + criteria.start + '/' + criteria.limit + '/'
+            + criteria.sort + '/' + search;
+    }
+
+    return this.http.get(url).toPromise()
+      .then(response =>{
+        let result = response.json();
+        if (testing) console.log(result.message);
+        return result as JsonResponse;
+      })
+      .catch(err=>{return {status: false, message: err, data: null} as JsonResponse});
+  }
+  createFormCategory(formCategory: FormCategory): Promise<JsonResponse> {
+    const url = this.apiUrl + '/createformcategory',
           input = {formCategory: formCategory};
     return this.http.post(url, JSON.stringify(input), { headers: this.headers })
       .toPromise()

@@ -25,6 +25,7 @@ export const Translate_EN_TH = {
     'e-mail address': 'ที่อยู่อีเมล',
     'first name': 'ชื่อจริง',
     'last name': 'นามสกุล',
+    'level': 'ระดับ',
     'used for singing in': 'ใช้ในการเข้าสู่ระบบ',
     '5 letters minimum': 'อย่างต่ำ 5 ตัวอักษร',
     'confirm password': 'ยืนยันรหัสผ่าน',
@@ -126,6 +127,29 @@ export const Translate_EN_TH = {
     'the form preview has been deleted successfully!': 'แบบฟอร์มตัวอย่างได้ถูกลบเรียบร้อยเเล้ว',
     'failed to delete the form preview.': 'เกิดข้อผิดพลาดในการลบแบบฟอร์มตัวอย่าง',
     'sorry. this form cannot be edited at this time. please try again later.':
-        'ขอโทษครับ ระบบไม่สามารถแก้ไขแบบฟอร์มได้ในขณะนี้ กรุณาลองใหม่อีกครั้งในภายหลัง'
+        'ขอโทษครับ ระบบไม่สามารถแก้ไขแบบฟอร์มได้ในขณะนี้ กรุณาลองใหม่อีกครั้งในภายหลัง',
+    'create a form category': 'สร้างประเภทของเเบบฟอร์ม',
+    'thai category name': 'ประเภทแบบฟอร์มภาษาไทย',
+    'english category name': 'ประเภทแบบฟอร์มภาษาอังกฤษ',
+    'loading form category': 'กำลังค้นหาประเภทของเเบบฟอร์ม',
+    'no form category found.': 'ไม่พบประเภทของเเบบฟอร์ม',
+    'do you want to delete this form category?': 'คุณต้องการที่จะลบประเภทของแบบฟอร์มนี้หรือไม่',
+    'delete this form category': 'ลบประเภทแบบฟอร์ม',
+    'the form category has been deleted successfully!': 'ประเภทของแบบฟอร์มถูกลบเรียบร้อยเเล้ว',
+    'failed to delete the form category.': 'เกิดข้อผิดพลาดในการลบประเภทของแบบฟอร์ม',
+    'the form category has been created successfully!': 'ประเภทของแบบฟอร์มถูกสร้างเรียบร้อยเเล้ว',
+    'failed to create the form category.': 'เกิดข้อผิดพลาดในการสร้างประเภทของแบบฟอร์ม',
+    'do you want to ban this user?': 'คุณต้องการที่จะแบนผู้ใช้งานนี้หรือไม่',
+    'ban this user': 'แบนผู้ใช้งานนี้',
+    'the user has been banned successfully!': 'ผู้ใช้งานนี้ถูกแบนเรียบร้อยเเล้ว',
+    'failed to ban the user.': 'เกิดข้อผิดพลาดในการแบนผู้ใช้งาน',
+    'do you want to set this user active?': 'คุณต้องการที่จะยืนยันผู้ใช้งานนี้หรือไม่',
+    'set this user active': 'ยืนยันผู้ใช้งานนี้',
+    'the user has been set active successfully!': 'ผู้ใช้งานนี้ถูกยืนยันเรียบร้อยเเล้ว',
+    'failed to set the user active.': 'เกิดข้อผิดพลาดในการยืนยันผู้ใช้งาน',
+    'do you want to delete this user?': 'คุณต้องการที่จะลบผู้ใช้งานนี้หรือไม่',
+    'delete this user': 'ลบผู้ใช้งานนี้',
+    'the user has been deleted successfully!': 'ผู้ใช้งานนี้ถูกลบเรียบร้อยเเล้ว',
+    'failed to delete the user.': 'เกิดข้อผิดพลาดในการลบผู้ใช้งาน'
 };
   

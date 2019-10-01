@@ -41,7 +41,6 @@ import { SsPdfFormComponent } from './page-forms/ss-pdf-form/ss-pdf-form.compone
 import { PageUserProfileComponent } from './page-user-panel/page-user-profile/page-user-profile.component';
 import { PageUserFormHistoryComponent } from './page-user-panel/page-user-form-history/page-user-form-history.component';
 import { PageUserSettingComponent } from './page-user-panel/page-user-setting/page-user-setting.component';
-import { UserProfileComponent } from './reusable/user-profile/user-profile.component';
 import { FormResultComponent } from './reusable/form-result/form-result.component';
 import { PageAdminStatisticsComponent } from './page-admin-panel/page-admin-statistics/page-admin-statistics.component';
 import { PageAdminSubmittedFormsComponent } from './page-admin-panel/page-admin-submitted-forms/page-admin-submitted-forms.component';
@@ -49,6 +48,8 @@ import { PageAdminFormCategoryComponent } from './page-admin-panel/page-admin-fo
 import { PageAdminUserManagementComponent } from './page-admin-panel/page-admin-user-management/page-admin-user-management.component';
 import { PageAdminFormManagementComponent } from './page-admin-panel/page-admin-form-management/page-admin-form-management.component';
 import { FormActionsComponent } from './reusable/form-actions/form-actions.component';
+import { FormCategoryActionsComponent } from './reusable/form-category-actions/form-category-actions.component';
+import { UserProfileTemplateComponent } from './reusable/user-profile-template/user-profile-template.component';
 
 
 @NgModule({
@@ -71,14 +72,15 @@ import { FormActionsComponent } from './reusable/form-actions/form-actions.compo
     PageUserProfileComponent,
     PageUserFormHistoryComponent,
     PageUserSettingComponent,
-    UserProfileComponent,
     FormResultComponent,
     PageAdminStatisticsComponent,
     PageAdminSubmittedFormsComponent,
     PageAdminFormCategoryComponent,
     PageAdminUserManagementComponent,
     PageAdminFormManagementComponent,
-    FormActionsComponent
+    FormActionsComponent,
+    FormCategoryActionsComponent,
+    UserProfileTemplateComponent
   ],
   imports: [
     BrowserModule,
