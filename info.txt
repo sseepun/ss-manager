@@ -1,0 +1,6 @@
+
+Username: sseepun
+Password: aaaaa
+
+node ss-server.js
+npm run db
